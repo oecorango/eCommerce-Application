@@ -1,9 +1,4 @@
 {
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "name": "e-commerce",
   "version": "0.1.0",
   "private": true,
@@ -33,11 +28,6 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
-   "lint-staged": {
-    "src/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write ."
-    ]
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -45,6 +35,16 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --write ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+   "lint-staged": {
+    "src/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write ."
+    ]
   },
   "browserslist": {
     "production": [

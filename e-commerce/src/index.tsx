@@ -10,4 +10,4 @@ if (rootElement) {
   root.render(<App />);
 }
 
-console.log(  'hello'  )
+console.log(    'hello'    )

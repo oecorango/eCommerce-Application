@@ -1,8 +1,10 @@
-import React from 'react';
-
-function App() {
+function App(): JSX.Element {
   return (
     <div className="App">
+      <h1>GO!</h1>
+      <h1>GO!</h1>
+      <h1>GO!</h1>
+      <h1>GO!</h1>
       <h1>GO!</h1>
     </div>
   );

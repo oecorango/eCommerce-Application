@@ -9,6 +9,3 @@ if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(<App />);
 }
-
-console.log('hello');
-let one = 1;

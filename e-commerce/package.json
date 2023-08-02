@@ -19,8 +19,6 @@
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -59,5 +57,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3"
   }
 }

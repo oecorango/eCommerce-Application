@@ -13,6 +13,8 @@ The project utilizes the following technologies:
 - ESLint: A code analysis tool used to identify and fix syntax and style issues.
 - Husky: Enables adding pre-commit and pre-push hooks to run scripts before committing or pushing changes.
 - Jest: A testing framework for JavaScript applications.
+- PrimeReact: A UI component library for React applications.
+- CommerceTools: Tools for building and managing eCommerce solutions.
 
 ## Available Scripts
 
@@ -36,6 +38,16 @@ To run the project locally, follow these steps:
 4. Install dependencies by running: `npm install`.
 5. Start the development server by running: `npm start`.
 6. The application will be accessible in your browser at `http://localhost:3000/`.
+
+## Contributing to the Project
+
+If you want to contribute to the project, follow these steps:
+
+1. Fork the eCommerce-Application repository.
+2. Create a new branch for your work: `git checkout -b my-feature`.
+3. Make the necessary changes and commits.
+4. Push the changes to your forked repository.
+5. Create a Pull Request describing your changes.
 
 ## Contacts
 

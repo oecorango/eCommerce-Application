@@ -11,8 +11,8 @@ const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
 
 // Example call to return Project information
 // This code has the same effect as sending a GET request to the commercetools Composable Commerce API without any endpoints.
-const getProject = (): Promise<Object> => {
+export const getProject = (): Promise<Object> => {
   return apiRoot.get().execute();
 };
 
-// getProject().then(console.log).catch(console.error);
+getProject().then(console.log).catch(console.error);

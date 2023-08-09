@@ -1,0 +1,10 @@
+.registration__page {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 10px;
+  width: 400px;
+  padding: 20px;
+  left: calc(50% - 200px);
+}

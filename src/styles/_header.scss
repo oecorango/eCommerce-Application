@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: $color-general;
+  height: 100px;
+}
+
+.header__wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navigation {
+  a {
+    padding: 0 10px;
+    color: $color-dark;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    &.active {
+      color: $color-red;
+    }
+    &:hover {
+      color: $color-red;
+      text-decoration: underline;
+    }
+  }
+}
+

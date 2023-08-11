@@ -1,4 +1,9 @@
-import { Route, Routes } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+  Routes,
+} from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { AboutPage } from './pages/AboutPage';
 import { ErrorPage } from './pages/ErrorPage';
@@ -8,6 +13,38 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { RegistrationPage } from './pages/RegistrationPage';
+
+// const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: <Layout />,
+//     errorElement: <ErrorPage />,
+//     children: [
+//       {
+//         path: '/',
+//         element: <MainPage />,
+//       },
+//       {
+//         path: 'signin',
+//         element: <SignInPage />,
+//         children: [
+//           {
+//             path: 'registration',
+//             element: <RegistrationPage />,
+//           },
+//         ],
+//       },
+//       {
+//         path: 'about',
+//         element: <AboutPage />,
+//       },
+//     ],
+//   },
+// ]);
+
+// const App = (): React.ReactElement => {
+//   return <RouterProvider router={router} />;
+// };
 
 function App(): JSX.Element {
   return (

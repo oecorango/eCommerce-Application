@@ -15,7 +15,7 @@ const newAddress = [
 ];
 const newCustomerData1 = {
   // эти данные тоже можно удалить
-  email: 'echf@mail.ru',
+  email: 'react@mail.ru',
   password: 'qwerty',
   firstName: 'ursa',
   lastName: 'goremskiy',
@@ -35,13 +35,20 @@ export const RegistrationPage = (): JSX.Element => {
     registerNewCustomer(newCustomerData1)
       .then(data => {
         setRegistrationMessage(
-          `Добро пожаловать ${data.body.customer.firstName} ${data.body.customer.lastName}`,
+          `Welcome ${data.body.customer.firstName} ${data.body.customer.lastName}`,
         );
         setVisible(true);
       })
       .catch(error => {
         console.warn(error);
-        setRegistrationMessage('Произошла ошибка при регистрации.');
+        if (error.code === 400) {
+          setRegistrationMessage(
+            error.message + ' Log in or use another email address',
+          );
+          setVisible(true);
+        } else {
+          console.log(error.message + ' Should try again later');
+        }
       })
       .finally(() => {
         setIsLoading(false);
@@ -49,22 +56,27 @@ export const RegistrationPage = (): JSX.Element => {
   };
   return (
     <div className="wrapper content">
-      <Button // эту кнопку можно удалить, и использовать твою
+      <Button // эту кнопку можно удалить, и использовать твою кнопку нажатия регистрации
         label={isLoading ? 'Loading...' : 'Register'}
         onClick={handleRegistration}
         disabled={isLoading}
       />
-      {registrationMessage && (
-        <Dialog
-          header={isLoading ? 'Loading...' : 'Вы зарегистрировались'}
-          visible={visible}
-          style={{ width: '50vw' }}
-          onHide={(): void => setVisible(false)}>
-          <p className="m-0">{registrationMessage}</p>
-        </Dialog>
-      )}
+
+      <Dialog
+        header="Notification for you"
+        visible={visible}
+        style={{
+          width: '40vw',
+          textAlign: 'center',
+        }}
+        onHide={(): void => setVisible(false)}>
+        <p className="m-1 message-for-user ">{registrationMessage}</p>
+      </Dialog>
+
       <h1>Registration</h1>
       <p>Registration</p>
     </div>
   );
 };
+// потом  можно будет разбить код, вынести в отдельный файл,
+// и здесь например вставить один тег <RegistrationForm />

@@ -11,17 +11,24 @@ export const SignInPage = (): JSX.Element => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<SignInForm>({
     mode: 'onBlur',
   });
 
   const toRegistrationForm = useNavigate();
+  const isValidUser = useNavigate();
 
   const onSubmit: SubmitHandler<SignInForm> = (data): void => {
     clientSignIn(data)
       .execute()
-      .then(data => console.log(data))
+      .then(data => {
+        if (data.statusCode === 200) {
+          const idUser = data.body.customer.id;
+          localStorage.setItem('id', idUser);
+          isValidUser('/');
+        }
+      })
       .catch(() =>
         setError('email', {
           type: 'manual',
@@ -62,13 +69,15 @@ export const SignInPage = (): JSX.Element => {
           className="mt-5 mb-1"
           {...register('password', {
             required: 'Required to fill',
-            minLength: {
-              value: 4,
-              message: 'Minimum 8 characters',
-            },
             maxLength: {
               value: 20,
               message: 'Maximum 20 characters',
+            },
+            pattern: {
+              value:
+                /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
+              message:
+                'Password must contain at least 8 characters, one uppercase, one number and one special case character',
             },
           })}
           type="password"
@@ -77,18 +86,13 @@ export const SignInPage = (): JSX.Element => {
         />
         <Message
           className={
-            ((errors?.password?.message as string) && 'h-1rem') || 'hidden'
+            ((errors?.password?.message as string) && 'h-4rem') || 'hidden'
           }
           severity={'error'}
           text={errors?.password?.message as string}
         />
 
-        <Button
-          className="mt-6 mb-5"
-          label="Sign In"
-          type="submit"
-          disabled={!isValid}
-        />
+        <Button className="mt-6 mb-5" label="Sign In" type="submit" />
       </form>
 
       <h4 className="center mb-2 pl-2 pr-2 text-center">

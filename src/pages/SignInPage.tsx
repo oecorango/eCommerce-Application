@@ -75,9 +75,9 @@ export const SignInPage = (): JSX.Element => {
             },
             pattern: {
               value:
-                /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
+                /^(?=.\S*)(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}$/g,
               message:
-                'Password must contain at least 8 characters, one uppercase, one number and one special case character',
+                'The password must consist of Latin letters, contain at least 8 characters, one uppercase, one number and contain no spaces',
             },
           })}
           type="password"

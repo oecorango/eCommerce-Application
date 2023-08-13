@@ -1,10 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Checkbox } from 'primereact/checkbox';
 import { Message } from 'primereact/message';
 import { clientSignIn } from '../api/Client';
 import { SignInForm } from '../interface/interface';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export const SignInPage = (): JSX.Element => {
   const {
@@ -16,6 +18,7 @@ export const SignInPage = (): JSX.Element => {
     mode: 'onBlur',
   });
 
+  const [checked, setChecked] = useState(false);
   const toRegistrationForm = useNavigate();
   const isValidUser = useNavigate();
 
@@ -65,25 +68,34 @@ export const SignInPage = (): JSX.Element => {
           text={errors?.email?.message as string}
         />
 
-        <InputText
-          className="mt-5 mb-1"
-          {...register('password', {
-            required: 'Required to fill',
-            maxLength: {
-              value: 20,
-              message: 'Maximum 20 characters',
-            },
-            pattern: {
-              value:
-                /^(?=.\S*)(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}$/g,
-              message:
-                'The password must consist of Latin letters, contain at least 8 characters, one uppercase, one number and contain no spaces',
-            },
-          })}
-          type="password"
-          placeholder="Enter your password"
-          autoComplete="on"
-        />
+        <div className="p-inputgroup">
+          <InputText
+            className="mt-5 mb-1"
+            {...register('password', {
+              required: 'Required to fill',
+              maxLength: {
+                value: 20,
+                message: 'Maximum 20 characters',
+              },
+              pattern: {
+                value:
+                  /^(?=.\S*)(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}$/g,
+                message:
+                  'The password must consist of Latin letters, contain at least 8 characters, one uppercase, one number and contain no spaces',
+              },
+            })}
+            type={!checked ? 'password' : 'text'}
+            placeholder="Enter your password"
+            autoComplete="off"
+          />
+          <span className="p-inputgroup-addon mt-5 mb-1">
+            <Checkbox
+              checked={checked}
+              onChange={(e): void => setChecked(!checked)}
+            />
+          </span>
+        </div>
+
         <Message
           className={
             ((errors?.password?.message as string) && 'h-4rem') || 'hidden'

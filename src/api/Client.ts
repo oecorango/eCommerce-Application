@@ -1,6 +1,8 @@
 import { ctpClient } from './BuildClient';
 import {
+  ClientResponse,
   createApiBuilderFromCtpClient,
+  CustomerDraft,
   CustomerSignin,
   CustomerSignInResult,
 } from '@commercetools/platform-sdk';
@@ -19,4 +21,19 @@ export const clientSignIn = (
   data: CustomerSignin,
 ): ApiRequest<CustomerSignInResult> => {
   return apiRoot.login().post({ body: data });
+};
+
+export const registerNewCustomer = (
+  customerData: CustomerDraft,
+): Promise<ClientResponse<CustomerSignInResult>> => {
+  return apiRoot
+    .customers()
+    .post({
+      body: customerData,
+    })
+    .execute();
+};
+
+export const getAllCustomers = (): Promise<Object> => {
+  return apiRoot.customers().get().execute();
 };

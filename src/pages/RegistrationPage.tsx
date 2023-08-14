@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { registerNewCustomer } from '../api/Client';
+import { RegistrationWindow } from '../components/registration/RegistrationForm';
 
 const newAddress = [
   // эти данные тоже можно удалить
@@ -55,13 +55,8 @@ export const RegistrationPage = (): JSX.Element => {
       });
   };
   return (
-    <div className="wrapper content">
-      <Button // эту кнопку можно удалить, и использовать твою кнопку нажатия регистрации
-        label={isLoading ? 'Loading...' : 'Register'}
-        onClick={handleRegistration}
-        disabled={isLoading}
-      />
-
+    <div className="registration__page content">
+      <RegistrationWindow />
       <Dialog
         header="Notification for you"
         visible={visible}
@@ -72,9 +67,6 @@ export const RegistrationPage = (): JSX.Element => {
         onHide={(): void => setVisible(false)}>
         <p className="m-1 message-for-user ">{registrationMessage}</p>
       </Dialog>
-
-      <h1>Registration</h1>
-      <p>Registration</p>
     </div>
   );
 };

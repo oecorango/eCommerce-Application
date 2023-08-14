@@ -1,8 +1,16 @@
-export const ERR_EMAIL_TEXT = 'Incorrect email';
-export const ERR_PASSWORD_TEXT =
-  'The password must consist of Latin letters, contain at least 8 characters, one uppercase, one number and contain no spaces';
-export const ERR_MIN_LENGTH_EMAIL = 5;
-export const ERR_MIN_LENGTH_EMAIL_TEXT = 'Minimum 5 characters';
-export const ERR_MAX_LENGTH_PASS = 20;
-export const ERR_MAX_LENGTH_PASS_TEXT = 'Maximum 20 characters';
-export const ERR_AUTHENTICATE = 'Email or password is incorrect';
+export const AUTHENTICATE_ERROR = 'Email or password is incorrect';
+export const PASSWORD_ERROR = {
+  minLength: 8,
+  maxLength: 20,
+  minLengthText: 'Minimum 8 characters',
+  maxLengthText: 'Maximum 20 characters',
+  oneNumber: 'Password must contain at least one number',
+  oneUpperCase: 'Password must contain at least one uppercase',
+  oneLowerCase: 'Password must contain at least one lowercase',
+  leadingSpace: 'Password must not contain leading whitespace',
+  trailingSpace: 'Password must not contain trailing whitespace',
+  latinLetters: 'Password must contain only latin letters',
+};
+export const EMAIL_ERROR = {
+  error: 'email must be a valid email',
+};

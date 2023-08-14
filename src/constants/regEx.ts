@@ -1,6 +1,16 @@
-export const REG_EX_EMAIL = new RegExp(
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-);
-export const REG_EX_PASSWORD = new RegExp(
-  /^(?=.S*)(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}$/g,
-);
+// на спец символы валидацию писать не стал, т.к. вроде это не обязательное требование
+
+export const REG_EXP_PASSWORD = {
+  oneNumber: new RegExp(/(?=.*?[0-9])+/),
+  oneUpperCase: new RegExp(/(?=.*?[A-Z])+/),
+  oneLowerCase: new RegExp(/(?=.*?[a-z])+/),
+  leadingSpace: new RegExp(/^\S+/),
+  trailingSpace: new RegExp(/\S+$/),
+  latinLetters: new RegExp(/^[a-zA-Z0-9]+$/),
+};
+
+export const REG_EXP_EMAIL = {
+  emailValid: new RegExp(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  ),
+};

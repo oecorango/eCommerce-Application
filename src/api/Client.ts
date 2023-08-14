@@ -2,6 +2,7 @@ import { ctpClient } from './BuildClient';
 import {
   ClientResponse,
   createApiBuilderFromCtpClient,
+  CustomerDraft,
   CustomerSignin,
   CustomerSignInResult,
   ProductProjectionPagedQueryResponse,
@@ -32,4 +33,19 @@ export const getProducts = (): Promise<
 
 export const shopList = (): ByProjectKeyShoppingListsRequestBuilder => {
   return apiRoot.shoppingLists();
+};
+
+export const registerNewCustomer = (
+  customerData: CustomerDraft,
+): Promise<ClientResponse<CustomerSignInResult>> => {
+  return apiRoot
+    .customers()
+    .post({
+      body: customerData,
+    })
+    .execute();
+};
+
+export const getAllCustomers = (): Promise<Object> => {
+  return apiRoot.customers().get().execute();
 };

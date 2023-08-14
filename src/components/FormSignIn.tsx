@@ -2,7 +2,7 @@ import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { InputText } from 'primereact/inputtext';
 import { Message } from 'primereact/message';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { clientSignIn } from '../api/Client';
@@ -11,8 +11,10 @@ import { AUTHENTICATE_ERROR } from '../constants/errors';
 import { SignInForm } from '../interface/interface';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validSchema } from '../utils/validSchema';
+import { AuthContext } from './authProvider';
 
 export const FormSingIn = (): JSX.Element => {
+  const { setIsAuth } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -31,9 +33,13 @@ export const FormSingIn = (): JSX.Element => {
       .execute()
       .then(data => {
         if (data.statusCode === STATUS_OK) {
-          const idUser = data.body.customer.id;
-          localStorage.setItem('id', idUser);
+          const userId = data.body.customer.id;
+          const userName = data.body.customer.firstName;
+          localStorage.setItem('id', userId);
+          if (userName) localStorage.setItem('name', userName);
+          localStorage.setItem('auth', 'true');
           isValidUser('/');
+          setIsAuth(true);
         }
       })
       .catch(() =>

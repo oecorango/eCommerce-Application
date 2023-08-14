@@ -8,19 +8,34 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { RegistrationPage } from './pages/RegistrationPage';
+import { AuthContext } from './components/authProvider';
+import { useEffect, useState } from 'react';
 
 function App(): JSX.Element {
+  const [isAuth, setIsAuth] = useState(false);
+  useEffect(() => {
+    if (localStorage.getItem('auth')) {
+      setIsAuth(true);
+    }
+  }, []);
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<MainPage />} />
-          <Route path="signin" element={<SignInPage />} />
-          <Route path="registration" element={<RegistrationPage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Route>
-      </Routes>
+      <AuthContext.Provider
+        value={{
+          isAuth,
+          setIsAuth,
+        }}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<MainPage />} />
+            <Route path="signin" element={<SignInPage />} />
+            <Route path="registration" element={<RegistrationPage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Route>
+        </Routes>
+      </AuthContext.Provider>
     </>
   );
 }

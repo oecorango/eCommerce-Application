@@ -95,15 +95,11 @@ export const RegistrationForm = (props: {
             type={'date'}
             {...register('dateOfBirth', {
               valueAsDate: true,
-              // validate: {
-              //   volue: (value, formValues) =>
-              //     Date.now() - +value > 409968000000,
-              // },
             })}
           />
           {errors?.dateOfBirth && (
             <div style={{ color: 'red', marginBottom: 10 }}>
-              Детям до 13 лет и еще не рожденным вход запрещен
+              You must be at least 13 years old
             </div>
           )}
         </div>
@@ -147,17 +143,11 @@ export const RegistrationForm = (props: {
                 setValue(e.target.value);
               }
             }}
-            // disabled
             mask={postCod}
             placeholder={postCod}
           />
         </div>
-        <Button
-          className="mt-3 mb-1"
-          label="Registration"
-          type="submit"
-          // disabled={!isValid}
-        />
+        <Button className="mt-3 mb-1" label="Registration" type="submit" />
       </form>
     </div>
   );

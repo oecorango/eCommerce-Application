@@ -1,7 +1,7 @@
 /* типы из функции не убираю, т.к. скорей всего какие то типы понадабятся для
 // валидации формы регистрации, ниже они закоментированны */
 
-import { object, string, mixed /*, number, date, InferType */ } from 'yup';
+import { object, string /*, number, date, InferType */ } from 'yup';
 import { EMAIL_ERROR, NAME_ERROR, PASSWORD_ERROR } from '../constants/errors';
 import {
   REG_EXP_EMAIL,
@@ -25,6 +25,13 @@ export const validSchema = object().shape({
     .matches(REG_EXP_PASSWORD.latinLetters, PASSWORD_ERROR.latinLetters)
     .required(),
 });
+
+const isOldEnough = (value: Date | string): boolean => {
+  const currentDate = new Date();
+  const thirteenYearsAgo = new Date();
+  thirteenYearsAgo.setFullYear(currentDate.getFullYear() - 13);
+  return new Date(value) <= thirteenYearsAgo;
+};
 
 export const validSchema1 = object().shape({
   email: string()
@@ -60,9 +67,5 @@ export const validSchema1 = object().shape({
   streetName: string()
     .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
     .required(),
-  // dateOfBirth: mixed().when('dateOfBirth', {
-  //   is: date => date && typeof date !== 'object',
-  //   then: string().required('Date of birth is required'),
-  //   otherwise: date().required('Date of birth is required'),
-  // }),
+  dateOfBirth: string().required().test(isOldEnough),
 });

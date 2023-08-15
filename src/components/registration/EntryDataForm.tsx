@@ -8,10 +8,15 @@ import { IRegistrationForm } from '../../interface/interface';
 import { newCustomerData1, newAddress } from '../../constants/registratForm';
 
 export const takeDataForm = (dataForm: IRegistrationForm): void => {
-  dataForm.dateOfBirth =
-    typeof dataForm.dateOfBirth !== 'string' && dataForm.dateOfBirth
-      ? dataForm.dateOfBirth.toLocaleDateString().split('.').reverse().join('-')
-      : '';
+  if (dataForm.dateOfBirth) {
+    dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
+      .toLocaleDateString()
+      .split('.')
+      .reverse()
+      .join('-');
+  } else {
+    dataForm.dateOfBirth = '';
+  }
   dataForm.country = dataForm.country.slice(-3).slice(0, -1);
   newAddress[0].country = dataForm.country;
   newAddress[0].city = dataForm.city;

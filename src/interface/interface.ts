@@ -14,7 +14,7 @@ export interface IRegistrationForm {
   password: string;
   firstName: string;
   lastName: string;
-  dateOfBirth?: Date | string;
+  dateOfBirth: string;
   country: string;
   city: string;
   postalCode?: string;

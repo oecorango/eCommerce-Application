@@ -2,7 +2,7 @@ import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { InputText } from 'primereact/inputtext';
 import { Message } from 'primereact/message';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { clientSignIn } from '../api/Client';
@@ -11,8 +11,11 @@ import { AUTHENTICATE_ERROR } from '../constants/errors';
 import { SignInForm } from '../interface/interface';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validSchema } from '../utils/validSchema';
+import { AuthContext } from './authProvider';
+import { logIn } from '../utils/utils';
 
 export const FormSingIn = (): JSX.Element => {
+  const { setIsAuth } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -31,8 +34,8 @@ export const FormSingIn = (): JSX.Element => {
       .execute()
       .then(data => {
         if (data.statusCode === STATUS_OK) {
-          const idUser = data.body.customer.id;
-          localStorage.setItem('id', idUser);
+          setIsAuth(true);
+          logIn(data);
           isValidUser('/');
         }
       })

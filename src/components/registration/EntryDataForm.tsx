@@ -12,7 +12,7 @@ export const takeDataForm = (dataForm: IRegistrationForm): void => {
     typeof dataForm.dateOfBirth !== 'string'
       ? dataForm.dateOfBirth.toLocaleDateString().split('.').reverse().join('-')
       : '';
-  dataForm.country = dataForm.country.slice(-4);
+  dataForm.country = dataForm.country.slice(-3).slice(0, -1);
   newAddress[0].country = dataForm.country;
   newAddress[0].city = dataForm.city;
   newAddress[0].postalCode = dataForm.postalCode;

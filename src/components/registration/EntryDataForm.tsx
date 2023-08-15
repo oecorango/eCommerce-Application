@@ -90,8 +90,8 @@ export const EntryDataForm = (): JSX.Element => {
         label="Переход Вход=Login"
         type="button"
         onClick={(): void => {
-          // SignInPage('/signin');
-          MainPage('/');
+          SignInPage('/signin');
+          // MainPage('/');
         }}
       />
     </div>

@@ -1,4 +1,3 @@
-import { registerNewCustomer } from '../api/Client';
 import { ICountriesData, IRegistrationForm } from '../interface/interface';
 
 export const dataRegistrationForm: IRegistrationForm = {
@@ -19,11 +18,10 @@ export const newAddress = [
     city: '',
     postalCode: '',
     streetName: '',
-    streetNumber: '5',
   },
 ];
 
-export const newCustomerData1 = {
+export const newCustomerData = {
   email: '',
   password: '',
   firstName: '',

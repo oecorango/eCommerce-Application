@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { Message } from 'primereact/message';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -12,6 +11,7 @@ import { countriesData } from '../../constants/registratForm';
 import { ErrorRegistr } from './ErrorRegistr';
 import './_registration.scss';
 import { takeDataForm } from './EntryDataForm';
+import { validSchema1 } from '../../utils/validSchema';
 
 let postCod: string = '_____';
 
@@ -21,9 +21,10 @@ export const RegistrationForm = (props: {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<IRegistrationForm>({
     mode: 'onBlur',
+    resolver: yupResolver(validSchema1),
   });
   const [value, setValue] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<ICountriesData | null>(
@@ -45,19 +46,7 @@ export const RegistrationForm = (props: {
         <label className="registration_span">Email</label>
         <InputText
           className="mb-1"
-          {...register('email', {
-            value: 'gg25ggg@mail.ru',
-            required: 'Required to fill',
-            minLength: {
-              value: 5,
-              message: 'Minimum 5 characters',
-            },
-            pattern: {
-              value:
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-              message: 'Incorrect email',
-            },
-          })}
+          {...register('email')}
           type="text"
           placeholder="Enter your email"
         />
@@ -68,22 +57,10 @@ export const RegistrationForm = (props: {
           severity={'error'}
           text={errors?.email?.message as string}
         />
-        {/* {errors?.email && <ErrorRegistr message={errors.email.message} />} */}
         <label className="registration_span">Password</label>
         <InputText
           className="mb-1"
-          {...register('password', {
-            value: 'gAggg99999',
-            required: 'Required to fill',
-            minLength: {
-              value: 4,
-              message: 'Minimum 8 characters',
-            },
-            maxLength: {
-              value: 20,
-              message: 'Maximum 20 characters',
-            },
-          })}
+          {...register('password')}
           type="password"
           placeholder="Enter your password"
           autoComplete="on"
@@ -95,17 +72,10 @@ export const RegistrationForm = (props: {
           severity={'error'}
           text={errors?.password?.message as string}
         />
-        {/* {errors?.password && <ErrorRegistr message={errors.password.message} />} */}
         <label className="registration_span">Name</label>
         <InputText
           className="mb-1"
-          {...register('firstName', {
-            required: 'Хоть одну букву введите',
-            pattern: {
-              value: /^[A-Za-zА-ЯЁа-яё]+$/,
-              message: 'Говорили вводим буквы',
-            },
-          })}
+          {...register('firstName')}
           placeholder="firstName"
         />
         {errors?.firstName && (
@@ -114,13 +84,7 @@ export const RegistrationForm = (props: {
         <label className="registration_span">lastName</label>
         <InputText
           className="mb-1"
-          {...register('lastName', {
-            required: 'Хоть одну букву введите',
-            pattern: {
-              value: /^[A-Za-zА-ЯЁа-яё]+$/,
-              message: 'Говорили вводим буквы',
-            },
-          })}
+          {...register('lastName')}
           placeholder="lastName"
         />
         {errors?.lastName && <ErrorRegistr message={errors.lastName.message} />}
@@ -131,10 +95,10 @@ export const RegistrationForm = (props: {
             type={'date'}
             {...register('dateOfBirth', {
               valueAsDate: true,
-              validate: {
-                volue: (value, formValues) =>
-                  Date.now() - +value > 409968000000,
-              },
+              // validate: {
+              //   volue: (value, formValues) =>
+              //     Date.now() - +value > 409968000000,
+              // },
             })}
           />
           {errors?.dateOfBirth && (
@@ -146,31 +110,19 @@ export const RegistrationForm = (props: {
         <label className="registration_span">Street</label>
         <InputText
           className="mb-1"
-          {...register('streetName', {
-            required: 'Что нибудь введите',
-          })}
+          {...register('streetName')}
           placeholder="streetName"
         />
         {errors?.streetName && (
           <ErrorRegistr message={errors.streetName.message} />
         )}
         <label className="registration_span">City</label>
-        <InputText
-          className="mb-1"
-          {...register('city', {
-            required: 'Хоть одну букву введите',
-            pattern: {
-              value: /^[A-Za-zА-ЯЁа-яё]+$/,
-              message: 'Говорили вводим буквы',
-            },
-          })}
-          placeholder="city"
-        />
+        <InputText className="mb-1" {...register('city')} placeholder="city" />
         {errors?.city && <ErrorRegistr message={errors.city.message} />}
         <label className="registration_span">Countries</label>
         <div className="mb-1">
           <Dropdown
-            {...register('country', {})}
+            {...register('country')}
             value={selectedCountry}
             onChange={(e: DropdownChangeEvent): void => {
               setSelectedCountry(e.value);
@@ -181,6 +133,7 @@ export const RegistrationForm = (props: {
             placeholder="Select a Country"
             className="w-full md:w-14rem"
           />
+          {errors?.country && <ErrorRegistr message={errors.country.message} />}
         </div>
 
         <label htmlFor="serial" className="registration_span">
@@ -203,7 +156,7 @@ export const RegistrationForm = (props: {
           className="mt-3 mb-1"
           label="Registration"
           type="submit"
-          disabled={!isValid}
+          // disabled={!isValid}
         />
       </form>
     </div>

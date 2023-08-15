@@ -14,3 +14,10 @@ export const PASSWORD_ERROR = {
 export const EMAIL_ERROR = {
   error: 'email must be a valid email',
 };
+
+export const NAME_ERROR = {
+  minLength: 1,
+  minLengthText: 'Minimum 1 characters',
+  noSpecialCharacters: 'No special characters or numbers',
+  emptyString: 'Choose your country',
+};

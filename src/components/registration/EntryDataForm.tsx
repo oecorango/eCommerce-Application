@@ -9,13 +9,16 @@ import { newCustomerData1, newAddress } from '../../constants/registratForm';
 
 export const takeDataForm = (dataForm: IRegistrationForm): void => {
   dataForm.dateOfBirth =
-    typeof dataForm.dateOfBirth !== 'string'
+    typeof dataForm.dateOfBirth !== 'string' && dataForm.dateOfBirth
       ? dataForm.dateOfBirth.toLocaleDateString().split('.').reverse().join('-')
       : '';
   dataForm.country = dataForm.country.slice(-3).slice(0, -1);
   newAddress[0].country = dataForm.country;
   newAddress[0].city = dataForm.city;
-  newAddress[0].postalCode = dataForm.postalCode;
+  if (dataForm.postalCode !== undefined) {
+    newAddress[0].postalCode = dataForm.postalCode;
+  }
+
   newAddress[0].streetName = dataForm.firstName;
   newAddress[0].streetNumber = '5';
   newCustomerData1.firstName = dataForm.firstName;

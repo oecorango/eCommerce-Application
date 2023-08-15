@@ -10,13 +10,13 @@ export interface ICountriesData {
 }
 
 export interface IRegistrationForm {
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
   firstName: string;
   lastName: string;
-  dateOfBirth: Date | string;
+  dateOfBirth?: Date | string;
   country: string;
   city: string;
-  postalCode: string;
+  postalCode?: string;
   streetName: string;
 }

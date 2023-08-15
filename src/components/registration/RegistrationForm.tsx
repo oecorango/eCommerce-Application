@@ -9,7 +9,6 @@ import { InputMask, InputMaskChangeEvent } from 'primereact/inputmask';
 import { ICountriesData, IRegistrationForm } from '../../interface/interface';
 import { countriesData } from '../../constants/registratForm';
 import { ErrorRegistr } from './ErrorRegistr';
-import './_registration.scss';
 import { takeDataForm } from './EntryDataForm';
 import { validSchema1 } from '../../utils/validSchema';
 

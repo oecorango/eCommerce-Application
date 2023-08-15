@@ -12,6 +12,7 @@ import { SignInForm } from '../interface/interface';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validSchema } from '../utils/validSchema';
 import { AuthContext } from './authProvider';
+import { logIn } from '../utils/utils';
 
 export const FormSingIn = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);
@@ -33,13 +34,9 @@ export const FormSingIn = (): JSX.Element => {
       .execute()
       .then(data => {
         if (data.statusCode === STATUS_OK) {
-          const userId = data.body.customer.id;
-          const userName = data.body.customer.firstName;
-          localStorage.setItem('id', userId);
-          if (userName) localStorage.setItem('name', userName);
-          localStorage.setItem('auth', 'true');
-          isValidUser('/');
           setIsAuth(true);
+          logIn(data);
+          isValidUser('/');
         }
       })
       .catch(() =>

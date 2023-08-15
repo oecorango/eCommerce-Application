@@ -1,7 +1,14 @@
-import { Button } from 'primereact/button';
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from './authProvider';
+import {
+  LinkToAbout,
+  LinkToCart,
+  LinkToHome,
+  LinkToLogOut,
+  LinkToRegistration,
+  LinkToSignIn,
+} from './Links';
 
 export const Header = (): JSX.Element => {
   const { isAuth } = useContext(AuthContext);
@@ -15,56 +22,20 @@ export const Header = (): JSX.Element => {
 
   const noAuthNavigation = (
     <>
-      <NavLink to="/" className="flex flex-column align-items-center">
-        <i className="pi pi-home" style={{ fontSize: '2rem' }}></i>
-        Home
-      </NavLink>
-
-      <NavLink to="/about" className="flex flex-column align-items-center">
-        <i className="pi pi-users" style={{ fontSize: '2rem' }}></i>
-        About
-      </NavLink>
-
-      <NavLink to="/cart" className="flex flex-column align-items-center">
-        <i className="pi pi-shopping-bag" style={{ fontSize: '2rem' }}></i>
-        Cart
-      </NavLink>
-
-      <NavLink to="/signin" className="flex flex-column align-items-center">
-        <i className="pi pi-sign-in" style={{ fontSize: '2rem' }}></i>
-        Sign in
-      </NavLink>
-
-      <NavLink
-        to="/registration"
-        className="flex flex-column align-items-center">
-        <i className="pi pi-user-edit" style={{ fontSize: '2rem' }}></i>
-        Register
-      </NavLink>
+      <LinkToHome />
+      <LinkToAbout />
+      <LinkToCart />
+      <LinkToSignIn />
+      <LinkToRegistration />
     </>
   );
 
   const authNavigation = (
     <>
-      <NavLink to="/" className="flex flex-column align-items-center">
-        <i className="pi pi-home" style={{ fontSize: '2rem' }}></i>
-        Home
-      </NavLink>
-
-      <NavLink to="/about" className="flex flex-column align-items-center">
-        <i className="pi pi-users" style={{ fontSize: '2rem' }}></i>
-        About
-      </NavLink>
-
-      <NavLink to="/cart" className="flex flex-column align-items-center">
-        <i className="pi pi-shopping-bag" style={{ fontSize: '2rem' }}></i>
-        Cart
-      </NavLink>
-
-      <NavLink to="/signin" className="flex flex-column align-items-center">
-        <i className="pi pi-sign-out" style={{ fontSize: '2rem' }}></i>
-        Exit
-      </NavLink>
+      <LinkToHome />
+      <LinkToAbout />
+      <LinkToCart />
+      <LinkToLogOut />
     </>
   );
 

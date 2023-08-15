@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { Message } from 'primereact/message';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { InputMask, InputMaskChangeEvent } from 'primereact/inputmask';
-import {
-  ICountriesData,
-  countriesData,
-  IRegistrationForm,
-} from './InterfaseData';
+import { ICountriesData, IRegistrationForm } from '../../interface/interface';
+import { countriesData } from '../../constants/registratForm';
 import { ErrorRegistr } from './ErrorRegistr';
 import './_registration.scss';
 import { takeDataForm } from './EntryDataForm';
@@ -36,15 +34,9 @@ export const RegistrationForm = (props: {
   const onSubmit: SubmitHandler<IRegistrationForm> = (
     data: IRegistrationForm,
   ): void => {
-    data.dateOfBirth =
-      typeof data.dateOfBirth !== 'string'
-        ? data.dateOfBirth.toLocaleDateString().split('.').reverse().join('-')
-        : '';
     data.postalCode = value;
-    data.country = data.country.slice(-4);
     takeDataForm(data);
     props.create();
-    // console.log(JSON.stringify(data));
   };
 
   return (
@@ -54,7 +46,7 @@ export const RegistrationForm = (props: {
         <InputText
           className="mb-1"
           {...register('email', {
-            value: 'ggggg@mail.ru',
+            value: 'gg25ggg@mail.ru',
             required: 'Required to fill',
             minLength: {
               value: 5,
@@ -69,12 +61,19 @@ export const RegistrationForm = (props: {
           type="text"
           placeholder="Enter your email"
         />
-        {errors?.email && <ErrorRegistr message={errors.email.message} />}
+        <Message
+          className={
+            ((errors?.email?.message as string) && 'h-1rem') || 'hidden'
+          }
+          severity={'error'}
+          text={errors?.email?.message as string}
+        />
+        {/* {errors?.email && <ErrorRegistr message={errors.email.message} />} */}
         <label className="registration_span">Password</label>
         <InputText
           className="mb-1"
           {...register('password', {
-            value: 'gggg99999',
+            value: 'gAggg99999',
             required: 'Required to fill',
             minLength: {
               value: 4,
@@ -89,7 +88,14 @@ export const RegistrationForm = (props: {
           placeholder="Enter your password"
           autoComplete="on"
         />
-        {errors?.password && <ErrorRegistr message={errors.password.message} />}
+        <Message
+          className={
+            ((errors?.password?.message as string) && 'h-1rem') || 'hidden'
+          }
+          severity={'error'}
+          text={errors?.password?.message as string}
+        />
+        {/* {errors?.password && <ErrorRegistr message={errors.password.message} />} */}
         <label className="registration_span">Name</label>
         <InputText
           className="mb-1"
@@ -194,7 +200,7 @@ export const RegistrationForm = (props: {
           />
         </div>
         <Button
-          className="mt-3 mb-8"
+          className="mt-3 mb-1"
           label="Registration"
           type="submit"
           disabled={!isValid}

@@ -3,13 +3,16 @@ import { Dialog } from 'primereact/dialog';
 import { registerNewCustomer } from '../../api/Client';
 import { RegistrationForm } from './RegistrationForm';
 import { useNavigate } from 'react-router-dom';
-import {
-  newAddress,
-  newCustomerData1,
-  IRegistrationForm,
-} from './InterfaseData';
+import { Button } from 'primereact/button';
+import { IRegistrationForm } from '../../interface/interface';
+import { newCustomerData1, newAddress } from '../../constants/registratForm';
 
 export const takeDataForm = (dataForm: IRegistrationForm): void => {
+  dataForm.dateOfBirth =
+    typeof dataForm.dateOfBirth !== 'string'
+      ? dataForm.dateOfBirth.toLocaleDateString().split('.').reverse().join('-')
+      : '';
+  dataForm.country = dataForm.country.slice(-4);
   newAddress[0].country = dataForm.country;
   newAddress[0].city = dataForm.city;
   newAddress[0].postalCode = dataForm.postalCode;
@@ -31,8 +34,9 @@ export const takeDataForm = (dataForm: IRegistrationForm): void => {
 export const EntryDataForm = (): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
   const SignInPage = useNavigate();
+  const MainPage = useNavigate();
   const onOfPoUpForm = (): void => {
-    setVisible(true);
+    handleRegistration();
   };
   const [registrationMessage, setRegistrationMessage] = useState<string | null>(
     null,
@@ -63,6 +67,7 @@ export const EntryDataForm = (): JSX.Element => {
         setIsLoading(false);
       });
   };
+
   return (
     <div className="registration__page content">
       <RegistrationForm create={onOfPoUpForm} />
@@ -75,10 +80,20 @@ export const EntryDataForm = (): JSX.Element => {
         }}
         onHide={(): void => {
           setVisible(false);
-          SignInPage('/signin');
+          // SignInPage('/signin');
+          MainPage('/');
         }}>
         <p className="m-1 message-for-user ">{registrationMessage}</p>
       </Dialog>
+      <Button
+        className="mt-3 mb-1"
+        label="Переход Вход=Login"
+        type="button"
+        onClick={(): void => {
+          // SignInPage('/signin');
+          MainPage('/');
+        }}
+      />
     </div>
   );
 };

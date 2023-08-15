@@ -1,34 +1,5 @@
-import { registerNewCustomer } from '../../api/Client';
-
-export interface IOption {
-  value: string;
-  label: string;
-}
-
-export interface ICountriesData {
-  name: string;
-  postalCode: string;
-  countriCode: string;
-}
-
-export interface IAddress {
-  country: string;
-  city: string;
-  street: string;
-  house: string;
-}
-
-export interface IRegistrationForm {
-  email?: string;
-  password?: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: Date | string;
-  country: string;
-  city: string;
-  postalCode: string;
-  streetName: string;
-}
+import { registerNewCustomer } from '../api/Client';
+import { ICountriesData, IRegistrationForm } from '../interface/interface';
 
 export const dataRegistrationForm: IRegistrationForm = {
   email: '',
@@ -44,20 +15,20 @@ export const dataRegistrationForm: IRegistrationForm = {
 
 export const newAddress = [
   {
-    country: 'BY',
-    city: 'Gomel',
-    postalCode: '12345',
-    streetName: 'Sovetskaya',
+    country: '',
+    city: '',
+    postalCode: '',
+    streetName: '',
     streetNumber: '5',
   },
 ];
 
 export const newCustomerData1 = {
-  email: 'react@mail.ru',
-  password: 'qwerty',
-  firstName: 'ursa',
-  lastName: 'goremskiy',
-  dateOfBirth: '2000-10-12',
+  email: '',
+  password: '',
+  firstName: '',
+  lastName: '',
+  dateOfBirth: '',
   addresses: newAddress,
 };
 

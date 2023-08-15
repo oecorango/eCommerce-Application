@@ -1,43 +1,42 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Message } from 'primereact/message';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { Message } from 'primereact/message';
-import { useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { InputMask, InputMaskChangeEvent } from 'primereact/inputmask';
-import { countriesData, IFormFields } from './Interfase';
+import { ICountriesData, IRegistrationForm } from '../../interface/interface';
+import { countriesData } from '../../constants/registratForm';
 import { ErrorRegistr } from './ErrorRegistr';
 import './_registration.scss';
+import { takeDataForm } from './EntryDataForm';
 
 let postCod: string = '_____';
 
-export const RegistrationWindow = (): JSX.Element => {
+export const RegistrationForm = (props: {
+  create: () => void;
+}): JSX.Element => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<IFormFields>({
+  } = useForm<IRegistrationForm>({
     mode: 'onBlur',
   });
   const [value, setValue] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<ICountriesData | null>(
+    null,
+  );
+  const countries: ICountriesData[] = countriesData;
 
-  interface Country {
-    name: string;
-    code: string;
-  }
-  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
-  const countries: Country[] = countriesData;
-  const SignInPage = useNavigate();
-
-  const onSubmit: SubmitHandler<IFormFields> = (data: IFormFields): void => {
-    data.dateBirth =
-      typeof data.dateBirth !== 'string'
-        ? data.dateBirth.toLocaleDateString().replace(/\./g, '/')
-        : '';
-    data.postcode = value;
-    console.log(JSON.stringify(data));
-    SignInPage('/signin');
+  const onSubmit: SubmitHandler<IRegistrationForm> = (
+    data: IRegistrationForm,
+  ): void => {
+    data.postalCode = value;
+    takeDataForm(data);
+    props.create();
   };
 
   return (
@@ -47,7 +46,7 @@ export const RegistrationWindow = (): JSX.Element => {
         <InputText
           className="mb-1"
           {...register('email', {
-            value: 'ggggg@mail.ru',
+            value: 'gg25ggg@mail.ru',
             required: 'Required to fill',
             minLength: {
               value: 5,
@@ -55,19 +54,26 @@ export const RegistrationWindow = (): JSX.Element => {
             },
             pattern: {
               value:
-                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
               message: 'Incorrect email',
             },
           })}
           type="text"
           placeholder="Enter your email"
         />
-        {errors?.email && <ErrorRegistr message={errors.email.message} />}
+        <Message
+          className={
+            ((errors?.email?.message as string) && 'h-1rem') || 'hidden'
+          }
+          severity={'error'}
+          text={errors?.email?.message as string}
+        />
+        {/* {errors?.email && <ErrorRegistr message={errors.email.message} />} */}
         <label className="registration_span">Password</label>
         <InputText
           className="mb-1"
           {...register('password', {
-            value: 'gggg99999',
+            value: 'gAggg99999',
             required: 'Required to fill',
             minLength: {
               value: 4,
@@ -82,39 +88,48 @@ export const RegistrationWindow = (): JSX.Element => {
           placeholder="Enter your password"
           autoComplete="on"
         />
-        {errors?.password && <ErrorRegistr message={errors.password.message} />}
+        <Message
+          className={
+            ((errors?.password?.message as string) && 'h-1rem') || 'hidden'
+          }
+          severity={'error'}
+          text={errors?.password?.message as string}
+        />
+        {/* {errors?.password && <ErrorRegistr message={errors.password.message} />} */}
         <label className="registration_span">Name</label>
         <InputText
           className="mb-1"
-          {...register('name', {
+          {...register('firstName', {
             required: 'Хоть одну букву введите',
             pattern: {
               value: /^[A-Za-zА-ЯЁа-яё]+$/,
               message: 'Говорили вводим буквы',
             },
           })}
-          placeholder="name"
+          placeholder="firstName"
         />
-        {errors?.name && <ErrorRegistr message={errors.name.message} />}
-        <label className="registration_span">Surname</label>
+        {errors?.firstName && (
+          <ErrorRegistr message={errors.firstName.message} />
+        )}
+        <label className="registration_span">lastName</label>
         <InputText
           className="mb-1"
-          {...register('surname', {
+          {...register('lastName', {
             required: 'Хоть одну букву введите',
             pattern: {
               value: /^[A-Za-zА-ЯЁа-яё]+$/,
               message: 'Говорили вводим буквы',
             },
           })}
-          placeholder="surname"
+          placeholder="lastName"
         />
-        {errors?.surname && <ErrorRegistr message={errors.surname.message} />}
+        {errors?.lastName && <ErrorRegistr message={errors.lastName.message} />}
         <label className="registration_span">Date of Birth</label>
         <div>
           <InputText
             className="w-full md:w-14rem"
             type={'date'}
-            {...register('dateBirth', {
+            {...register('dateOfBirth', {
               valueAsDate: true,
               validate: {
                 volue: (value, formValues) =>
@@ -122,7 +137,7 @@ export const RegistrationWindow = (): JSX.Element => {
               },
             })}
           />
-          {errors?.dateBirth && (
+          {errors?.dateOfBirth && (
             <div style={{ color: 'red', marginBottom: 10 }}>
               Детям до 13 лет и еще не рожденным вход запрещен
             </div>
@@ -131,12 +146,14 @@ export const RegistrationWindow = (): JSX.Element => {
         <label className="registration_span">Street</label>
         <InputText
           className="mb-1"
-          {...register('street', {
+          {...register('streetName', {
             required: 'Что нибудь введите',
           })}
-          placeholder="street"
+          placeholder="streetName"
         />
-        {errors?.street && <ErrorRegistr message={errors.street.message} />}
+        {errors?.streetName && (
+          <ErrorRegistr message={errors.streetName.message} />
+        )}
         <label className="registration_span">City</label>
         <InputText
           className="mb-1"
@@ -157,7 +174,7 @@ export const RegistrationWindow = (): JSX.Element => {
             value={selectedCountry}
             onChange={(e: DropdownChangeEvent): void => {
               setSelectedCountry(e.value);
-              postCod = e.value.code;
+              postCod = e.value.postalCode;
             }}
             options={countries}
             optionLabel="name"
@@ -183,7 +200,7 @@ export const RegistrationWindow = (): JSX.Element => {
           />
         </div>
         <Button
-          className="mt-3 mb-8"
+          className="mt-3 mb-1"
           label="Registration"
           type="submit"
           disabled={!isValid}
@@ -192,4 +209,4 @@ export const RegistrationWindow = (): JSX.Element => {
     </div>
   );
 };
-export default RegistrationWindow;
+export default RegistrationForm;

@@ -15,20 +15,56 @@ export const Header = (): JSX.Element => {
 
   const noAuthNavigation = (
     <>
-      <NavLink to="/"></NavLink>
-      <NavLink to="/about">About</NavLink>
-      <NavLink to="/cart">Cart</NavLink>
-      <NavLink to="/signin">Sign in</NavLink>
-      <NavLink to="/registration">Registration</NavLink>
+      <NavLink to="/" className="flex flex-column align-items-center">
+        <i className="pi pi-home" style={{ fontSize: '2rem' }}></i>
+        Home
+      </NavLink>
+
+      <NavLink to="/about" className="flex flex-column align-items-center">
+        <i className="pi pi-users" style={{ fontSize: '2rem' }}></i>
+        About
+      </NavLink>
+
+      <NavLink to="/cart" className="flex flex-column align-items-center">
+        <i className="pi pi-shopping-bag" style={{ fontSize: '2rem' }}></i>
+        Cart
+      </NavLink>
+
+      <NavLink to="/signin" className="flex flex-column align-items-center">
+        <i className="pi pi-sign-in" style={{ fontSize: '2rem' }}></i>
+        Sign in
+      </NavLink>
+
+      <NavLink
+        to="/registration"
+        className="flex flex-column align-items-center">
+        <i className="pi pi-user-edit" style={{ fontSize: '2rem' }}></i>
+        Register
+      </NavLink>
     </>
   );
 
   const authNavigation = (
     <>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/about">About</NavLink>
-      <NavLink to="/cart">Cart</NavLink>
-      <Button>Exit</Button>
+      <NavLink to="/" className="flex flex-column align-items-center">
+        <i className="pi pi-home" style={{ fontSize: '2rem' }}></i>
+        Home
+      </NavLink>
+
+      <NavLink to="/about" className="flex flex-column align-items-center">
+        <i className="pi pi-users" style={{ fontSize: '2rem' }}></i>
+        About
+      </NavLink>
+
+      <NavLink to="/cart" className="flex flex-column align-items-center">
+        <i className="pi pi-shopping-bag" style={{ fontSize: '2rem' }}></i>
+        Cart
+      </NavLink>
+
+      <NavLink to="/signin" className="flex flex-column align-items-center">
+        <i className="pi pi-sign-out" style={{ fontSize: '2rem' }}></i>
+        Exit
+      </NavLink>
     </>
   );
 
@@ -37,7 +73,7 @@ export const Header = (): JSX.Element => {
       <header className="header">
         <div className="wrapper header__wrapper">
           <NavLink to="/">LOGO</NavLink>
-          <div className="navigation">
+          <div className="navigation flex">
             <Auth />
           </div>
         </div>

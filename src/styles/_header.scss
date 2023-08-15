@@ -14,17 +14,16 @@
 
 .navigation {
   a {
-    padding: 0 10px;
-    color: $color-dark;
+    padding: 0 15px;
+    color: $color-white;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.3s;
     &.active {
-      color: $color-red;
+      color: $color-brown;
     }
     &:hover {
-      color: $color-red;
-      text-decoration: underline;
+      color: $color-brown;
     }
   }
 }

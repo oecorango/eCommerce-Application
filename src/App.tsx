@@ -19,6 +19,26 @@ function App(): JSX.Element {
     }
   }, []);
 
+  if (isAuth) {
+    return (
+      <>
+        <AuthContext.Provider
+          value={{
+            isAuth,
+            setIsAuth,
+          }}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<MainPage />} />
+              <Route path="about" element={<AboutPage />} />
+              <Route path="*" element={<ErrorPage />} />
+            </Route>
+          </Routes>
+        </AuthContext.Provider>
+      </>
+    );
+  }
+
   return (
     <>
       <AuthContext.Provider

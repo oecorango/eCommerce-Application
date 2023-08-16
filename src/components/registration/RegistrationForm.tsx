@@ -128,7 +128,7 @@ export const RegistrationForm = (props: {
 
         <div className="w-full mb-1">
           <Dropdown
-            className="w-full md:w-14rem"
+            className="w-full"
             {...register('country')}
             value={selectedCountry}
             onChange={(e: DropdownChangeEvent): void => {
@@ -151,7 +151,7 @@ export const RegistrationForm = (props: {
         </label>
         <div className="w-full mb-1">
           <InputMask
-            className="w-full md:w-14rem"
+            className="w-full"
             value={value}
             onChange={(e: InputMaskChangeEvent): void => {
               if (e.target.value) {

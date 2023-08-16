@@ -9,7 +9,7 @@ import { STATUS_OK } from '../../constants/api';
 import { AUTHENTICATE_ERROR } from '../../constants/errors';
 import { SignInForm } from '../../interface/interface';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validSchema } from '../../utils/validSchema';
+import { validAuthData } from '../../utils/validAuthData';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
 import { ErrorMessage } from '../ErrorMessage';
@@ -23,7 +23,7 @@ export const FormSingIn = (): JSX.Element => {
     formState: { errors },
   } = useForm<SignInForm>({
     mode: 'onBlur',
-    resolver: yupResolver(validSchema),
+    resolver: yupResolver(validAuthData),
   });
 
   const [checked, setChecked] = useState(false);

@@ -8,7 +8,7 @@ import { InputMask, InputMaskChangeEvent } from 'primereact/inputmask';
 import { ICountriesData, IRegistrationForm } from '../../interface/interface';
 import { countriesData } from '../../constants/registratForm';
 import { takeDataForm } from './EntryDataForm';
-import { validSchema1 } from '../../utils/validSchema';
+import { validRegisterData } from '../../utils/validRegisterData';
 import { ErrorMessage } from '../ErrorMessage';
 
 let postCod: string = '_____';
@@ -22,7 +22,7 @@ export const RegistrationForm = (props: {
     formState: { errors },
   } = useForm<IRegistrationForm>({
     mode: 'onBlur',
-    resolver: yupResolver(validSchema1),
+    resolver: yupResolver(validRegisterData),
   });
   const [value, setValue] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<ICountriesData | null>(

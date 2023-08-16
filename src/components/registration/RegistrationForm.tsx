@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Message } from 'primereact/message';
@@ -8,7 +8,6 @@ import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { InputMask, InputMaskChangeEvent } from 'primereact/inputmask';
 import { ICountriesData, IRegistrationForm } from '../../interface/interface';
 import { countriesData } from '../../constants/registratForm';
-import { ErrorRegistr } from './ErrorRegistr';
 import { takeDataForm } from './EntryDataForm';
 import { validSchema1 } from '../../utils/validSchema';
 
@@ -40,9 +39,8 @@ export const RegistrationForm = (props: {
   };
 
   return (
-    <div className="registration__page content">
+    <div className="registration__page">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-column">
-        <label className="registration_span">Email</label>
         <InputText
           className="mb-1"
           {...register('email')}
@@ -50,13 +48,11 @@ export const RegistrationForm = (props: {
           placeholder="Enter your email"
         />
         <Message
-          className={
-            ((errors?.email?.message as string) && 'h-1rem') || 'hidden'
-          }
+          className={(errors?.email?.message && 'h-1rem mb-1') || 'hidden'}
           severity={'error'}
-          text={errors?.email?.message as string}
+          text={errors?.email?.message}
         />
-        <label className="registration_span">Password</label>
+
         <InputText
           className="mb-1"
           {...register('password')}
@@ -65,58 +61,74 @@ export const RegistrationForm = (props: {
           autoComplete="on"
         />
         <Message
-          className={
-            ((errors?.password?.message as string) && 'h-1rem') || 'hidden'
-          }
+          className={(errors?.password?.message && 'h-1rem mb-1') || 'hidden'}
           severity={'error'}
-          text={errors?.password?.message as string}
+          text={errors?.password?.message}
         />
-        <label className="registration_span">Name</label>
+
         <InputText
           className="mb-1"
           {...register('firstName')}
-          placeholder="firstName"
+          placeholder="Enter your FirstName"
         />
-        {errors?.firstName && (
-          <ErrorRegistr message={errors.firstName.message} />
-        )}
-        <label className="registration_span">lastName</label>
+        <Message
+          className={(errors?.firstName?.message && 'h-1rem mb-1') || 'hidden'}
+          severity={'error'}
+          text={errors?.firstName?.message}
+        />
+
         <InputText
           className="mb-1"
           {...register('lastName')}
-          placeholder="lastName"
+          placeholder="Enter your LastName"
         />
-        {errors?.lastName && <ErrorRegistr message={errors.lastName.message} />}
-        <label className="registration_span">Date of Birth</label>
-        <div>
-          <InputText
-            className="w-full md:w-14rem"
-            type={'date'}
-            {...register('dateOfBirth', {
-              valueAsDate: true,
-            })}
-          />
-          {errors?.dateOfBirth && (
-            <div style={{ color: 'red', marginBottom: 10 }}>
-              You must be at least 13 years old
-            </div>
-          )}
-        </div>
-        <label className="registration_span">Street</label>
+        <Message
+          className={(errors?.lastName?.message && 'h-1rem mb-1') || 'hidden'}
+          severity={'error'}
+          text={errors?.firstName?.message}
+        />
+
+        <label className="registration_span mb-1 mt-1">Enter your age</label>
+        <InputText
+          className="mb-1"
+          type={'date'}
+          {...register('dateOfBirth', {
+            valueAsDate: true,
+          })}
+        />
+        <Message
+          className={
+            (errors?.dateOfBirth?.message && 'h-1rem mb-1') || 'hidden'
+          }
+          severity={'error'}
+          text={'You must be at least 13 years old'}
+        />
+
         <InputText
           className="mb-1"
           {...register('streetName')}
-          placeholder="streetName"
+          placeholder="Enter your street"
         />
-        {errors?.streetName && (
-          <ErrorRegistr message={errors.streetName.message} />
-        )}
-        <label className="registration_span">City</label>
-        <InputText className="mb-1" {...register('city')} placeholder="city" />
-        {errors?.city && <ErrorRegistr message={errors.city.message} />}
-        <label className="registration_span">Countries</label>
-        <div className="mb-1">
+        <Message
+          className={(errors?.streetName?.message && 'h-1rem mb-1') || 'hidden'}
+          severity={'error'}
+          text={errors?.streetName?.message}
+        />
+
+        <InputText
+          className="mb-1"
+          {...register('city')}
+          placeholder="Enter your city"
+        />
+        <Message
+          className={(errors?.city?.message && 'h-1rem') || 'hidden'}
+          severity={'error'}
+          text={errors?.city?.message}
+        />
+
+        <div className="w-full mb-1">
           <Dropdown
+            className="w-full md:w-14rem"
             {...register('country')}
             value={selectedCountry}
             onChange={(e: DropdownChangeEvent): void => {
@@ -125,17 +137,21 @@ export const RegistrationForm = (props: {
             }}
             options={countries}
             optionLabel="name"
-            placeholder="Select a Country"
-            className="w-full md:w-14rem"
+            placeholder="Select your Country"
           />
-          {errors?.country && <ErrorRegistr message={errors.country.message} />}
+          <Message
+            className={(errors?.country?.message && 'h-1rem mb-1') || 'hidden'}
+            severity={'error'}
+            text={errors?.country?.message}
+          />
         </div>
 
         <label htmlFor="serial" className="registration_span">
           Postcode (example = {postCod})
         </label>
-        <div className="mb-1">
+        <div className="w-full mb-1">
           <InputMask
+            className="w-full md:w-14rem"
             value={value}
             onChange={(e: InputMaskChangeEvent): void => {
               if (e.target.value) {
@@ -146,6 +162,7 @@ export const RegistrationForm = (props: {
             placeholder={postCod}
           />
         </div>
+
         <Button className="mt-3 mb-1" label="Registration" type="submit" />
       </form>
     </div>

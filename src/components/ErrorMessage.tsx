@@ -1,11 +1,5 @@
 import { Message } from 'primereact/message';
-import { FieldErrors } from 'react-hook-form';
-import { IRegistrationForm } from '../interface/interface';
-
-type err = {
-  err: FieldErrors<IRegistrationForm>;
-  name: string;
-};
+import { err } from '../types/types';
 
 export const ErrorMessage = (props: err): JSX.Element => {
   let err;

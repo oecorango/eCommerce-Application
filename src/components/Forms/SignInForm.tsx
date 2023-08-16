@@ -1,7 +1,6 @@
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { InputText } from 'primereact/inputtext';
-import { Message } from 'primereact/message';
 import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { validSchema } from '../../utils/validSchema';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
+import { ErrorMessage } from '../ErrorMessage';
 
 export const FormSingIn = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);
@@ -56,14 +56,7 @@ export const FormSingIn = (): JSX.Element => {
           type="text"
           placeholder="Enter your email"
         />
-
-        <Message
-          className={
-            ((errors?.email?.message as string) && 'h-1rem') || 'hidden'
-          }
-          severity={'error'}
-          text={errors?.email?.message as string}
-        />
+        <ErrorMessage err={errors} name={'email'} />
 
         <div className="p-inputgroup">
           <InputText
@@ -80,14 +73,7 @@ export const FormSingIn = (): JSX.Element => {
             />
           </span>
         </div>
-
-        <Message
-          className={
-            ((errors?.password?.message as string) && 'h-4rem') || 'hidden'
-          }
-          severity={'error'}
-          text={errors?.password?.message as string}
-        />
+        <ErrorMessage err={errors} name={'password'} />
 
         <Button className="mt-6 mb-5" label="Sign In" type="submit" />
       </form>

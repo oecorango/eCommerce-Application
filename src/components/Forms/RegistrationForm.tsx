@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Message } from 'primereact/message';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
@@ -10,6 +9,7 @@ import { ICountriesData, IRegistrationForm } from '../../interface/interface';
 import { countriesData } from '../../constants/registratForm';
 import { takeDataForm } from './EntryDataForm';
 import { validSchema1 } from '../../utils/validSchema';
+import { ErrorMessage } from '../ErrorMessage';
 
 let postCod: string = '_____';
 
@@ -47,11 +47,7 @@ export const RegistrationForm = (props: {
           type="text"
           placeholder="Enter your email"
         />
-        <Message
-          className={(errors?.email?.message && 'h-1rem mb-1') || 'hidden'}
-          severity={'error'}
-          text={errors?.email?.message}
-        />
+        <ErrorMessage err={errors} name={'email'} />
 
         <InputText
           className="mb-1"
@@ -60,33 +56,21 @@ export const RegistrationForm = (props: {
           placeholder="Enter your password"
           autoComplete="on"
         />
-        <Message
-          className={(errors?.password?.message && 'h-1rem mb-1') || 'hidden'}
-          severity={'error'}
-          text={errors?.password?.message}
-        />
+        <ErrorMessage err={errors} name={'password'} />
 
         <InputText
           className="mb-1"
           {...register('firstName')}
           placeholder="Enter your FirstName"
         />
-        <Message
-          className={(errors?.firstName?.message && 'h-1rem mb-1') || 'hidden'}
-          severity={'error'}
-          text={errors?.firstName?.message}
-        />
+        <ErrorMessage err={errors} name={'firstName'} />
 
         <InputText
           className="mb-1"
           {...register('lastName')}
           placeholder="Enter your LastName"
         />
-        <Message
-          className={(errors?.lastName?.message && 'h-1rem mb-1') || 'hidden'}
-          severity={'error'}
-          text={errors?.firstName?.message}
-        />
+        <ErrorMessage err={errors} name={'lastName'} />
 
         <label className="registration_span mb-1 mt-1">Enter your age</label>
         <InputText
@@ -96,35 +80,21 @@ export const RegistrationForm = (props: {
             valueAsDate: true,
           })}
         />
-        <Message
-          className={
-            (errors?.dateOfBirth?.message && 'h-1rem mb-1') || 'hidden'
-          }
-          severity={'error'}
-          text={'You must be at least 13 years old'}
-        />
+        <ErrorMessage err={errors} name={'dateOfBirth'} />
 
         <InputText
           className="mb-1"
           {...register('streetName')}
           placeholder="Enter your street"
         />
-        <Message
-          className={(errors?.streetName?.message && 'h-1rem mb-1') || 'hidden'}
-          severity={'error'}
-          text={errors?.streetName?.message}
-        />
+        <ErrorMessage err={errors} name={'streetName'} />
 
         <InputText
           className="mb-1"
           {...register('city')}
           placeholder="Enter your city"
         />
-        <Message
-          className={(errors?.city?.message && 'h-1rem') || 'hidden'}
-          severity={'error'}
-          text={errors?.city?.message}
-        />
+        <ErrorMessage err={errors} name={'city'} />
 
         <div className="w-full mb-1">
           <Dropdown
@@ -139,11 +109,7 @@ export const RegistrationForm = (props: {
             optionLabel="name"
             placeholder="Select your Country"
           />
-          <Message
-            className={(errors?.country?.message && 'h-1rem mb-1') || 'hidden'}
-            severity={'error'}
-            text={errors?.country?.message}
-          />
+          <ErrorMessage err={errors} name={'country'} />
         </div>
 
         <label htmlFor="serial" className="registration_span">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { registerNewCustomer } from '../../api/Client';
 import { RegistrationForm } from './RegistrationForm';
@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { IRegistrationForm } from '../../interface/interface';
 import { newCustomerData, newAddress } from '../../constants/registratForm';
+import { AuthContext } from '../authProvider';
 
 export const takeDataForm = (dataForm: IRegistrationForm): void => {
   if (dataForm.dateOfBirth) {
@@ -38,8 +39,8 @@ export const takeDataForm = (dataForm: IRegistrationForm): void => {
 
 export const EntryDataForm = (): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
-  const SignInPage = useNavigate();
-  const MainPage = useNavigate();
+  const toSignInPage = useNavigate();
+  const toMainPage = useNavigate();
   const onOfPoUpForm = (): void => {
     handleRegistration();
   };
@@ -47,6 +48,7 @@ export const EntryDataForm = (): JSX.Element => {
     null,
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isAuth, setIsAuth } = useContext(AuthContext);
 
   const handleRegistration = (): void => {
     setIsLoading(true);
@@ -56,6 +58,7 @@ export const EntryDataForm = (): JSX.Element => {
           `Welcome ${data.body.customer.firstName} ${data.body.customer.lastName}`,
         );
         setVisible(true);
+        setIsAuth(true);
       })
       .catch(error => {
         console.warn(error);
@@ -85,9 +88,8 @@ export const EntryDataForm = (): JSX.Element => {
         }}
         onHide={(): void => {
           setVisible(false);
-          // тут надо сделать переадресацию только в случае успешной попытки регистрации,
-          // в случае же не успеха, остаемся на той же странице
-          MainPage('/');
+          console.log(isAuth);
+          if (isAuth) toMainPage('/');
         }}>
         <p className="m-1 message-for-user ">{registrationMessage}</p>
       </Dialog>
@@ -99,7 +101,7 @@ export const EntryDataForm = (): JSX.Element => {
         label="Sign In"
         type="button"
         onClick={(): void => {
-          SignInPage('/signin');
+          toSignInPage('/signin');
         }}
       />
     </div>

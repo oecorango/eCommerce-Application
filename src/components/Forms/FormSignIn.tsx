@@ -5,14 +5,14 @@ import { Message } from 'primereact/message';
 import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { clientSignIn } from '../api/Client';
-import { STATUS_OK } from '../constants/api';
-import { AUTHENTICATE_ERROR } from '../constants/errors';
-import { SignInForm } from '../interface/interface';
+import { clientSignIn } from '../../api/Client';
+import { STATUS_OK } from '../../constants/api';
+import { AUTHENTICATE_ERROR } from '../../constants/errors';
+import { SignInForm } from '../../interface/interface';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validSchema } from '../utils/validSchema';
-import { AuthContext } from './authProvider';
-import { logIn } from '../utils/utils';
+import { validSchema } from '../../utils/validSchema';
+import { AuthContext } from '../authProvider';
+import { logIn } from '../../utils/utils';
 
 export const FormSingIn = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);

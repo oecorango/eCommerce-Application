@@ -7,6 +7,7 @@ import { Button } from 'primereact/button';
 import { IRegistrationForm } from '../../interface/interface';
 import { newCustomerData, newAddress } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
+import { logIn } from '../../utils/utils';
 
 export const takeDataForm = (dataForm: IRegistrationForm): void => {
   if (dataForm.dateOfBirth) {
@@ -59,6 +60,7 @@ export const EntryDataForm = (): JSX.Element => {
         );
         setVisible(true);
         setIsAuth(true);
+        logIn(data);
       })
       .catch(error => {
         console.warn(error);

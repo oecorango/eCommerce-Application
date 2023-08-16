@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { AboutPage } from './pages/AboutPage';
 import { ErrorPage } from './pages/ErrorPage';
@@ -19,26 +19,6 @@ function App(): JSX.Element {
     }
   }, []);
 
-  if (isAuth) {
-    return (
-      <>
-        <AuthContext.Provider
-          value={{
-            isAuth,
-            setIsAuth,
-          }}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<MainPage />} />
-              <Route path="about" element={<AboutPage />} />
-              <Route path="*" element={<ErrorPage />} />
-            </Route>
-          </Routes>
-        </AuthContext.Provider>
-      </>
-    );
-  }
-
   return (
     <>
       <AuthContext.Provider
@@ -49,8 +29,14 @@ function App(): JSX.Element {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<MainPage />} />
-            <Route path="signin" element={<SignInPage />} />
-            <Route path="registration" element={<RegistrationPage />} />
+            <Route
+              path="signin"
+              element={isAuth ? <Navigate to={'/'} /> : <SignInPage />}
+            />
+            <Route
+              path="registration"
+              element={isAuth ? <Navigate to={'/'} /> : <RegistrationPage />}
+            />
             <Route path="about" element={<AboutPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>

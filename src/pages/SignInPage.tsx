@@ -1,6 +1,6 @@
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
-import { FormSingIn } from '../components/FormSignIn';
+import { FormSingIn } from '../components/Forms/SignInForm';
 
 export const SignInPage = (): JSX.Element => {
   const toRegistrationForm = useNavigate();

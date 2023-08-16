@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { registerNewCustomer } from '../../api/Client';
 import { RegistrationForm } from './RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { IRegistrationForm } from '../../interface/interface';
-import { newCustomerData1, newAddress } from '../../constants/registratForm';
+import { newCustomerData, newAddress } from '../../constants/registratForm';
+import { AuthContext } from '../authProvider';
+import { logIn } from '../../utils/utils';
 
 export const takeDataForm = (dataForm: IRegistrationForm): void => {
   if (dataForm.dateOfBirth) {
@@ -25,24 +27,21 @@ export const takeDataForm = (dataForm: IRegistrationForm): void => {
   }
 
   newAddress[0].streetName = dataForm.firstName;
-  newAddress[0].streetNumber = '5';
-  newCustomerData1.firstName = dataForm.firstName;
-  newCustomerData1.lastName = dataForm.lastName;
-  newCustomerData1.email =
+  newCustomerData.firstName = dataForm.firstName;
+  newCustomerData.lastName = dataForm.lastName;
+  newCustomerData.email =
     typeof dataForm.email === 'string' ? dataForm.email : '';
-  newCustomerData1.password =
+  newCustomerData.password =
     typeof dataForm.password === 'string' ? dataForm.password : '';
-  newCustomerData1.dateOfBirth =
+  newCustomerData.dateOfBirth =
     typeof dataForm.dateOfBirth === 'string' ? dataForm.dateOfBirth : '';
-  newCustomerData1.addresses = newAddress;
-  console.log(JSON.stringify(newCustomerData1));
-  console.log(newAddress);
+  newCustomerData.addresses = newAddress;
 };
 
 export const EntryDataForm = (): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
-  const SignInPage = useNavigate();
-  const MainPage = useNavigate();
+  const toSignInPage = useNavigate();
+  const toMainPage = useNavigate();
   const onOfPoUpForm = (): void => {
     handleRegistration();
   };
@@ -50,15 +49,18 @@ export const EntryDataForm = (): JSX.Element => {
     null,
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isAuth, setIsAuth } = useContext(AuthContext);
 
   const handleRegistration = (): void => {
     setIsLoading(true);
-    registerNewCustomer(newCustomerData1)
+    registerNewCustomer(newCustomerData)
       .then(data => {
         setRegistrationMessage(
           `Welcome ${data.body.customer.firstName} ${data.body.customer.lastName}`,
         );
         setVisible(true);
+        setIsAuth(true);
+        logIn(data);
       })
       .catch(error => {
         console.warn(error);
@@ -88,18 +90,20 @@ export const EntryDataForm = (): JSX.Element => {
         }}
         onHide={(): void => {
           setVisible(false);
-          // SignInPage('/signin');
-          MainPage('/');
+          console.log(isAuth);
+          if (isAuth) toMainPage('/');
         }}>
         <p className="m-1 message-for-user ">{registrationMessage}</p>
       </Dialog>
+      <h4 className="center mb-2 pl-2 pr-2 text-center">
+        If you have an account with our store, please go to the sign in page
+      </h4>
       <Button
         className="mt-3 mb-1"
-        label="Переход Вход=Login"
+        label="Sign In"
         type="button"
         onClick={(): void => {
-          SignInPage('/signin');
-          // MainPage('/');
+          toSignInPage('/signin');
         }}
       />
     </div>

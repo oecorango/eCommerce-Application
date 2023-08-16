@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { EntryDataForm } from '../components/registration/EntryDataForm';
+import { EntryDataForm } from '../components/Forms/EntryDataForm';
 
 export const RegistrationPage = (): JSX.Element => {
   return (

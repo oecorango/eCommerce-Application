@@ -9,7 +9,11 @@ import { newCustomerData, newAddress } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
 
-export const takeDataForm = (dataForm: IRegistrationForm): void => {
+export const takeDataForm = (
+  dataForm: IRegistrationForm,
+  shipp: boolean,
+  bill: boolean,
+): void => {
   if (dataForm.dateOfBirth) {
     dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
       .toLocaleDateString()
@@ -36,6 +40,12 @@ export const takeDataForm = (dataForm: IRegistrationForm): void => {
   newCustomerData.dateOfBirth =
     typeof dataForm.dateOfBirth === 'string' ? dataForm.dateOfBirth : '';
   newCustomerData.addresses = newAddress;
+  if (shipp) {
+    newCustomerData['defaultShippingAddress'] = 0;
+  }
+  if (bill) {
+    newCustomerData['defaultBillingAddress'] = 0;
+  }
 };
 
 export const EntryDataForm = (): JSX.Element => {

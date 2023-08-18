@@ -3,7 +3,7 @@ import { Layout } from '../components/Layout';
 
 jest.mock('../components/Headers', () => {
   return {
-    Header: (): JSX.Element => <div>Mocked Header</div>, // Указываем явный тип возвращаемого значения
+    Header: (): JSX.Element => <div>Mocked Header</div>,
   };
 });
 

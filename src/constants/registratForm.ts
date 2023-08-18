@@ -21,12 +21,28 @@ export const newAddress = [
   },
 ];
 
-export const newCustomerData = {
+export const newCustomerData: {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  defaultShippingAddress?: number;
+  defaultBillingAddress?: number;
+  addresses: {
+    country: string;
+    city: string;
+    postalCode: string;
+    streetName: string;
+  }[];
+} = {
   email: '',
   password: '',
   firstName: '',
   lastName: '',
   dateOfBirth: '',
+  // defaultShippingAddress: 0,
+  // defaultBillingAddress: 0,
   addresses: newAddress,
 };
 

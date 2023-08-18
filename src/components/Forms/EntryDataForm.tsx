@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Dialog } from 'primereact/dialog';
-import { registerNewCustomer } from '../../api/Client';
+import { clientSignIn, registerNewCustomer } from '../../api/Client';
 import { RegistrationForm } from './RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
@@ -9,7 +9,11 @@ import { newCustomerData, newAddress } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
 
-export const takeDataForm = (dataForm: IRegistrationForm): void => {
+export const takeDataForm = (
+  dataForm: IRegistrationForm,
+  shipp: boolean,
+  bill: boolean,
+): void => {
   if (dataForm.dateOfBirth) {
     dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
       .toLocaleDateString()
@@ -36,6 +40,17 @@ export const takeDataForm = (dataForm: IRegistrationForm): void => {
   newCustomerData.dateOfBirth =
     typeof dataForm.dateOfBirth === 'string' ? dataForm.dateOfBirth : '';
   newCustomerData.addresses = newAddress;
+  if (shipp) {
+    newCustomerData['defaultShippingAddress'] = 0;
+  }
+  if (bill) {
+    newCustomerData['defaultBillingAddress'] = 0;
+  }
+};
+
+const signInData = {
+  email: newCustomerData.email,
+  password: newCustomerData.password,
 };
 
 export const EntryDataForm = (): JSX.Element => {
@@ -48,19 +63,19 @@ export const EntryDataForm = (): JSX.Element => {
   const [registrationMessage, setRegistrationMessage] = useState<string | null>(
     null,
   );
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
   const { isAuth, setIsAuth } = useContext(AuthContext);
 
   const handleRegistration = (): void => {
-    setIsLoading(true);
     registerNewCustomer(newCustomerData)
       .then(data => {
         setRegistrationMessage(
           `Welcome ${data.body.customer.firstName} ${data.body.customer.lastName}`,
         );
         setVisible(true);
-        setIsAuth(true);
         logIn(data);
+        setShowSuccessMessage(true);
+        clientSignIn(signInData).execute();
       })
       .catch(error => {
         console.warn(error);
@@ -70,11 +85,9 @@ export const EntryDataForm = (): JSX.Element => {
           );
           setVisible(true);
         } else {
-          console.log(error.message + ' Should try again later');
+          setRegistrationMessage(error.message + ' Should try again later');
+          setVisible(true);
         }
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
   };
 
@@ -90,8 +103,10 @@ export const EntryDataForm = (): JSX.Element => {
         }}
         onHide={(): void => {
           setVisible(false);
-          console.log(isAuth);
-          if (isAuth) toMainPage('/');
+          if (showSuccessMessage) {
+            setIsAuth(true);
+            toMainPage('/');
+          }
         }}>
         <p className="m-1 message-for-user ">{registrationMessage}</p>
       </Dialog>

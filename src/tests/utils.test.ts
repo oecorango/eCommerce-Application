@@ -1,4 +1,4 @@
-import { logOut } from '../utils/utils';
+import { logIn, logOut } from '../utils/utils';
 
 describe('logOut', () => {
   beforeEach(() => {
@@ -21,3 +21,56 @@ describe('logOut', () => {
     expect(() => logOut()).not.toThrow();
   });
 });
+
+// describe('logIn', () => {
+//   it('should store user data in localStorage', () => {
+//     const fakeCustomerSignInResult = {
+//       body: {
+//         customer: {
+//           id: 'user123',
+//           firstName: 'John',
+//         },
+//       },
+//     };
+
+//     const localStorageMock = {
+//       setItem: jest.fn(),
+//     };
+
+//     // Заменяем глобальный localStorage на наш мок
+//     Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+
+//     logIn(fakeCustomerSignInResult);
+
+//     // Проверяем, что нужные методы localStorage были вызваны с правильными аргументами
+//     expect(localStorageMock.setItem).toHaveBeenCalledWith('id', 'user123');
+//     expect(localStorageMock.setItem).toHaveBeenCalledWith('name', 'John');
+//     expect(localStorageMock.setItem).toHaveBeenCalledWith('auth', 'true');
+//   });
+
+//   it('should store only id and auth in localStorage if userName is not provided', () => {
+//     const fakeCustomerSignInResult = {
+//       body: {
+//         customer: {
+//           id: 'user123',
+//         },
+//       },
+//     };
+
+//     const localStorageMock = {
+//       setItem: jest.fn(),
+//     };
+
+//     Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+
+//     logIn(fakeCustomerSignInResult);
+
+//     // Проверяем, что нужные методы localStorage были вызваны с правильными аргументами
+//     expect(localStorageMock.setItem).toHaveBeenCalledWith('id', 'user123');
+//     expect(localStorageMock.setItem).toHaveBeenCalledWith('auth', 'true');
+//     expect(localStorageMock.setItem).not.toHaveBeenCalledWith(
+//       'name',
+//       expect.anything(),
+//     );
+//   });
+// });

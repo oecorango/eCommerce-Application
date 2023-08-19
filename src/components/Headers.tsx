@@ -1,6 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from './authProvider';
+import { Sidebar } from 'primereact/sidebar';
+import { Button } from 'primereact/button';
+import 'primeflex/primeflex.css';
 import {
   LinkToAbout,
   LinkToCart,
@@ -19,6 +22,29 @@ export const Header = (): JSX.Element => {
     }
     return noAuthNavigation;
   };
+
+  function ShowBurger(): JSX.Element {
+    const [visibleRight, setVisibleRight] = useState<boolean>(false);
+    return (
+      <div className="card">
+        <div className="flex gap-2 justify-content-center">
+          <Button
+            icon="pi pi-bars"
+            onClick={(): void => setVisibleRight(true)}
+            className="burger-button"
+          />
+        </div>
+        <Sidebar
+          visible={visibleRight}
+          position="right"
+          onHide={(): void => setVisibleRight(false)}>
+          <div className="open">
+            <Auth />
+          </div>
+        </Sidebar>
+      </div>
+    );
+  }
 
   const noAuthNavigation = (
     <>
@@ -44,7 +70,8 @@ export const Header = (): JSX.Element => {
       <header className="header">
         <div className="wrapper header__wrapper">
           <NavLink to="/">LOGO</NavLink>
-          <div className="navigation flex">
+          <ShowBurger />
+          <div className="navigation">
             <Auth />
           </div>
         </div>

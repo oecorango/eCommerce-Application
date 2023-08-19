@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Dialog } from 'primereact/dialog';
-import { clientSignIn, registerNewCustomer } from '../../api/Client';
+import { registerNewCustomer } from '../../api/Client';
 import { RegistrationForm } from './RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
@@ -48,11 +48,6 @@ export const takeDataForm = (
   }
 };
 
-const signInData = {
-  email: newCustomerData.email,
-  password: newCustomerData.password,
-};
-
 export const EntryDataForm = (): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
   const toSignInPage = useNavigate();
@@ -75,7 +70,6 @@ export const EntryDataForm = (): JSX.Element => {
         setVisible(true);
         logIn(data);
         setShowSuccessMessage(true);
-        clientSignIn(signInData).execute();
       })
       .catch(error => {
         console.warn(error);

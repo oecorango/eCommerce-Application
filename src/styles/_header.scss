@@ -13,6 +13,7 @@
 }
 
 .navigation {
+  display: flex;
   a {
     padding: 0 15px;
     color: $color-white;
@@ -25,5 +26,37 @@
     &:hover {
       color: $color-brown;
     }
+  }
+}
+
+.p-button.burger-button {
+  display: none;
+  background: #d3d3d3;
+  border: #ffffff;
+}
+
+.open {
+  a {
+    padding: 0 15px;
+    color: $color-dark;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    &.active {
+      color: $color-brown;
+    }
+    &:hover {
+      color: $color-brown;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .p-button.burger-button {
+    display: block;
+  }
+
+  .navigation {
+    display: none;
   }
 }

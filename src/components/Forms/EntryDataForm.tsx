@@ -4,15 +4,23 @@ import { registerNewCustomer } from '../../api/Client';
 import { RegistrationForm } from './RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
-import { IRegistrationForm } from '../../interface/interface';
-import { newCustomerData, newAddress } from '../../constants/registratForm';
+import { IRegistrationForm, IAddresses } from '../../interface/interface';
+import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
 
+export let newAddress: IAddresses[] = [
+  {
+    country: '',
+    city: '',
+    postalCode: '',
+    streetName: '',
+  },
+];
 export const takeDataForm = (
   dataForm: IRegistrationForm,
-  shipp: boolean,
-  bill: boolean,
+  address0: boolean,
+  address1: boolean,
 ): void => {
   if (dataForm.dateOfBirth) {
     dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
@@ -23,28 +31,32 @@ export const takeDataForm = (
   } else {
     dataForm.dateOfBirth = '';
   }
-  dataForm.country = dataForm.country.slice(-3).slice(0, -1);
-  newAddress[0].country = dataForm.country;
-  newAddress[0].city = dataForm.city;
-  if (dataForm.postalCode !== undefined) {
-    newAddress[0].postalCode = dataForm.postalCode;
-  }
+  dataForm.address[0].country = dataForm.address[0].country
+    .slice(-3)
+    .slice(0, -1);
+  dataForm.address[1].country = dataForm.address[1].country
+    .slice(-3)
+    .slice(0, -1);
+  console.log(dataForm.address[0].country);
+  console.log(dataForm.address[1].country);
+  newAddress = dataForm.address;
 
-  newAddress[0].streetName = dataForm.firstName;
   newCustomerData.firstName = dataForm.firstName;
   newCustomerData.lastName = dataForm.lastName;
-  newCustomerData.email =
-    typeof dataForm.email === 'string' ? dataForm.email : '';
-  newCustomerData.password =
-    typeof dataForm.password === 'string' ? dataForm.password : '';
-  newCustomerData.dateOfBirth =
-    typeof dataForm.dateOfBirth === 'string' ? dataForm.dateOfBirth : '';
+  newCustomerData.email = dataForm.email;
+  newCustomerData.password = dataForm.password;
+  newCustomerData.dateOfBirth = dataForm.dateOfBirth;
   newCustomerData.addresses = newAddress;
-  if (shipp) {
+  if (address0) {
     newCustomerData['defaultShippingAddress'] = 0;
-  }
-  if (bill) {
     newCustomerData['defaultBillingAddress'] = 0;
+  } else {
+    newCustomerData['defaultShippingAddress'] = 0;
+    newCustomerData['defaultBillingAddress'] = 1;
+    if (address1) {
+      newCustomerData['defaultShippingAddress'] = 1;
+      newCustomerData['defaultBillingAddress'] = 1;
+    }
   }
 };
 

@@ -12,9 +12,10 @@ import { takeDataForm } from './EntryDataForm';
 import { validRegisterData } from '../../utils/validRegisterData';
 import { ErrorMessage } from '../ErrorMessage';
 
-let postCod: string = '_____';
-let ship: boolean = false,
-  bill: boolean = false;
+let postCod0: string = '';
+let postCod1: string = '';
+let address0: boolean = false,
+  address1: boolean = false;
 export const RegistrationForm = (props: {
   create: () => void;
 }): JSX.Element => {
@@ -24,20 +25,23 @@ export const RegistrationForm = (props: {
     formState: { errors },
   } = useForm<IRegistrationForm>({
     mode: 'onBlur',
-    resolver: yupResolver(validRegisterData),
+    // resolver: yupResolver(validRegisterData),
   });
-  const [value, setValue] = useState<string>('');
-  const [selectedCountry, setSelectedCountry] = useState<ICountriesData | null>(
-    null,
-  );
+  const [value0, setValue0] = useState<string>('');
+  const [value1, setValue1] = useState<string>('');
+  const [selectedCountry0, setSelectedCountry0] =
+    useState<ICountriesData | null>(null);
+  const [selectedCountry1, setSelectedCountry1] =
+    useState<ICountriesData | null>(null);
   const countries: ICountriesData[] = countriesData;
   const [checkedShip, setcheCkedShip] = useState<boolean>(false);
   const [checkedBill, setCheckedBill] = useState<boolean>(false);
   const onSubmit: SubmitHandler<IRegistrationForm> = (
     data: IRegistrationForm,
   ): void => {
-    data.postalCode = value;
-    takeDataForm(data, ship, bill);
+    data.address[0].postalCode = value0;
+    data.address[1].postalCode = value1;
+    takeDataForm(data, address0, address1);
     props.create();
   };
 
@@ -86,16 +90,19 @@ export const RegistrationForm = (props: {
         <ErrorMessage err={errors} name={'dateOfBirth'} />
 
         <div className="registration_adress">
+          <label htmlFor="serial" className="registration_span">
+            Shipping Address
+          </label>
           <InputText
             className="mb-1"
-            {...register('streetName')}
+            {...register('address.0.streetName')}
             placeholder="Enter your street"
           />
           <ErrorMessage err={errors} name={'streetName'} />
 
           <InputText
             className="mb-1"
-            {...register('city')}
+            {...register('address.0.city')}
             placeholder="Enter your city"
           />
           <ErrorMessage err={errors} name={'city'} />
@@ -103,11 +110,11 @@ export const RegistrationForm = (props: {
           <div className="w-full mb-1">
             <Dropdown
               className="w-full"
-              {...register('country')}
-              value={selectedCountry}
+              {...register('address.0.country')}
+              value={selectedCountry0}
               onChange={(e: DropdownChangeEvent): void => {
-                setSelectedCountry(e.value);
-                postCod = e.value.postalCode;
+                setSelectedCountry0(e.value);
+                postCod0 = e.value.postalCode;
               }}
               options={countries}
               optionLabel="name"
@@ -117,45 +124,95 @@ export const RegistrationForm = (props: {
           </div>
 
           <label htmlFor="serial" className="registration_span">
-            Postcode (example = {postCod})
+            Postcode (example = {postCod0})
           </label>
           <div className="w-full mb-1">
             <InputMask
               className="w-full"
-              value={value}
+              value={value0}
               onChange={(e: InputMaskChangeEvent): void => {
                 if (e.target.value) {
-                  setValue(e.target.value);
+                  setValue0(e.target.value);
                 }
               }}
-              mask={postCod}
-              placeholder={postCod}
+              mask={postCod0}
+              placeholder={postCod0}
             />
           </div>
-          <label className="registration_span">Переключатель</label>
           <label className="registration_span">
-            defaultShip&nbsp;&nbsp;&nbsp;defaultBill
+            Set for this address default Shipping and default Billing
           </label>
-          <div className="registration_shipBill">
-            <ToggleButton
-              checked={checkedShip}
-              onChange={(e: ToggleButtonChangeEvent): void => {
-                setcheCkedShip(e.value);
-                ship = e.value;
+          <ToggleButton
+            checked={checkedShip}
+            onChange={(e: ToggleButtonChangeEvent): void => {
+              setcheCkedShip(e.value);
+              address0 = e.value;
+            }}
+            className="w-8rem"
+          />
+        </div>
+        <div className="registration_adress">
+          <label htmlFor="serial" className="registration_span">
+            Billing Address
+          </label>
+          <InputText
+            className="mb-1"
+            {...register('address.1.streetName')}
+            placeholder="Enter your street"
+          />
+          <ErrorMessage err={errors} name={'streetName'} />
+
+          <InputText
+            className="mb-1"
+            {...register('address.1.city')}
+            placeholder="Enter your city"
+          />
+          <ErrorMessage err={errors} name={'city'} />
+
+          <div className="w-full mb-1">
+            <Dropdown
+              className="w-full"
+              {...register('address.1.country')}
+              value={selectedCountry1}
+              onChange={(e: DropdownChangeEvent): void => {
+                setSelectedCountry1(e.value);
+                postCod1 = e.value.postalCode;
               }}
-              className="w-8rem"
+              options={countries}
+              optionLabel="name"
+              placeholder="Select your Country"
             />
-            <ToggleButton
-              checked={checkedBill}
-              onChange={(e: ToggleButtonChangeEvent): void => {
-                setCheckedBill(e.value);
-                bill = e.value;
+            <ErrorMessage err={errors} name={'country'} />
+          </div>
+
+          <label htmlFor="serial" className="registration_span">
+            Postcode (example = {postCod1})
+          </label>
+          <div className="w-full mb-1">
+            <InputMask
+              className="w-full"
+              value={value1}
+              onChange={(e: InputMaskChangeEvent): void => {
+                if (e.target.value) {
+                  setValue1(e.target.value);
+                }
               }}
-              className="w-8rem"
+              mask={postCod1}
+              placeholder={postCod1}
             />
           </div>
+          <label className="registration_span">
+            Set for this address default Shipping and default Billing
+          </label>
+          <ToggleButton
+            checked={checkedBill}
+            onChange={(e: ToggleButtonChangeEvent): void => {
+              setCheckedBill(e.value);
+              address1 = e.value;
+            }}
+            className="w-8rem"
+          />
         </div>
-
         <Button className="mt-3 mb-1" label="Registration" type="submit" />
       </form>
     </div>

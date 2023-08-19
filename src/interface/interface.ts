@@ -24,7 +24,7 @@ export interface ICountriesData {
 export interface IAddresses {
   country: string;
   city: string;
-  postalCode?: string;
+  postalCode: string;
   streetName: string;
 }
 

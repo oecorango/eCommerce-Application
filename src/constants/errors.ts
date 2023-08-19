@@ -21,3 +21,8 @@ export const NAME_ERROR = {
   noSpecialCharacters: 'No special characters or numbers',
   emptyString: 'Choose your country',
 };
+
+export const POST_CODE_ERROR = {
+  minLength: 6,
+  minLengthCode: 'Minimum 6 digits',
+};

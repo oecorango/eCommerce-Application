@@ -25,7 +25,7 @@ export const RegistrationForm = (props: {
     formState: { errors },
   } = useForm<IRegistrationForm>({
     mode: 'onBlur',
-    // resolver: yupResolver(validRegisterData),
+    resolver: yupResolver(validRegisterData),
   });
   const [value0, setValue0] = useState<string>('');
   const [value1, setValue1] = useState<string>('');
@@ -99,7 +99,6 @@ export const RegistrationForm = (props: {
             placeholder="Enter your street"
           />
           <ErrorMessage err={errors} name={'streetName'} />
-
           <InputText
             className="mb-1"
             {...register('address.0.city')}
@@ -129,6 +128,7 @@ export const RegistrationForm = (props: {
           <div className="w-full mb-1">
             <InputMask
               className="w-full"
+              {...register('address.0.postalCode')}
               value={value0}
               onChange={(e: InputMaskChangeEvent): void => {
                 if (e.target.value) {
@@ -138,6 +138,7 @@ export const RegistrationForm = (props: {
               mask={postCod0}
               placeholder={postCod0}
             />
+            <ErrorMessage err={errors} name={'postalCode'} />
           </div>
           <label className="registration_span">
             Set for this address default Shipping and default Billing

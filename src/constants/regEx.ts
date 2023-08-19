@@ -18,3 +18,7 @@ export const REG_EXP_EMAIL = {
 export const REG_EXP_NAME = {
   noSpecialCharacters: new RegExp(/^[A-Za-zА-ЯЁа-яё]+$/),
 };
+
+export const REG_EXP_POST_CODE = {
+  BY_RU_POST: new RegExp(/^\d+$/),
+};

@@ -1,7 +1,10 @@
 @import 'primeflex/primeflex.scss';
 @import './styles/constants';
+@import './styles/mixins';
 @import './styles/global';
 @import './styles/header';
 @import './styles/footer';
 @import './styles/authorization_page';
 @import './styles/registration_page';
+@import './styles/error_page';
+@import './styles/main_page';

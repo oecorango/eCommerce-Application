@@ -22,7 +22,6 @@ export const takeDataForm = (
   address0: boolean,
   address1: boolean,
 ): void => {
-  // newCustomerData = dataForm
   if (dataForm.dateOfBirth) {
     dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
       .toLocaleDateString()
@@ -42,13 +41,6 @@ export const takeDataForm = (
   console.log(dataForm.address[1].country);
   newAddress = dataForm.address;
 
-  // newAddress[0].country = dataForm.address[0].country;
-  // newAddress[0].city = dataForm.address[0].city;
-  // if (dataForm.address[0].postalCode !== undefined) {
-  //   newAddress[0].postalCode = dataForm.address[0].postalCode;
-  // }
-
-  // newAddress[0].streetName = dataForm.firstName;
   newCustomerData.firstName = dataForm.firstName;
   newCustomerData.lastName = dataForm.lastName;
   newCustomerData.email = dataForm.email;

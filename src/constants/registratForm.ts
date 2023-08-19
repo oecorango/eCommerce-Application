@@ -1,18 +1,22 @@
-import { ICountriesData, IRegistrationForm } from '../interface/interface';
+import {
+  ICountriesData,
+  IRegistrationForm,
+  IAddresses,
+} from '../interface/interface';
 
-export const dataRegistrationForm: IRegistrationForm = {
-  email: '',
-  password: '',
-  firstName: '',
-  lastName: '',
-  dateOfBirth: '',
-  country: '',
-  city: '',
-  postalCode: '',
-  streetName: '',
-};
+// export const dataRegistrationForm: IRegistrationForm = {
+//   email: '',
+//   password: '',
+//   firstName: '',
+//   lastName: '',
+//   dateOfBirth: '',
+//   country: '',
+//   city: '',
+//   postalCode: '',
+//   streetName: '',
+// };
 
-export const newAddress = [
+export let newAddress: IAddresses[] = [
   {
     country: '',
     city: '',
@@ -29,20 +33,13 @@ export const newCustomerData: {
   dateOfBirth: string;
   defaultShippingAddress?: number;
   defaultBillingAddress?: number;
-  addresses: {
-    country: string;
-    city: string;
-    postalCode: string;
-    streetName: string;
-  }[];
+  addresses: IAddresses[];
 } = {
   email: '',
   password: '',
   firstName: '',
   lastName: '',
   dateOfBirth: '',
-  // defaultShippingAddress: 0,
-  // defaultBillingAddress: 0,
   addresses: newAddress,
 };
 

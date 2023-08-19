@@ -8,9 +8,9 @@ export const ErrorMessage = (props: err): JSX.Element => {
   if (props.name === 'firstName') err = props.err.firstName?.message;
   if (props.name === 'lastName') err = props.err.lastName?.message;
   if (props.name === 'dateOfBirth') err = props.err.dateOfBirth?.message;
-  if (props.name === 'streetName') err = props.err.streetName?.message;
-  if (props.name === 'city') err = props.err.city?.message;
-  if (props.name === 'country') err = props.err.country?.message;
+  // if (props.name === 'streetName') err = props.err.streetName?.message;
+  // if (props.name === 'city') err = props.err.city?.message;
+  // if (props.name === 'country') err = props.err.country?.message;
 
   return (
     <Message

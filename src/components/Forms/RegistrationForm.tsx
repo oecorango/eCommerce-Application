@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Checkbox } from 'primereact/checkbox';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { InputMask, InputMaskChangeEvent } from 'primereact/inputmask';
@@ -14,8 +15,6 @@ import { ErrorMessage } from '../ErrorMessage';
 
 let postCod0: string = '';
 let postCod1: string = '';
-let address0: boolean = false,
-  address1: boolean = false;
 export const RegistrationForm = (props: {
   create: () => void;
 }): JSX.Element => {
@@ -29,6 +28,7 @@ export const RegistrationForm = (props: {
   });
   const [value0, setValue0] = useState<string>('');
   const [value1, setValue1] = useState<string>('');
+  const [checked, setChecked] = useState<boolean>(false);
   const [selectedCountry0, setSelectedCountry0] =
     useState<ICountriesData | null>(null);
   const [selectedCountry1, setSelectedCountry1] =
@@ -41,7 +41,7 @@ export const RegistrationForm = (props: {
   ): void => {
     data.address[0].postalCode = value0;
     data.address[1].postalCode = value1;
-    takeDataForm(data, address0, address1);
+    takeDataForm(data, checkedShip, checkedBill, checked);
     props.create();
   };
 
@@ -139,17 +139,41 @@ export const RegistrationForm = (props: {
               placeholder={postCod0}
             />
           </div>
-          <label className="registration_span">
-            Set for this address default Shipping and default Billing
-          </label>
-          <ToggleButton
-            checked={checkedShip}
-            onChange={(e: ToggleButtonChangeEvent): void => {
-              setcheCkedShip(e.value);
-              address0 = e.value;
-            }}
-            className="w-8rem"
-          />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+            }}>
+            <div
+              className="card flex justify-content-center"
+              style={{
+                width: '120px',
+              }}>
+              <ToggleButton
+                onLabel="default"
+                offLabel="reject"
+                onIcon="pi pi-check"
+                offIcon="pi pi-times"
+                checked={checkedShip}
+                onChange={(e: ToggleButtonChangeEvent): void =>
+                  setcheCkedShip(e.value)
+                }
+                className="w-8rem"
+              />
+            </div>
+            <div>
+              <label className="registration_span">Shipping & Billing</label>
+              <div className="card flex justify-content-center">
+                <Checkbox
+                  onChange={(e): void => {
+                    if (e.checked !== undefined) {
+                      setChecked(e.checked);
+                    }
+                  }}
+                  checked={checked}></Checkbox>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="registration_adress">
           <label htmlFor="serial" className="registration_span">
@@ -201,17 +225,19 @@ export const RegistrationForm = (props: {
               placeholder={postCod1}
             />
           </div>
-          <label className="registration_span">
-            Set for this address default Shipping and default Billing
-          </label>
-          <ToggleButton
-            checked={checkedBill}
-            onChange={(e: ToggleButtonChangeEvent): void => {
-              setCheckedBill(e.value);
-              address1 = e.value;
-            }}
-            className="w-8rem"
-          />
+          <div className="card flex justify-content-center">
+            <ToggleButton
+              onLabel="default"
+              offLabel="reject"
+              onIcon="pi pi-check"
+              offIcon="pi pi-times"
+              checked={checkedBill}
+              onChange={(e: ToggleButtonChangeEvent): void =>
+                setCheckedBill(e.value)
+              }
+              className="w-8rem"
+            />
+          </div>
         </div>
         <Button className="mt-3 mb-1" label="Registration" type="submit" />
       </form>

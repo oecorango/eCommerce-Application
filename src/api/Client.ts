@@ -2,6 +2,7 @@ import { ctpClient } from './BuildClient';
 import {
   ClientResponse,
   createApiBuilderFromCtpClient,
+  Customer,
   CustomerDraft,
   CustomerSignin,
   CustomerSignInResult,
@@ -48,4 +49,150 @@ export const registerNewCustomer = (
 
 export const getAllCustomers = (): Promise<Object> => {
   return apiRoot.customers().get().execute();
+};
+//========Все данные покупателя по ID
+export const getCustomerID = (
+  customerID: string,
+): Promise<ClientResponse<Customer>> => {
+  return apiRoot.customers().withId({ ID: customerID }).get().execute();
+};
+//========Добавить адрес закомиченно изменить адресс покупателю по ID
+export const addCustomerAdress = (
+  customerID: string,
+  version: number,
+  newAddress1: {
+    streetName: string;
+    postalCode: string;
+    city: string;
+    country: string;
+  },
+): Promise<ClientResponse<Customer>> => {
+  return apiRoot
+    .customers()
+    .withId({ ID: customerID })
+    .post({
+      // The CustomerUpdate is the object within the body
+      body: {
+        // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+        version: version,
+        actions: [
+          {
+            action: 'addAddress',
+            // action: 'changeAddress', // для изменения
+            // addressId: 'SJwloYOf', // для изменения
+            address: newAddress1,
+            // {
+            //   // key: 'exampleKey', //если оставить не проходит повторный запрос с тем же адресом
+            //   streetName: '=== Street 27',
+            //   postalCode: '747',
+            //   city: '=== City',
+            //   country: 'DE',
+            // },
+          },
+        ],
+      },
+    })
+    .execute();
+};
+//========Изменит имя, фамилию и закомиченно сразу и адрес покупателю по ID
+export const updateCustomerName = (
+  customerID: string,
+  version: number,
+): Promise<ClientResponse<Customer>> => {
+  return apiRoot
+    .customers()
+    .withId({ ID: customerID })
+    .post({
+      // The CustomerUpdate is the object within the body
+      body: {
+        // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+        version: version,
+        actions: [
+          {
+            action: 'setFirstName',
+            firstName: 'John22',
+          },
+          {
+            action: 'setLastName',
+            lastName: 'Smith122',
+          },
+          // {
+          //   action: 'addAddress',
+          //   address: {
+          //     streetName: '25 Street',
+          //     postalCode: '25',
+          //     city: '25 City',
+          //     country: 'DM',
+          //   },
+          // },
+        ],
+      },
+    })
+    .execute();
+};
+
+export const deledeAddress = (
+  customerID: string,
+  version: number,
+  addressID: string,
+): Promise<ClientResponse<Customer>> => {
+  return apiRoot
+    .customers()
+    .withId({ ID: customerID })
+    .post({
+      body: {
+        version: version,
+        actions: [
+          {
+            action: 'removeAddress',
+            addressId: addressID,
+          },
+        ],
+      },
+    })
+    .execute();
+};
+
+export const addShippingAddressId = (
+  customerID: string,
+  version: number,
+  addressId: string,
+): Promise<ClientResponse<Customer>> => {
+  return apiRoot
+    .customers()
+    .withId({ ID: customerID })
+    .post({
+      body: {
+        version: version,
+        actions: [
+          {
+            action: 'addShippingAddressId',
+            addressId: addressId,
+          },
+        ],
+      },
+    })
+    .execute();
+};
+
+export const addBillingAddressId = (
+  customerID: string,
+  version: number,
+  addressId: string,
+): Promise<ClientResponse<Customer>> => {
+  return apiRoot
+    .customers()
+    .withId({ ID: customerID })
+    .post({
+      body: {
+        version: version,
+        actions: [
+          {
+            action: 'addBillingAddressId',
+            addressId: addressId,
+          },
+        ],
+      },
+    })
+    .execute();
 };

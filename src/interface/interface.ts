@@ -28,6 +28,14 @@ export interface IAddresses {
   streetName: string;
 }
 
+export interface IAddress {
+  country: string;
+  city: string;
+  id: string;
+  postalCode: string;
+  streetName: string;
+}
+
 export interface IRegistrationForm {
   email: string;
   password: string;

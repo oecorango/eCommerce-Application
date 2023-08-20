@@ -8,8 +8,9 @@ import { IRegistrationForm, IAddresses } from '../../interface/interface';
 import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
+import { addShippingAddress, addBillingAddress } from '../../utils/requestAPI';
 
-export let newAddress: IAddresses[] = [
+let newAddress: IAddresses[] = [
   {
     country: '',
     city: '',
@@ -17,11 +18,15 @@ export let newAddress: IAddresses[] = [
     streetName: '',
   },
 ];
+let setBilling = false;
+let setShipping = false;
 export const takeDataForm = (
   dataForm: IRegistrationForm,
   address0: boolean,
   address1: boolean,
+  checked: boolean,
 ): void => {
+  console.log(dataForm, address0, address1, checked);
   if (dataForm.dateOfBirth) {
     dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
       .toLocaleDateString()
@@ -34,30 +39,34 @@ export const takeDataForm = (
   dataForm.address[0].country = dataForm.address[0].country
     .slice(-3)
     .slice(0, -1);
-  dataForm.address[1].country = dataForm.address[1].country
-    .slice(-3)
-    .slice(0, -1);
-  console.log(dataForm.address[0].country);
-  console.log(dataForm.address[1].country);
-  newAddress = dataForm.address;
-
+  if (checked) {
+    newAddress = dataForm.address.slice(0, 1);
+    if (address0) {
+      newCustomerData['defaultShippingAddress'] = 0;
+      newCustomerData['defaultBillingAddress'] = 0;
+    }
+  } else {
+    dataForm.address[1].country = dataForm.address[1].country
+      .slice(-3)
+      .slice(0, -1);
+    newAddress = dataForm.address;
+    if (address0) {
+      newCustomerData['defaultShippingAddress'] = 0;
+    } else {
+      setShipping = true;
+    }
+    if (address1) {
+      newCustomerData['defaultBillingAddress'] = 1;
+    } else {
+      setBilling = true;
+    }
+  }
   newCustomerData.firstName = dataForm.firstName;
   newCustomerData.lastName = dataForm.lastName;
   newCustomerData.email = dataForm.email;
   newCustomerData.password = dataForm.password;
   newCustomerData.dateOfBirth = dataForm.dateOfBirth;
   newCustomerData.addresses = newAddress;
-  if (address0) {
-    newCustomerData['defaultShippingAddress'] = 0;
-    newCustomerData['defaultBillingAddress'] = 0;
-  } else {
-    newCustomerData['defaultShippingAddress'] = 0;
-    newCustomerData['defaultBillingAddress'] = 1;
-    if (address1) {
-      newCustomerData['defaultShippingAddress'] = 1;
-      newCustomerData['defaultBillingAddress'] = 1;
-    }
-  }
 };
 
 const signInData = {
@@ -87,6 +96,24 @@ export const EntryDataForm = (): JSX.Element => {
         setVisible(true);
         logIn(data);
         setShowSuccessMessage(true);
+        if (setShipping) {
+          let id = data.body.customer.addresses[0].id as string;
+          addShippingAddress(
+            data.body.customer.id,
+            data.body.customer.version,
+            id,
+            setBilling,
+          );
+        } else {
+          if (setBilling) {
+            let id = data.body.customer.addresses[1].id as string;
+            addBillingAddress(
+              data.body.customer.id,
+              data.body.customer.version,
+              id,
+            );
+          }
+        }
       })
       .catch(error => {
         console.warn(error);

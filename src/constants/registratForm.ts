@@ -2,6 +2,7 @@ import {
   ICountriesData,
   IRegistrationForm,
   IAddresses,
+  IAddress,
 } from '../interface/interface';
 
 // export const dataRegistrationForm: IRegistrationForm = {
@@ -16,10 +17,25 @@ import {
 //   streetName: '',
 // };
 
+export const count: { version: number; ID: string } = {
+  version: 21,
+  ID: '',
+};
+
 export let newAddress: IAddresses[] = [
   {
     country: '',
     city: '',
+    postalCode: '',
+    streetName: '',
+  },
+];
+
+export let newAddres: IAddress[] = [
+  {
+    country: '',
+    city: '',
+    id: '',
     postalCode: '',
     streetName: '',
   },

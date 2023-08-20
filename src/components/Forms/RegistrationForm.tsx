@@ -148,13 +148,13 @@ export const RegistrationForm = (props: {
             {...register('address.1.streetName')}
             placeholder="Enter your street"
           />
-          <ErrorMessage err={errors} name={'streetName'} />
+          <ErrorMessage err={errors} name={'streetName1'} />
           <InputText
             className="mb-1"
             {...register('address.1.city')}
             placeholder="Enter your city"
           />
-          <ErrorMessage err={errors} name={'city'} />
+          <ErrorMessage err={errors} name={'city1'} />
 
           <div className="w-full mb-1">
             <Dropdown
@@ -169,7 +169,7 @@ export const RegistrationForm = (props: {
               optionLabel="name"
               placeholder="Select your Country"
             />
-            <ErrorMessage err={errors} name={'country'} />
+            <ErrorMessage err={errors} name={'country1'} />
           </div>
 
           <label htmlFor="serial" className="registration_span">
@@ -181,7 +181,7 @@ export const RegistrationForm = (props: {
               {...register('address.1.postalCode')}
               placeholder="Enter your street"
             />
-            <ErrorMessage err={errors} name={'postalCode'} />
+            <ErrorMessage err={errors} name={'postalCode1'} />
           </div>
           <label className="registration_span">
             Set for this address default Shipping and default Billing

@@ -26,8 +26,6 @@ export const RegistrationForm = (props: {
     resolver: yupResolver(validRegisterData),
   });
 
-  const [value0, setValue0] = useState<string>('');
-  const [value1, setValue1] = useState<string>('');
   const [checked, setChecked] = useState<boolean>(false);
 
   const [selectedCountry0, setSelectedCountry0] =
@@ -40,11 +38,6 @@ export const RegistrationForm = (props: {
   const onSubmit: SubmitHandler<IRegistrationForm> = (
     data: IRegistrationForm,
   ): void => {
-
-<!--     takeDataForm(data, address0, address1); -->
-
-    data.address[0].postalCode = value0;
-    data.address[1].postalCode = value1;
     takeDataForm(data, checkedShip, checkedBill, checked);
 
     props.create();
@@ -145,24 +138,10 @@ export const RegistrationForm = (props: {
             checked={checkedShip}
             onChange={(e: ToggleButtonChangeEvent): void => {
               setcheCkedShip(e.value);
-              address0 = e.value;
             }}
             className="w-8rem"
           />
 
-          <div className="w-full mb-1">
-<!--             <InputMask
-              className="w-full"
-              value={value0}
-              onChange={(e: InputMaskChangeEvent): void => {
-                if (e.target.value) {
-                  setValue0(e.target.value);
-                }
-              }}
-              mask={postCod0}
-              placeholder={postCod0}
-            /> -->
-          </div>
           <div
             style={{
               display: 'flex',
@@ -198,7 +177,6 @@ export const RegistrationForm = (props: {
               </div>
             </div>
           </div>
-
         </div>
         <div className="registration_adress">
           <label htmlFor="serial" className="registration_span">

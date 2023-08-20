@@ -120,27 +120,12 @@ export const RegistrationForm = (props: {
             <ErrorMessage err={errors} name={'country'} />
           </div>
 
-          <label htmlFor="serial" className="registration_span">
-            Postcode (example = {postCod0})
-          </label>
-
           <InputText
             className="mb-1"
             {...register('address.0.postalCode')}
             placeholder="Enter your street"
           />
           <ErrorMessage err={errors} name={'postalCode'} />
-
-          <label className="registration_span">
-            Set for this address default Shipping and default Billing
-          </label>
-          <ToggleButton
-            checked={checkedShip}
-            onChange={(e: ToggleButtonChangeEvent): void => {
-              setcheCkedShip(e.value);
-            }}
-            className="w-8rem"
-          />
 
           <div
             style={{
@@ -210,10 +195,6 @@ export const RegistrationForm = (props: {
             />
             <ErrorMessage err={errors} name={'country1'} />
           </div>
-
-          <label htmlFor="serial" className="registration_span">
-            Postcode (example = {postCod1})
-          </label>
           <div className="w-full mb-1">
             <InputText
               className="mb-1"

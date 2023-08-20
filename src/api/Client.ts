@@ -136,50 +136,6 @@ export const deledeAddress = (
     .execute();
 };
 
-// export const addShippingAddressId = (
-//   customerID: string,
-//   version: number,
-//   addressId: string,
-// ): Promise<ClientResponse<Customer>> => {
-//   return apiRoot
-//     .customers()
-//     .withId({ ID: customerID })
-//     .post({
-//       body: {
-//         version: version,
-//         actions: [
-//           {
-//             action: 'addShippingAddressId',
-//             addressId: addressId,
-//           },
-//         ],
-//       },
-//     })
-//     .execute();
-// };
-
-// export const addBillingAddressId = (
-//   customerID: string,
-//   version: number,
-//   addressId: string,
-// ): Promise<ClientResponse<Customer>> => {
-//   return apiRoot
-//     .customers()
-//     .withId({ ID: customerID })
-//     .post({
-//       body: {
-//         version: version,
-//         actions: [
-//           {
-//             action: 'addBillingAddressId',
-//             addressId: addressId,
-//           },
-//         ],
-//       },
-//     })
-//     .execute();
-// };
-//====================
 export const customersIdPostExecute = (
   customerID: string,
   version: number,
@@ -196,4 +152,3 @@ export const customersIdPostExecute = (
     })
     .execute();
 };
-//========================

@@ -8,11 +8,7 @@ import { IRegistrationForm, IAddresses } from '../../interface/interface';
 import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
-import {
-  // addShippingAddress,
-  // addBillingAddress,
-  customerShippingBilling,
-} from '../../utils/requestAPI';
+import { customerShippingBilling } from '../../utils/requestAPI';
 
 let newAddress: IAddresses[] = [
   {
@@ -99,26 +95,6 @@ export const EntryDataForm = (): JSX.Element => {
         setVisible(true);
         logIn(data);
         setShowSuccessMessage(true);
-        // if (setShipping) {
-        //   let id = data.body.customer.addresses[0].id as string;
-        //   addShippingAddress(
-        //     data.body.customer.id,
-        //     data.body.customer.version,
-        //     id,
-        //     setShipping,
-        //     setBilling,
-        //   );
-        // } else {
-        //   if (setBilling) {
-        //     let id = data.body.customer.addresses[1].id as string;
-        //     addBillingAddress(
-        //       data.body.customer.id,
-        //       data.body.customer.version,
-        //       id,
-        //     );
-        //   }
-        // }
-        //=========================
         if (setShipping || setBilling) {
           let id01 = data.body.customer.addresses[0].id as string;
           let id02 = setBilling
@@ -132,7 +108,6 @@ export const EntryDataForm = (): JSX.Element => {
             setBilling,
           );
         }
-        //==============================
       })
       .catch(error => {
         console.warn(error);

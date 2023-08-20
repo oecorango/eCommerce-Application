@@ -23,6 +23,5 @@ export const NAME_ERROR = {
 };
 
 export const POST_CODE_ERROR = {
-  minLength: 6,
-  minLengthCode: 'Minimum 6 digits',
+  minLengthCode: 'must be exactly 6 digits',
 };

@@ -9,6 +9,7 @@ import {
   REG_EXP_EMAIL,
   REG_EXP_NAME,
   REG_EXP_PASSWORD,
+  REG_EXP_POST_CODE,
 } from '../constants/regEx';
 
 export const isOldEnough = (value: Date | string): boolean => {
@@ -28,7 +29,7 @@ const addressSchema = object().shape({
     .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
     .required(),
   postalCode: string()
-    .min(POST_CODE_ERROR.minLength, POST_CODE_ERROR.minLengthCode)
+    .matches(REG_EXP_POST_CODE.BY_RU_POST, POST_CODE_ERROR.minLengthCode)
     .required(),
 });
 
@@ -56,5 +57,5 @@ export const validRegisterData = object().shape({
     .matches(REG_EXP_NAME.noSpecialCharacters, NAME_ERROR.noSpecialCharacters)
     .required(),
   dateOfBirth: string().required().test('isOldEnough', isOldEnough),
-  address: array().of(addressSchema).required(), // Используем определенную схему для адреса
+  address: array().of(addressSchema).required(),
 });

@@ -20,5 +20,5 @@ export const REG_EXP_NAME = {
 };
 
 export const REG_EXP_POST_CODE = {
-  BY_RU_POST: new RegExp(/^\d+$/),
+  BY_RU_POST: new RegExp(/^\d{6}$/),
 };

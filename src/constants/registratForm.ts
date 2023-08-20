@@ -45,7 +45,6 @@ export const newCustomerData: {
 
 export const countriesData: ICountriesData[] = [
   { name: 'Belarus (BY)', postalCode: '999999', countriCode: '(BY)' },
-  { name: 'Poland (PL)', postalCode: '99-999', countriCode: '(PL)' },
   {
     name: 'Russian Federation (RU)',
     postalCode: '999999',

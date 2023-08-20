@@ -1,9 +1,15 @@
-import { object, string } from 'yup';
-import { EMAIL_ERROR, NAME_ERROR, PASSWORD_ERROR } from '../constants/errors';
+import { array, object, string } from 'yup';
+import {
+  EMAIL_ERROR,
+  NAME_ERROR,
+  PASSWORD_ERROR,
+  POST_CODE_ERROR,
+} from '../constants/errors';
 import {
   REG_EXP_EMAIL,
   REG_EXP_NAME,
   REG_EXP_PASSWORD,
+  REG_EXP_POST_CODE,
 } from '../constants/regEx';
 
 export const isOldEnough = (value: Date | string): boolean => {
@@ -12,6 +18,20 @@ export const isOldEnough = (value: Date | string): boolean => {
   thirteenYearsAgo.setFullYear(currentDate.getFullYear() - 13);
   return new Date(value) <= thirteenYearsAgo;
 };
+
+const addressSchema = object().shape({
+  country: string().required(NAME_ERROR.emptyString),
+  city: string()
+    .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
+    .matches(REG_EXP_NAME.noSpecialCharacters, NAME_ERROR.noSpecialCharacters)
+    .required(),
+  streetName: string()
+    .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
+    .required(),
+  postalCode: string()
+    .matches(REG_EXP_POST_CODE.BY_RU_POST, POST_CODE_ERROR.minLengthCode)
+    .required(),
+});
 
 export const validRegisterData = object().shape({
   email: string()
@@ -36,16 +56,6 @@ export const validRegisterData = object().shape({
     .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
     .matches(REG_EXP_NAME.noSpecialCharacters, NAME_ERROR.noSpecialCharacters)
     .required(),
-  country: string()
-    .required(NAME_ERROR.emptyString)
-    .min(PASSWORD_ERROR.minLength, PASSWORD_ERROR.minLengthText)
-    .required(),
-  city: string()
-    .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
-    .matches(REG_EXP_NAME.noSpecialCharacters, NAME_ERROR.noSpecialCharacters)
-    .required(),
-  streetName: string()
-    .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
-    .required(),
-  dateOfBirth: string().required().test(isOldEnough),
+  dateOfBirth: string().required().test('isOldEnough', isOldEnough),
+  address: array().of(addressSchema).required(),
 });

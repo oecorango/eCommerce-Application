@@ -6,7 +6,6 @@ import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
-import { InputMask, InputMaskChangeEvent } from 'primereact/inputmask';
 import { ICountriesData, IRegistrationForm } from '../../interface/interface';
 import { countriesData } from '../../constants/registratForm';
 import { takeDataForm } from './EntryDataForm';
@@ -24,11 +23,13 @@ export const RegistrationForm = (props: {
     formState: { errors },
   } = useForm<IRegistrationForm>({
     mode: 'onBlur',
-    // resolver: yupResolver(validRegisterData),
+    resolver: yupResolver(validRegisterData),
   });
+
   const [value0, setValue0] = useState<string>('');
   const [value1, setValue1] = useState<string>('');
   const [checked, setChecked] = useState<boolean>(false);
+
   const [selectedCountry0, setSelectedCountry0] =
     useState<ICountriesData | null>(null);
   const [selectedCountry1, setSelectedCountry1] =
@@ -39,9 +40,13 @@ export const RegistrationForm = (props: {
   const onSubmit: SubmitHandler<IRegistrationForm> = (
     data: IRegistrationForm,
   ): void => {
+
+<!--     takeDataForm(data, address0, address1); -->
+
     data.address[0].postalCode = value0;
     data.address[1].postalCode = value1;
     takeDataForm(data, checkedShip, checkedBill, checked);
+
     props.create();
   };
 
@@ -99,7 +104,6 @@ export const RegistrationForm = (props: {
             placeholder="Enter your street"
           />
           <ErrorMessage err={errors} name={'streetName'} />
-
           <InputText
             className="mb-1"
             {...register('address.0.city')}
@@ -126,8 +130,28 @@ export const RegistrationForm = (props: {
           <label htmlFor="serial" className="registration_span">
             Postcode (example = {postCod0})
           </label>
+
+          <InputText
+            className="mb-1"
+            {...register('address.0.postalCode')}
+            placeholder="Enter your street"
+          />
+          <ErrorMessage err={errors} name={'postalCode'} />
+
+          <label className="registration_span">
+            Set for this address default Shipping and default Billing
+          </label>
+          <ToggleButton
+            checked={checkedShip}
+            onChange={(e: ToggleButtonChangeEvent): void => {
+              setcheCkedShip(e.value);
+              address0 = e.value;
+            }}
+            className="w-8rem"
+          />
+
           <div className="w-full mb-1">
-            <InputMask
+<!--             <InputMask
               className="w-full"
               value={value0}
               onChange={(e: InputMaskChangeEvent): void => {
@@ -137,7 +161,7 @@ export const RegistrationForm = (props: {
               }}
               mask={postCod0}
               placeholder={postCod0}
-            />
+            /> -->
           </div>
           <div
             style={{
@@ -174,6 +198,7 @@ export const RegistrationForm = (props: {
               </div>
             </div>
           </div>
+
         </div>
         <div className="registration_adress">
           <label htmlFor="serial" className="registration_span">
@@ -184,14 +209,13 @@ export const RegistrationForm = (props: {
             {...register('address.1.streetName')}
             placeholder="Enter your street"
           />
-          <ErrorMessage err={errors} name={'streetName'} />
-
+          <ErrorMessage err={errors} name={'streetName1'} />
           <InputText
             className="mb-1"
             {...register('address.1.city')}
             placeholder="Enter your city"
           />
-          <ErrorMessage err={errors} name={'city'} />
+          <ErrorMessage err={errors} name={'city1'} />
 
           <div className="w-full mb-1">
             <Dropdown
@@ -206,24 +230,19 @@ export const RegistrationForm = (props: {
               optionLabel="name"
               placeholder="Select your Country"
             />
-            <ErrorMessage err={errors} name={'country'} />
+            <ErrorMessage err={errors} name={'country1'} />
           </div>
 
           <label htmlFor="serial" className="registration_span">
             Postcode (example = {postCod1})
           </label>
           <div className="w-full mb-1">
-            <InputMask
-              className="w-full"
-              value={value1}
-              onChange={(e: InputMaskChangeEvent): void => {
-                if (e.target.value) {
-                  setValue1(e.target.value);
-                }
-              }}
-              mask={postCod1}
-              placeholder={postCod1}
+            <InputText
+              className="mb-1"
+              {...register('address.1.postalCode')}
+              placeholder="Enter your street"
             />
+            <ErrorMessage err={errors} name={'postalCode1'} />
           </div>
           <div className="card flex justify-content-center">
             <ToggleButton

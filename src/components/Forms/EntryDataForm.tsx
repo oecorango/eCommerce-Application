@@ -8,7 +8,11 @@ import { IRegistrationForm, IAddresses } from '../../interface/interface';
 import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
-import { addShippingAddress, addBillingAddress } from '../../utils/requestAPI';
+import {
+  // addShippingAddress,
+  // addBillingAddress,
+  customerShippingBilling,
+} from '../../utils/requestAPI';
 
 let newAddress: IAddresses[] = [
   {
@@ -18,14 +22,16 @@ let newAddress: IAddresses[] = [
     streetName: '',
   },
 ];
-let setBilling = false;
-let setShipping = false;
+let setBilling = 0;
+let setShipping = 0;
 export const takeDataForm = (
   dataForm: IRegistrationForm,
   address0: boolean,
   address1: boolean,
   checked: boolean,
 ): void => {
+  delete newCustomerData.defaultShippingAddress;
+  delete newCustomerData.defaultBillingAddress;
   console.log(dataForm, address0, address1, checked);
   if (dataForm.dateOfBirth) {
     dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
@@ -45,6 +51,7 @@ export const takeDataForm = (
       newCustomerData['defaultShippingAddress'] = 0;
       newCustomerData['defaultBillingAddress'] = 0;
     }
+    setShipping = 2;
   } else {
     dataForm.address[1].country = dataForm.address[1].country
       .slice(-3)
@@ -53,12 +60,13 @@ export const takeDataForm = (
     if (address0) {
       newCustomerData['defaultShippingAddress'] = 0;
     } else {
-      setShipping = true;
+      setShipping = 1;
     }
     if (address1) {
+      console.log('!!!!!!!!!!====', address0, address1, checked);
       newCustomerData['defaultBillingAddress'] = 1;
     } else {
-      setBilling = true;
+      setBilling = 1;
     }
   }
   newCustomerData.firstName = dataForm.firstName;
@@ -91,24 +99,40 @@ export const EntryDataForm = (): JSX.Element => {
         setVisible(true);
         logIn(data);
         setShowSuccessMessage(true);
-        if (setShipping) {
-          let id = data.body.customer.addresses[0].id as string;
-          addShippingAddress(
+        // if (setShipping) {
+        //   let id = data.body.customer.addresses[0].id as string;
+        //   addShippingAddress(
+        //     data.body.customer.id,
+        //     data.body.customer.version,
+        //     id,
+        //     setShipping,
+        //     setBilling,
+        //   );
+        // } else {
+        //   if (setBilling) {
+        //     let id = data.body.customer.addresses[1].id as string;
+        //     addBillingAddress(
+        //       data.body.customer.id,
+        //       data.body.customer.version,
+        //       id,
+        //     );
+        //   }
+        // }
+        //=========================
+        if (setShipping || setBilling) {
+          let id01 = data.body.customer.addresses[0].id as string;
+          let id02 = setBilling
+            ? (data.body.customer.addresses[1].id as string)
+            : '';
+          customerShippingBilling(
             data.body.customer.id,
             data.body.customer.version,
-            id,
+            { idShipp: id01, idBill: id02 },
+            setShipping,
             setBilling,
           );
-        } else {
-          if (setBilling) {
-            let id = data.body.customer.addresses[1].id as string;
-            addBillingAddress(
-              data.body.customer.id,
-              data.body.customer.version,
-              id,
-            );
-          }
         }
+        //==============================
       })
       .catch(error => {
         console.warn(error);

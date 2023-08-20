@@ -28,7 +28,6 @@ export const takeDataForm = (
 ): void => {
   delete newCustomerData.defaultShippingAddress;
   delete newCustomerData.defaultBillingAddress;
-  console.log(dataForm, address0, address1, checked);
   if (dataForm.dateOfBirth) {
     dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
       .toLocaleDateString()
@@ -59,7 +58,6 @@ export const takeDataForm = (
       setShipping = 1;
     }
     if (address1) {
-      console.log('!!!!!!!!!!====', address0, address1, checked);
       newCustomerData['defaultBillingAddress'] = 1;
     } else {
       setBilling = 1;

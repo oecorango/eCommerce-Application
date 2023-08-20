@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { Checkbox } from 'primereact/checkbox';
+import { InputSwitch } from 'primereact/inputswitch';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { ICountriesData, IRegistrationForm } from '../../interface/interface';
@@ -12,34 +12,32 @@ import { takeDataForm } from './EntryDataForm';
 import { validRegisterData } from '../../utils/validRegisterData';
 import { ErrorMessage } from '../ErrorMessage';
 
-let postCod0: string = '';
-let postCod1: string = '';
 export const RegistrationForm = (props: {
   create: () => void;
 }): JSX.Element => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<IRegistrationForm>({
+  } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(validRegisterData),
   });
 
-  const [checked, setChecked] = useState<boolean>(false);
+  const [identicalAddresses, setIdenticalAddresses] = useState(false);
 
   const [selectedCountry0, setSelectedCountry0] =
     useState<ICountriesData | null>(null);
   const [selectedCountry1, setSelectedCountry1] =
     useState<ICountriesData | null>(null);
   const countries: ICountriesData[] = countriesData;
-  const [checkedShip, setcheCkedShip] = useState<boolean>(false);
+  const [checkedShip, setCheckedShip] = useState<boolean>(false);
   const [checkedBill, setCheckedBill] = useState<boolean>(false);
-  const onSubmit: SubmitHandler<IRegistrationForm> = (
-    data: IRegistrationForm,
-  ): void => {
-    takeDataForm(data, checkedShip, checkedBill, checked);
 
+  const onSubmit = (data: IRegistrationForm): void => {
+    console.log(data);
+    takeDataForm(data, checkedShip, checkedBill, identicalAddresses);
     props.create();
   };
 
@@ -87,7 +85,18 @@ export const RegistrationForm = (props: {
         />
         <ErrorMessage err={errors} name={'dateOfBirth'} />
 
-        <div className="registration_adress">
+        <div className="flex mt-2">
+          <InputSwitch
+            className="w-2"
+            checked={identicalAddresses}
+            onChange={(e): void => setIdenticalAddresses(e.value === true)}
+          />
+          <p className="pl-2">
+            Click if your billing and shipping addresses match
+          </p>
+        </div>
+
+        <div className="registration_address">
           <label htmlFor="serial" className="registration_span">
             Shipping Address
           </label>
@@ -97,6 +106,7 @@ export const RegistrationForm = (props: {
             placeholder="Enter your street"
           />
           <ErrorMessage err={errors} name={'streetName'} />
+
           <InputText
             className="mb-1"
             {...register('address.0.city')}
@@ -108,11 +118,10 @@ export const RegistrationForm = (props: {
             <Dropdown
               className="w-full"
               {...register('address.0.country')}
-              value={selectedCountry0}
               onChange={(e: DropdownChangeEvent): void => {
                 setSelectedCountry0(e.value);
-                postCod0 = e.value.postalCode;
               }}
+              value={selectedCountry0}
               options={countries}
               optionLabel="name"
               placeholder="Select your Country"
@@ -123,7 +132,7 @@ export const RegistrationForm = (props: {
           <InputText
             className="mb-1"
             {...register('address.0.postalCode')}
-            placeholder="Enter your street"
+            placeholder="Enter your Post-Code"
           />
           <ErrorMessage err={errors} name={'postalCode'} />
 
@@ -144,26 +153,15 @@ export const RegistrationForm = (props: {
                 offIcon="pi pi-times"
                 checked={checkedShip}
                 onChange={(e: ToggleButtonChangeEvent): void =>
-                  setcheCkedShip(e.value)
+                  setCheckedShip(e.value)
                 }
                 className="w-8rem"
               />
             </div>
-            <div>
-              <label className="registration_span">Shipping & Billing</label>
-              <div className="card flex justify-content-center">
-                <Checkbox
-                  onChange={(e): void => {
-                    if (e.checked !== undefined) {
-                      setChecked(e.checked);
-                    }
-                  }}
-                  checked={checked}></Checkbox>
-              </div>
-            </div>
           </div>
         </div>
-        <div className="registration_adress">
+
+        <div className={identicalAddresses ? 'hidden' : 'registration_address'}>
           <label htmlFor="serial" className="registration_span">
             Billing Address
           </label>
@@ -173,6 +171,7 @@ export const RegistrationForm = (props: {
             placeholder="Enter your street"
           />
           <ErrorMessage err={errors} name={'streetName1'} />
+
           <InputText
             className="mb-1"
             {...register('address.1.city')}
@@ -184,22 +183,22 @@ export const RegistrationForm = (props: {
             <Dropdown
               className="w-full"
               {...register('address.1.country')}
-              value={selectedCountry1}
               onChange={(e: DropdownChangeEvent): void => {
                 setSelectedCountry1(e.value);
-                postCod1 = e.value.postalCode;
               }}
+              value={selectedCountry1}
               options={countries}
               optionLabel="name"
               placeholder="Select your Country"
             />
             <ErrorMessage err={errors} name={'country1'} />
           </div>
+
           <div className="w-full mb-1">
             <InputText
               className="mb-1"
               {...register('address.1.postalCode')}
-              placeholder="Enter your street"
+              placeholder="Enter your Post-Code"
             />
             <ErrorMessage err={errors} name={'postalCode1'} />
           </div>
@@ -217,7 +216,19 @@ export const RegistrationForm = (props: {
             />
           </div>
         </div>
-        <Button className="mt-3 mb-1" label="Registration" type="submit" />
+        <Button
+          className="mt-3 mb-1"
+          label="Registration"
+          type="submit"
+          onClick={(): void => {
+            if (identicalAddresses) {
+              setValue('address.1.streetName', 'a');
+              setValue('address.1.city', 'b');
+              setValue('address.1.country', 'BY');
+              setValue('address.1.postalCode', '123456');
+            }
+          }}
+        />
       </form>
     </div>
   );

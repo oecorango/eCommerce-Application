@@ -3,6 +3,7 @@ import {
   IRegistrationForm,
   IAddresses,
   IAddress,
+  InewCustomerData,
 } from '../interface/interface';
 
 // export const dataRegistrationForm: IRegistrationForm = {
@@ -41,16 +42,7 @@ export let newAddres: IAddress[] = [
   },
 ];
 
-export const newCustomerData: {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  defaultShippingAddress?: number;
-  defaultBillingAddress?: number;
-  addresses: IAddresses[];
-} = {
+export const newCustomerData: InewCustomerData = {
   email: '',
   password: '',
   firstName: '',

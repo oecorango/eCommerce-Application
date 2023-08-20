@@ -44,3 +44,14 @@ export interface IRegistrationForm {
   dateOfBirth: string;
   address: IAddresses[];
 }
+
+export interface InewCustomerData {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  defaultShippingAddress?: number;
+  defaultBillingAddress?: number;
+  addresses: IAddresses[];
+}

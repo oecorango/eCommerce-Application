@@ -12,8 +12,6 @@ import { takeDataForm } from './EntryDataForm';
 import { validRegisterData } from '../../utils/validRegisterData';
 import { ErrorMessage } from '../ErrorMessage';
 
-let postCod0: string = '';
-let postCod1: string = '';
 export const RegistrationForm = (props: {
   create: () => void;
 }): JSX.Element => {
@@ -111,7 +109,6 @@ export const RegistrationForm = (props: {
               value={selectedCountry0}
               onChange={(e: DropdownChangeEvent): void => {
                 setSelectedCountry0(e.value);
-                postCod0 = e.value.postalCode;
               }}
               options={countries}
               optionLabel="name"
@@ -187,7 +184,6 @@ export const RegistrationForm = (props: {
               value={selectedCountry1}
               onChange={(e: DropdownChangeEvent): void => {
                 setSelectedCountry1(e.value);
-                postCod1 = e.value.postalCode;
               }}
               options={countries}
               optionLabel="name"

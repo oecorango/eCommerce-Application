@@ -101,20 +101,20 @@ export const RegistrationForm = (props: {
             Shipping Address
           </label>
           <InputText
-            className="mb-1"
+            className="mb-1 w-full"
             {...register('address.0.streetName')}
             placeholder="Enter your street"
           />
           <ErrorMessage err={errors} name={'streetName'} />
 
           <InputText
-            className="mb-1"
+            className="mb-1 w-full"
             {...register('address.0.city')}
             placeholder="Enter your city"
           />
           <ErrorMessage err={errors} name={'city'} />
 
-          <div className="w-full mb-1">
+          <div className="mb-1 w-full">
             <Dropdown
               className="w-full"
               {...register('address.0.country')}
@@ -130,35 +130,23 @@ export const RegistrationForm = (props: {
           </div>
 
           <InputText
-            className="mb-1"
+            className="mb-1 w-full"
             {...register('address.0.postalCode')}
             placeholder="Enter your Post-Code"
           />
           <ErrorMessage err={errors} name={'postalCode'} />
 
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-            }}>
-            <div
-              className="card flex justify-content-center"
-              style={{
-                width: '120px',
-              }}>
-              <ToggleButton
-                onLabel="default"
-                offLabel="reject"
-                onIcon="pi pi-check"
-                offIcon="pi pi-times"
-                checked={checkedShip}
-                onChange={(e: ToggleButtonChangeEvent): void =>
-                  setCheckedShip(e.value)
-                }
-                className="w-8rem"
-              />
-            </div>
-          </div>
+          <ToggleButton
+            onLabel="Default address"
+            offLabel="Default address"
+            onIcon="pi pi-check"
+            offIcon="pi pi-times"
+            checked={checkedShip}
+            onChange={(e: ToggleButtonChangeEvent): void =>
+              setCheckedShip(e.value)
+            }
+            className="w-14rem mb-1 mt-1"
+          />
         </div>
 
         <div className={identicalAddresses ? 'hidden' : 'registration_address'}>
@@ -166,14 +154,14 @@ export const RegistrationForm = (props: {
             Billing Address
           </label>
           <InputText
-            className="mb-1"
+            className="mb-1 w-full"
             {...register('address.1.streetName')}
             placeholder="Enter your street"
           />
           <ErrorMessage err={errors} name={'streetName1'} />
 
           <InputText
-            className="mb-1"
+            className="mb-1 w-full"
             {...register('address.1.city')}
             placeholder="Enter your city"
           />
@@ -196,25 +184,24 @@ export const RegistrationForm = (props: {
 
           <div className="w-full mb-1">
             <InputText
-              className="mb-1"
+              className="mb-1 w-full"
               {...register('address.1.postalCode')}
               placeholder="Enter your Post-Code"
             />
             <ErrorMessage err={errors} name={'postalCode1'} />
           </div>
-          <div className="card flex justify-content-center">
-            <ToggleButton
-              onLabel="default"
-              offLabel="reject"
-              onIcon="pi pi-check"
-              offIcon="pi pi-times"
-              checked={checkedBill}
-              onChange={(e: ToggleButtonChangeEvent): void =>
-                setCheckedBill(e.value)
-              }
-              className="w-8rem"
-            />
-          </div>
+
+          <ToggleButton
+            onLabel="Default address"
+            offLabel="Default address"
+            onIcon="pi pi-check"
+            offIcon="pi pi-times"
+            checked={checkedBill}
+            onChange={(e: ToggleButtonChangeEvent): void =>
+              setCheckedBill(e.value)
+            }
+            className="w-14rem mb-1 mt-1"
+          />
         </div>
         <Button
           className="mt-3 mb-1"

@@ -12,6 +12,7 @@ import {
   LinkToRegistration,
   LinkToSignIn,
 } from './Links';
+import logo from '../assets/logo.png';
 
 export const Header = (): JSX.Element => {
   const { isAuth } = useContext(AuthContext);
@@ -69,7 +70,9 @@ export const Header = (): JSX.Element => {
     <>
       <header className="header">
         <div className="wrapper header__wrapper">
-          <NavLink to="/">LOGO</NavLink>
+          <NavLink to="/">
+            <img src={logo} alt="logo" className="w-6rem h-2rem" />
+          </NavLink>
           <ShowBurger />
           <div className="navigation">
             <Auth />

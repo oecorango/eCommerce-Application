@@ -7,6 +7,11 @@
   width: 400px;
   padding: 20px;
   left: calc(50% - 200px);
+  @include media-mobile {
+    width: 350px;
+    left: calc(50% - 175px);
+    padding: 20px 5px;
+  }
 }
 
 .message-for-user {
@@ -40,7 +45,7 @@
   color: #000000;
   font-weight: 100;
   font-size: 1rem;
-  margin: 0px 1rem;
+  margin: 0.3rem 1rem;
 }
 
 .registration_form {
@@ -54,14 +59,15 @@
 .registration_address {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   color: #333;
   font-size: 2vw;
   padding: 1vw;
-  margin: 1vw;
+  margin: 1vw 0;
   background: transparent;
   border: 0.1vw solid #222;
+  border-radius: 5px;
 }
 
 .registration_shipBill {

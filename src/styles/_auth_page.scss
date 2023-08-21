@@ -7,4 +7,9 @@
   width: 400px;
   padding: 20px;
   left: calc(50% - 200px);
+  @include media-mobile {
+    width: 350px;
+    left: calc(50% - 175px);
+    padding: 20px 5px;
+  }
 }

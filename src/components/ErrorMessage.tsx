@@ -35,7 +35,7 @@ export const ErrorMessage = (props: err): JSX.Element => {
 
   return (
     <Message
-      className={(err && 'h-1rem mb-1') || 'hidden'}
+      className={(err && 'h-1rem mb-1 w-full') || 'hidden'}
       severity={'error'}
       text={err}
     />

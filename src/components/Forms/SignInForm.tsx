@@ -22,7 +22,7 @@ export const FormSingIn = (): JSX.Element => {
     setError,
     formState: { errors },
   } = useForm<SignInForm>({
-    mode: 'onBlur',
+    mode: 'onChange',
     resolver: yupResolver(validAuthData),
   });
 

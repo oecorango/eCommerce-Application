@@ -4,12 +4,12 @@ export const PASSWORD_ERROR = {
   maxLength: 20,
   minLengthText: 'Minimum 8 characters',
   maxLengthText: 'Maximum 20 characters',
-  oneNumber: 'Password must contain at least one number',
-  oneUpperCase: 'Password must contain at least one uppercase',
-  oneLowerCase: 'Password must contain at least one lowercase',
-  leadingSpace: 'Password must not contain leading whitespace',
-  trailingSpace: 'Password must not contain trailing whitespace',
-  latinLetters: 'Password must contain only latin letters',
+  oneNumber: 'Must contain at least one number',
+  oneUpperCase: 'Must contain at least one uppercase',
+  oneLowerCase: 'Must contain at least one lowercase',
+  leadingSpace: 'Must not contain leading whitespace',
+  trailingSpace: 'Must not contain trailing whitespace',
+  latinLetters: 'Must contain only latin letters',
 };
 export const EMAIL_ERROR = {
   error: 'email must be a valid email',

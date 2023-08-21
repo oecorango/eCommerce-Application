@@ -6,7 +6,7 @@ export const SignInPage = (): JSX.Element => {
   const toRegistrationForm = useNavigate();
 
   return (
-    <div className="registration__page content">
+    <div className="auth__page content">
       <FormSingIn />
       <h4 className="center mb-2 pl-2 pr-2 text-center">
         If you are not registered, please register in our store.

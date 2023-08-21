@@ -4,7 +4,7 @@ import { AboutPage } from './pages/AboutPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { MainPage } from './pages/MainPage';
 import { SignInPage } from './pages/SignInPage';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/themes/mira/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { RegistrationPage } from './pages/RegistrationPage';

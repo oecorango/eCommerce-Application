@@ -51,7 +51,7 @@ export const FormSingIn = (): JSX.Element => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-column">
         <InputText
-          className="mb-1"
+          className="mb-1 border-round-lg"
           {...register('email')}
           type="text"
           placeholder="Enter your email"
@@ -61,12 +61,21 @@ export const FormSingIn = (): JSX.Element => {
         <div className="p-inputgroup">
           <InputText
             className="mt-5 mb-1"
+            style={{
+              borderTopLeftRadius: '0.5rem',
+              borderBottomLeftRadius: '0.5rem',
+            }}
             {...register('password')}
             type={!checked ? 'password' : 'text'}
             placeholder="Enter your password"
             autoComplete="off"
           />
-          <span className="p-inputgroup-addon mt-5 mb-1">
+          <span
+            className="p-inputgroup-addon mt-5 mb-1"
+            style={{
+              borderTopRightRadius: '0.5rem',
+              borderBottomRightRadius: '0.5rem',
+            }}>
             <Checkbox
               checked={checked}
               onChange={(): void => setChecked(!checked)}
@@ -75,7 +84,11 @@ export const FormSingIn = (): JSX.Element => {
         </div>
         <ErrorMessage err={errors} name={'password'} />
 
-        <Button className="mt-6 mb-5" label="Sign In" type="submit" />
+        <Button
+          className="mt-6 mb-5 border-round-lg"
+          label="Sign In"
+          type="submit"
+        />
       </form>
     </>
   );

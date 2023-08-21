@@ -63,26 +63,26 @@ export const customerShippingBilling = (
   customerID: string,
   version: number,
   id: { idShipp: string; idBill: string },
-  setShipping: number,
-  setBilling: number,
+  setBillShipp: number[],
 ): void => {
-  let action: CustomerUpdateAction[] = setShipping
-    ? setBilling
-      ? [
-          { action: 'addShippingAddressId', addressId: id.idShipp },
-          { action: 'addBillingAddressId', addressId: id.idBill },
-        ]
-      : [{ action: 'addShippingAddressId', addressId: id.idShipp }]
-    : setShipping === 2
-    ? [
-        { action: 'addShippingAddressId', addressId: id.idShipp },
-        { action: 'addBillingAddressId', addressId: id.idShipp },
-      ]
-    : [{ action: 'addBillingAddressId', addressId: id.idBill }];
+  let action: CustomerUpdateAction[] = [];
+  if (setBillShipp.includes(1)) {
+    if (setBillShipp[0]) {
+      action.push({ action: 'addShippingAddressId', addressId: id.idShipp });
+    }
+    if (setBillShipp[1]) {
+      action.push({ action: 'addBillingAddressId', addressId: id.idShipp });
+    }
+    if (setBillShipp[2]) {
+      action.push({ action: 'addBillingAddressId', addressId: id.idBill });
+    }
+  }
 
-  customersIdPostExecute(customerID, version, action)
-    .then(({ body }) => {
-      count.version = body.version;
-    })
-    .catch(console.error);
+  if (setBillShipp.includes(1)) {
+    customersIdPostExecute(customerID, version, action)
+      .then(({ body }) => {
+        count.version = body.version;
+      })
+      .catch(console.error);
+  }
 };

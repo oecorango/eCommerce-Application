@@ -151,11 +151,13 @@ export const EntryDataForm = (): JSX.Element => {
         }}>
         <p className="m-1 message-for-user ">{registrationMessage}</p>
       </Dialog>
-      <h4 className="center mb-2 pl-2 pr-2 text-center">
+      <h4
+        className="center mb-2 pl-2 pr-2 text-center"
+        style={{ color: '#7b6544' }}>
         If you have an account with our store, please go to the sign in page
       </h4>
       <Button
-        className="mt-3 mb-1"
+        className="mt-3 mb-1 border-round-lg"
         label="Sign In"
         type="button"
         onClick={(): void => {

@@ -6,7 +6,9 @@ export const Layout = (): JSX.Element => {
     <>
       <Header />
       <Outlet />
-      <footer className="footer">RS-School 2023</footer>
+      <footer className="footer" style={{ color: '#7b6544' }}>
+        RS-School 2023
+      </footer>
     </>
   );
 };

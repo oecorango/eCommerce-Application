@@ -1,4 +1,4 @@
-import { logOut } from '../utils/utils';
+import { logOut } from '../utils/user';
 
 describe('logOut', () => {
   beforeEach(() => {

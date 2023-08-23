@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import { IRegistrationForm, IAddresses } from '../../interface/interface';
 import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
-import { logIn } from '../../utils/utils';
+import { logIn } from '../../utils/user';
 import { customerShippingBilling } from '../../utils/requestAPI';
 
 let newAddress: IAddresses[] = [

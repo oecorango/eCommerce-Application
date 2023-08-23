@@ -11,7 +11,7 @@ import { SignInForm } from '../../interface/interface';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validAuthData } from '../../utils/validAuthData';
 import { AuthContext } from '../authProvider';
-import { logIn } from '../../utils/utils';
+import { logIn } from '../../utils/user';
 import { ErrorMessage } from '../ErrorMessage';
 
 export const FormSingIn = (): JSX.Element => {

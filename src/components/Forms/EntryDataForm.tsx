@@ -10,6 +10,7 @@ import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/user';
 import { customerShippingBilling } from '../../utils/requestAPI';
 import styles from './EntryDataForm.module.scss';
+import { PAGES } from '../../constants/pages';
 
 let newAddress: IAddresses[] = [
   {
@@ -144,7 +145,7 @@ export const EntryDataForm = (): JSX.Element => {
           setVisible(false);
           if (showSuccessMessage) {
             setIsAuth(true);
-            toMainPage('/');
+            toMainPage(PAGES.main);
           }
         }}>
         <p className={styles.message}>{registrationMessage}</p>
@@ -157,7 +158,7 @@ export const EntryDataForm = (): JSX.Element => {
         label="Sign In"
         type="button"
         onClick={(): void => {
-          toSignInPage('/signin');
+          toSignInPage(PAGES.signin);
         }}
       />
     </>

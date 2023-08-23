@@ -9,9 +9,9 @@ import { STATUS_OK } from '../../constants/api';
 import { AUTHENTICATE_ERROR } from '../../constants/errors';
 import { SignInForm } from '../../interface/interface';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validAuthData } from '../../utils/validAuthData';
+import { validAuthData } from './utils/validAuthData';
 import { AuthContext } from '../authProvider';
-import { logIn } from '../../utils/utils';
+import { logIn } from '../../utils/user';
 import { ErrorMessage } from '../ErrorMessage';
 import styles from './SignInForm.module.scss';
 

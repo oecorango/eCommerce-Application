@@ -4,15 +4,15 @@ import {
   NAME_ERROR,
   PASSWORD_ERROR,
   POST_CODE_ERROR,
-} from '../constants/errors';
+} from '../../../constants/errors';
 import {
   REG_EXP_EMAIL,
   REG_EXP_NAME,
   REG_EXP_PASSWORD,
   REG_EXP_POST_CODE,
-} from '../constants/regEx';
+} from '../../../constants/regEx';
 
-export const isOldEnough = (value: Date | string): boolean => {
+const isOldEnough = (value: Date | string): boolean => {
   const currentDate = new Date();
   const thirteenYearsAgo = new Date();
   thirteenYearsAgo.setFullYear(currentDate.getFullYear() - 13);

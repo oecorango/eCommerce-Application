@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { logOut } from '../utils/utils';
+import { logOut } from '../utils/user';
 import { AuthContext } from './authProvider';
 
 export const LinkToHome = (): JSX.Element => (

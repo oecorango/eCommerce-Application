@@ -1,4 +1,4 @@
-import { isOldEnough } from '../utils/validRegisterData';
+import { isOldEnough } from '../components/Forms/utils/validRegisterData';
 
 describe('isOldEnough function', () => {
   it('should return true if the input date is 13 years ago', () => {

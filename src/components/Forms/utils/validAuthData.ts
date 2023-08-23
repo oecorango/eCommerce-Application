@@ -1,6 +1,6 @@
 import { object, string } from 'yup';
-import { EMAIL_ERROR, PASSWORD_ERROR } from '../constants/errors';
-import { REG_EXP_EMAIL, REG_EXP_PASSWORD } from '../constants/regEx';
+import { EMAIL_ERROR, PASSWORD_ERROR } from '../../../constants/errors';
+import { REG_EXP_EMAIL, REG_EXP_PASSWORD } from '../../../constants/regEx';
 
 export const validAuthData = object().shape({
   email: string()

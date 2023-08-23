@@ -9,7 +9,7 @@ import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { ICountriesData, IRegistrationForm } from '../../interface/interface';
 import { countriesData } from '../../constants/registratForm';
 import { takeDataForm } from './EntryDataForm';
-import { validRegisterData } from '../../utils/validRegisterData';
+import { validRegisterData } from './utils/validRegisterData';
 import { ErrorMessage } from '../ErrorMessage';
 import { Checkbox } from 'primereact/checkbox';
 

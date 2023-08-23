@@ -1,5 +1,5 @@
 import { EMAIL_ERROR, PASSWORD_ERROR } from '../constants/errors';
-import { validAuthData } from '../utils/validAuthData';
+import { validAuthData } from '../components/Forms/utils/validAuthData';
 
 describe('validAuthData', () => {
   it('should validate a valid email and password', async () => {

@@ -1,3 +1,5 @@
+@import '../styles/global';
+
 .header {
   display: flex;
   justify-content: center;
@@ -10,6 +12,9 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  max-width: 1280px;
+  padding: 0 50px;
+  margin: 0 auto;
 }
 
 .navigation {
@@ -32,11 +37,12 @@
   }
 }
 
-.p-button.burger-button {
+.burger__button {
   display: none;
   background: #d3d3d3;
   border: #ffffff;
 }
+
 
 .open {
   display: flex;
@@ -69,7 +75,7 @@
 }
 
 @include media-hamburger {
-  .p-button.burger-button {
+  .burger__button {
     display: block;
   }
 

@@ -1,15 +1,16 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
-import { AboutPage } from './pages/AboutPage';
-import { ErrorPage } from './pages/ErrorPage';
-import { MainPage } from './pages/MainPage';
-import { SignInPage } from './pages/SignInPage';
+import { AboutPage } from './pages/AboutPage/AboutPage';
+import { ErrorPage } from './pages/ErrorPage/ErrorPage';
+import { MainPage } from './pages/MainPage/MainPage';
+import { SignInPage } from './pages/SignInPage/SignInPage';
+import { RegistrationPage } from './pages/RegistrationPage/RegistrationPage';
+import { AuthContext } from './components/authProvider';
+import { useEffect, useState } from 'react';
 import 'primereact/resources/themes/mira/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import { RegistrationPage } from './pages/RegistrationPage';
-import { AuthContext } from './components/authProvider';
-import { useEffect, useState } from 'react';
+import 'primeflex/primeflex.scss';
 
 function App(): JSX.Element {
   const [isAuth, setIsAuth] = useState(false);

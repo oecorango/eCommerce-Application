@@ -9,6 +9,7 @@ import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
 import { customerShippingBilling } from '../../utils/requestAPI';
+import styles from './EntryDataForm.module.scss';
 
 let newAddress: IAddresses[] = [
   {
@@ -133,15 +134,12 @@ export const EntryDataForm = (): JSX.Element => {
   };
 
   return (
-    <div className="registration__page content">
+    <>
       <RegistrationForm create={onOfPoUpForm} />
       <Dialog
+        className={styles.module__window}
         header="Notification for you"
         visible={visible}
-        style={{
-          width: '40vw',
-          textAlign: 'center',
-        }}
         onHide={(): void => {
           setVisible(false);
           if (showSuccessMessage) {
@@ -149,11 +147,9 @@ export const EntryDataForm = (): JSX.Element => {
             toMainPage('/');
           }
         }}>
-        <p className="m-1 message-for-user ">{registrationMessage}</p>
+        <p className={styles.message}>{registrationMessage}</p>
       </Dialog>
-      <h4
-        className="center mb-2 pl-2 pr-2 text-center"
-        style={{ color: '#7b6544' }}>
+      <h4 className={styles.text}>
         If you have an account with our store, please go to the sign in page
       </h4>
       <Button
@@ -164,7 +160,7 @@ export const EntryDataForm = (): JSX.Element => {
           toSignInPage('/signin');
         }}
       />
-    </div>
+    </>
   );
 };
 export default EntryDataForm;

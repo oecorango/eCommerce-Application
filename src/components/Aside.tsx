@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import styles from './Aside.module.scss';
 
 export const Aside = (): JSX.Element => {
   return (
-    <aside className="aside">
+    <aside className={styles.aside}>
       <Link to={'/'}>Home</Link>
       <Link to={'/about'}>About</Link>
       <Link to={'/cart'}>Cart</Link>

@@ -4,11 +4,11 @@ import { registerNewCustomer } from '../../api/Client';
 import { RegistrationForm } from './RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
-import { IRegistrationForm, IAddresses } from '../../interface/interface';
+import { IRegistrationForm, IAddresses } from '../../types/interface';
 import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/user';
-import { customerShippingBilling } from '../../utils/requestAPI';
+import { customerShippingBilling } from '../../api/requestAPI';
 import styles from './EntryDataForm.module.scss';
 
 let newAddress: IAddresses[] = [
@@ -19,7 +19,7 @@ let newAddress: IAddresses[] = [
     streetName: '',
   },
 ];
-let setBillShipp = [0, 0, 0];
+let setBillShipp = [false, false, false];
 export const takeDataForm = (
   dataForm: IRegistrationForm,
   address0: boolean,
@@ -37,42 +37,37 @@ export const takeDataForm = (
   } else {
     dataForm.dateOfBirth = '';
   }
-  dataForm.address[0].country = dataForm.address[0].country
-    .slice(-3)
-    .slice(0, -1);
+
   if (checked) {
     newAddress = dataForm.address.slice(0, 1);
     if (address0) {
       if (address1) {
         newCustomerData['defaultShippingAddress'] = 0;
         newCustomerData['defaultBillingAddress'] = 0;
-        setBillShipp = [0, 0, 0];
+        setBillShipp = [false, false, false];
       } else {
         newCustomerData['defaultShippingAddress'] = 0;
-        setBillShipp = [0, 1, 0];
+        setBillShipp = [false, true, false];
       }
     } else {
       if (address1) {
         newCustomerData['defaultBillingAddress'] = 0;
-        setBillShipp = [1, 0, 0];
+        setBillShipp = [true, false, false];
       } else {
-        setBillShipp = [1, 1, 0];
+        setBillShipp = [true, true, false];
       }
     }
   } else {
-    dataForm.address[1].country = dataForm.address[1].country
-      .slice(-3)
-      .slice(0, -1);
     newAddress = dataForm.address;
     if (address0) {
       newCustomerData['defaultShippingAddress'] = 0;
-      setBillShipp = [0, 0, 1];
+      setBillShipp = [false, false, true];
     } else {
-      setBillShipp = [1, 0, 1];
+      setBillShipp = [true, false, true];
     }
     if (address1) {
       newCustomerData['defaultBillingAddress'] = 1;
-      setBillShipp[2] = 0;
+      setBillShipp[2] = false;
     }
   }
   newCustomerData.firstName = dataForm.firstName;
@@ -105,12 +100,11 @@ export const EntryDataForm = (): JSX.Element => {
         setVisible(true);
         logIn(data);
         setShowSuccessMessage(true);
-        if (setBillShipp.includes(1)) {
+        if (setBillShipp.includes(true)) {
           let id01 = data.body.customer.addresses[0].id as string;
-          let id02 =
-            setBillShipp[2] === 1
-              ? (data.body.customer.addresses[1].id as string)
-              : '';
+          let id02 = setBillShipp[2]
+            ? (data.body.customer.addresses[1].id as string)
+            : '';
           customerShippingBilling(
             data.body.customer.id,
             data.body.customer.version,

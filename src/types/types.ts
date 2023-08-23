@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FieldErrors } from 'react-hook-form';
-import { IRegistrationForm } from '../interface/interface';
+import { IRegistrationForm } from './interface';
 
 export type IAuth = {
   isAuth: boolean;

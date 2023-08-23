@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import { InputSwitch } from 'primereact/inputswitch';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
-import { ICountriesData, IRegistrationForm } from '../../interface/interface';
+import { ICountriesData, IRegistrationForm } from '../../types/interface';
 import { countriesData } from '../../constants/registratForm';
 import { takeDataForm } from './EntryDataForm';
 import { validRegisterData } from './utils/validRegisterData';
@@ -14,6 +14,7 @@ import { ErrorMessage } from '../ErrorMessage';
 import { Checkbox } from 'primereact/checkbox';
 import styles from './RegistrationForm.module.scss';
 
+let country1 = '';
 export const RegistrationForm = (props: {
   create: () => void;
 }): JSX.Element => {
@@ -37,8 +38,9 @@ export const RegistrationForm = (props: {
   const countries: ICountriesData[] = countriesData;
   const [checkedShip, setCheckedShip] = useState<boolean>(false);
   const [checkedBill, setCheckedBill] = useState<boolean>(false);
-
   const onSubmit = (data: IRegistrationForm): void => {
+    data.address[0].country = selectedCountry0?.countriCode as string;
+    data.address[1].country = selectedCountry1?.countriCode as string;
     takeDataForm(data, checkedShip, checkedBill, identicalAddresses);
     props.create();
   };

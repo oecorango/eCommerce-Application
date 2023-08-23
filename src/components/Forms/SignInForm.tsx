@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { clientSignIn } from '../../api/Client';
 import { STATUS_OK } from '../../constants/api';
 import { AUTHENTICATE_ERROR } from '../../constants/errors';
-import { SignInForm } from '../../interface/interface';
+import { SignInForm } from '../../types/interface';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validAuthData } from './utils/validAuthData';
 import { AuthContext } from '../authProvider';

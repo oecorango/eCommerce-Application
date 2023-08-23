@@ -13,6 +13,7 @@ import {
   LinkToSignIn,
 } from './Links';
 import logo from '../assets/logo.png';
+import styles from './Headers.module.scss';
 
 export const Header = (): JSX.Element => {
   const { isAuth } = useContext(AuthContext);
@@ -28,18 +29,17 @@ export const Header = (): JSX.Element => {
     const [visibleRight, setVisibleRight] = useState<boolean>(false);
     return (
       <div className="card">
-        <div className="flex gap-2 justify-content-center">
+        <div className={styles.burger__button}>
           <Button
             icon="pi pi-bars"
             onClick={(): void => setVisibleRight(true)}
-            className="burger-button"
           />
         </div>
         <Sidebar
           visible={visibleRight}
           position="right"
           onHide={(): void => setVisibleRight(false)}>
-          <div className="open">
+          <div className={styles.open}>
             <Auth />
           </div>
         </Sidebar>
@@ -68,13 +68,13 @@ export const Header = (): JSX.Element => {
 
   return (
     <>
-      <header className="header">
-        <div className="wrapper header__wrapper">
+      <header className={styles.header}>
+        <div className={styles.header__wrapper}>
           <NavLink to="/">
             <img src={logo} alt="logo" className="w-6rem h-2rem" />
           </NavLink>
           <ShowBurger />
-          <div className="navigation">
+          <div className={styles.navigation}>
             <Auth />
           </div>
         </div>

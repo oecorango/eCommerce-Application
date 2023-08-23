@@ -1,4 +1,6 @@
-.auth__page {
+@import '../../styles/global';
+
+.page {
   display: flex;
   position: relative;
   flex-direction: column;
@@ -7,6 +9,7 @@
   width: 400px;
   padding: 20px;
   left: calc(50% - 200px);
+  min-height: calc(100vh - 150px);
   @include media-mobile {
     width: 350px;
     left: calc(50% - 175px);

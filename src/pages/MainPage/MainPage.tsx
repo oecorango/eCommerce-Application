@@ -1,12 +1,13 @@
-import { Aside } from '../components/Aside';
+import { Aside } from '../../components/Aside';
+import styles from './MainPage.module.scss';
 
 export const MainPage = (): JSX.Element => {
   return (
     <>
-      <div className="wrapper main content">
+      <div className={styles.page}>
         <Aside />
-        <div className="main__content">
-          <div className="main__header">
+        <div className={styles.page__content}>
+          <div className={styles.page__header}>
             <p>The best items</p>
             <p>&nbsp; for your bath</p>
           </div>

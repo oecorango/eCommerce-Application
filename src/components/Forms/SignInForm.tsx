@@ -13,6 +13,7 @@ import { validAuthData } from '../../utils/validAuthData';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/utils';
 import { ErrorMessage } from '../ErrorMessage';
+import styles from './SignInForm.module.scss';
 
 export const FormSingIn = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);
@@ -60,22 +61,13 @@ export const FormSingIn = (): JSX.Element => {
 
         <div className="p-inputgroup">
           <InputText
-            className="mt-5 mb-1"
-            style={{
-              borderTopLeftRadius: '0.5rem',
-              borderBottomLeftRadius: '0.5rem',
-            }}
+            className={(styles.input, 'mt-5 mb-1')}
             {...register('password')}
             type={!checked ? 'password' : 'text'}
             placeholder="Enter your password"
             autoComplete="off"
           />
-          <span
-            className="p-inputgroup-addon mt-5 mb-1"
-            style={{
-              borderTopRightRadius: '0.5rem',
-              borderBottomRightRadius: '0.5rem',
-            }}>
+          <span className={(styles.span, 'p-inputgroup-addon mt-5 mb-1')}>
             <Checkbox
               checked={checked}
               onChange={(): void => setChecked(!checked)}

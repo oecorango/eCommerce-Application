@@ -119,14 +119,14 @@ export const RegistrationForm = (props: {
           {...register('address.0.streetName')}
           placeholder="Enter your street"
         />
-        {/* <ErrorMessage err={errors.address[0]?.streetName?.message} /> */}
+        <ErrorMessage err={errors.address?.[0]?.streetName?.message} />
 
         <InputText
           className="mb-1 w-full border-round-lg"
           {...register('address.0.city')}
           placeholder="Enter your city"
         />
-        {/* <ErrorMessage err={errors.address[0]?.city?.message} /> */}
+        <ErrorMessage err={errors.address?.[0]?.city?.message} />
 
         <div className="mb-1 w-full">
           <Dropdown
@@ -140,7 +140,7 @@ export const RegistrationForm = (props: {
             optionLabel="name"
             placeholder="Select your Country"
           />
-          {/* <ErrorMessage err={errors.address[0]?.city?.message} /> */}
+          <ErrorMessage err={errors.address?.[0]?.city?.message} />
         </div>
 
         <InputText
@@ -148,7 +148,7 @@ export const RegistrationForm = (props: {
           {...register('address.0.postalCode')}
           placeholder="Enter your Post-Code"
         />
-        {/* <ErrorMessage err={errors.address[0]?.postalCode?.message} /> */}
+        <ErrorMessage err={errors.address?.[0]?.postalCode?.message} />
 
         <ToggleButton
           onLabel="Default address"
@@ -173,14 +173,14 @@ export const RegistrationForm = (props: {
           {...register('address.1.streetName')}
           placeholder="Enter your street"
         />
-        {/* <ErrorMessage err={errors.address[1]?.streetName?.message} /> */}
+        <ErrorMessage err={errors.address?.[1]?.streetName?.message} />
 
         <InputText
           className="mb-1 w-full border-round-lg"
           {...register('address.1.city')}
           placeholder="Enter your city"
         />
-        {/* <ErrorMessage err={errors.address[1]?.city?.message} /> */}
+        <ErrorMessage err={errors.address?.[1]?.city?.message} />
 
         <div className="w-full mb-1">
           <Dropdown
@@ -194,7 +194,7 @@ export const RegistrationForm = (props: {
             optionLabel="name"
             placeholder="Select your Country"
           />
-          {/* <ErrorMessage err={errors.address[1]?.country?.message} /> */}
+          <ErrorMessage err={errors.address?.[1]?.country?.message} />
         </div>
 
         <div className="w-full mb-1">
@@ -203,7 +203,7 @@ export const RegistrationForm = (props: {
             {...register('address.1.postalCode')}
             placeholder="Enter your Post-Code"
           />
-          {/* <ErrorMessage err={errors.address[1]?.postalCode?.message} /> */}
+          <ErrorMessage err={errors.address?.[1]?.postalCode?.message} />
         </div>
 
         <ToggleButton

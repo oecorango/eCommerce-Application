@@ -25,7 +25,7 @@ export const takeDataForm = (
   dataForm: IRegistrationForm,
   address0: boolean,
   address1: boolean,
-  checked: boolean,
+  checkedDefaultAddressButton: boolean,
 ): void => {
   delete newCustomerData.defaultShippingAddress;
   delete newCustomerData.defaultBillingAddress;
@@ -35,7 +35,7 @@ export const takeDataForm = (
     dataForm.dateOfBirth = '';
   }
 
-  if (checked) {
+  if (checkedDefaultAddressButton) {
     newAddress = dataForm.address.slice(0, 1);
     if (address0) {
       if (address1) {

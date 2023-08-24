@@ -10,11 +10,10 @@ import { ICountriesData, IRegistrationForm } from '../../types/interface';
 import { countriesData } from '../../constants/registratForm';
 import { takeDataForm } from './EntryDataForm';
 import { validRegisterData } from './utils/validRegisterData';
-import { ErrorMessage } from '../ErrorMessage';
+import { ErrorMessage } from './ErrorMessage';
 import { Checkbox } from 'primereact/checkbox';
 import styles from './RegistrationForm.module.scss';
 
-let country1 = '';
 export const RegistrationForm = (props: {
   create: () => void;
 }): JSX.Element => {
@@ -27,7 +26,7 @@ export const RegistrationForm = (props: {
     mode: 'onBlur',
     resolver: yupResolver(validRegisterData),
   });
-
+  console.log(errors);
   const [identicalAddresses, setIdenticalAddresses] = useState(false);
   const [checkedPassword, setCheckedPassword] = useState(false);
 
@@ -38,12 +37,13 @@ export const RegistrationForm = (props: {
   const countries: ICountriesData[] = countriesData;
   const [checkedShip, setCheckedShip] = useState<boolean>(false);
   const [checkedBill, setCheckedBill] = useState<boolean>(false);
+
   const onSubmit = (data: IRegistrationForm): void => {
     data.address[0].country = selectedCountry0
-      ? selectedCountry0.countriCode
+      ? selectedCountry0.countryCode
       : '';
     data.address[1].country = selectedCountry1
-      ? selectedCountry1.countriCode
+      ? selectedCountry1.countryCode
       : '';
     takeDataForm(data, checkedShip, checkedBill, identicalAddresses);
     props.create();
@@ -57,7 +57,7 @@ export const RegistrationForm = (props: {
         type="text"
         placeholder="Enter your email"
       />
-      <ErrorMessage err={errors} name={'email'} />
+      <ErrorMessage err={errors.email?.message} />
 
       <div className="p-inputgroup mb-1">
         <InputText
@@ -74,21 +74,21 @@ export const RegistrationForm = (props: {
           />
         </span>
       </div>
-      <ErrorMessage err={errors} name={'password'} />
+      <ErrorMessage err={errors.password?.message} />
 
       <InputText
         className="mb-1 border-round-lg"
         {...register('firstName')}
         placeholder="Enter your FirstName"
       />
-      <ErrorMessage err={errors} name={'firstName'} />
+      <ErrorMessage err={errors.firstName?.message} />
 
       <InputText
         className="mb-1 border-round-lg"
         {...register('lastName')}
         placeholder="Enter your LastName"
       />
-      <ErrorMessage err={errors} name={'lastName'} />
+      <ErrorMessage err={errors.lastName?.message} />
 
       <label className={styles.registration_span}>Enter your age</label>
       <InputText
@@ -98,7 +98,7 @@ export const RegistrationForm = (props: {
           valueAsDate: true,
         })}
       />
-      <ErrorMessage err={errors} name={'dateOfBirth'} />
+      <ErrorMessage err={errors.dateOfBirth?.message} />
 
       <div className="flex mt-2">
         <InputSwitch
@@ -120,14 +120,14 @@ export const RegistrationForm = (props: {
           {...register('address.0.streetName')}
           placeholder="Enter your street"
         />
-        <ErrorMessage err={errors} name={'streetName'} />
+        {/* <ErrorMessage err={errors.address[0]?.streetName?.message} /> */}
 
         <InputText
           className="mb-1 w-full border-round-lg"
           {...register('address.0.city')}
           placeholder="Enter your city"
         />
-        <ErrorMessage err={errors} name={'city'} />
+        {/* <ErrorMessage err={errors.address[0]?.city?.message} /> */}
 
         <div className="mb-1 w-full">
           <Dropdown
@@ -141,7 +141,7 @@ export const RegistrationForm = (props: {
             optionLabel="name"
             placeholder="Select your Country"
           />
-          <ErrorMessage err={errors} name={'country'} />
+          {/* <ErrorMessage err={errors.address[0]?.city?.message} /> */}
         </div>
 
         <InputText
@@ -149,7 +149,7 @@ export const RegistrationForm = (props: {
           {...register('address.0.postalCode')}
           placeholder="Enter your Post-Code"
         />
-        <ErrorMessage err={errors} name={'postalCode'} />
+        {/* <ErrorMessage err={errors.address[0]?.postalCode?.message} /> */}
 
         <ToggleButton
           onLabel="Default address"
@@ -174,14 +174,14 @@ export const RegistrationForm = (props: {
           {...register('address.1.streetName')}
           placeholder="Enter your street"
         />
-        <ErrorMessage err={errors} name={'streetName1'} />
+        {/* <ErrorMessage err={errors.address[1]?.streetName?.message} /> */}
 
         <InputText
           className="mb-1 w-full border-round-lg"
           {...register('address.1.city')}
           placeholder="Enter your city"
         />
-        <ErrorMessage err={errors} name={'city1'} />
+        {/* <ErrorMessage err={errors.address[1]?.city?.message} /> */}
 
         <div className="w-full mb-1">
           <Dropdown
@@ -195,7 +195,7 @@ export const RegistrationForm = (props: {
             optionLabel="name"
             placeholder="Select your Country"
           />
-          <ErrorMessage err={errors} name={'country1'} />
+          {/* <ErrorMessage err={errors.address[1]?.country?.message} /> */}
         </div>
 
         <div className="w-full mb-1">
@@ -204,7 +204,7 @@ export const RegistrationForm = (props: {
             {...register('address.1.postalCode')}
             placeholder="Enter your Post-Code"
           />
-          <ErrorMessage err={errors} name={'postalCode1'} />
+          {/* <ErrorMessage err={errors.address[1]?.postalCode?.message} /> */}
         </div>
 
         <ToggleButton

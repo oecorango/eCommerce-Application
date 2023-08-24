@@ -39,6 +39,6 @@ export const newCustomerData: InewCustomerData = {
 };
 
 export const countriesData: ICountriesData[] = [
-  { name: 'Belarus (BY)', countriCode: 'BY' },
-  { name: 'Russian Federation (RU)', countriCode: 'RU' },
+  { name: 'Belarus (BY)', countryCode: 'BY' },
+  { name: 'Russian Federation (RU)', countryCode: 'RU' },
 ];

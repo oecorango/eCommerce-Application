@@ -5,7 +5,7 @@ export interface SignInForm {
 
 export interface ICountriesData {
   name: string;
-  countriCode: string;
+  countryCode: string;
 }
 
 export interface IAddresses {

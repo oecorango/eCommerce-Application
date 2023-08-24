@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { ErrorMessage } from '../components/ErrorMessage';
+import { ErrorMessage } from '../components/Forms/ErrorMessage';
 
 describe('ErrorMessage component', () => {
   it('renders error message for email', () => {

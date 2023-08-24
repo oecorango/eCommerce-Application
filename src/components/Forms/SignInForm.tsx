@@ -7,13 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import { clientSignIn } from '../../api/Client';
 import { STATUS_OK } from '../../constants/api';
 import { AUTHENTICATE_ERROR } from '../../constants/errors';
-import { SignInForm } from '../../interface/interface';
+import { SignInForm } from '../../types/interface';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validAuthData } from './utils/validAuthData';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/user';
 import { ErrorMessage } from '../ErrorMessage';
 import styles from './SignInForm.module.scss';
+import { PAGES } from '../../constants/pages';
 
 export const FormSingIn = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);
@@ -37,7 +38,7 @@ export const FormSingIn = (): JSX.Element => {
         if (data.statusCode === STATUS_OK) {
           setIsAuth(true);
           logIn(data);
-          isValidUser('/');
+          isValidUser(PAGES.main);
         }
       })
       .catch(() =>

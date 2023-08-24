@@ -11,6 +11,8 @@ import {
 import logo from '../assets/logo.png';
 import styles from './Headers.module.scss';
 import { ShowBurger } from './Burger';
+import { PAGES } from '../constants/pages';
+
 
 export const Header = (): JSX.Element => {
   const { isAuth } = useContext(AuthContext);
@@ -32,7 +34,7 @@ export const Header = (): JSX.Element => {
     <>
       <header className={styles.header}>
         <div className={styles.header__wrapper}>
-          <NavLink to="/">
+          <NavLink to={PAGES.main}>
             <img src={logo} alt="logo" className="w-6rem h-2rem" />
           </NavLink>
           <ShowBurger />

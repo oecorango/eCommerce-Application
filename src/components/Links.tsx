@@ -1,36 +1,38 @@
 import { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { PAGES } from '../constants/pages';
 import { logOut } from '../utils/user';
 import { AuthContext } from './authProvider';
 import styles from './Links.module.scss';
 
 export const commonLinks = [
-  <NavLink to="/">
+  <NavLink to={PAGES.main}>
     <i className={`pi pi-home ${styles.fontSize}`}></i>
     Home
   </NavLink>,
-  <NavLink to="/about">
+  <NavLink to={PAGES.about}>
     <i className={`pi pi-users ${styles.fontSize}`}></i>
     About
   </NavLink>,
-  <NavLink to="/cart">
+  <NavLink to={PAGES.cart}>
     <i className={`pi pi-shopping-bag ${styles.fontSize}`}></i>
     Cart
   </NavLink>,
 ];
 
 export const LinkToSignIn = (): JSX.Element => (
-  <NavLink to="/signin">
+  <NavLink to={PAGES.signin}>
     <i className={`pi pi-sign-in ${styles.fontSize}`}></i>
     Sign in
   </NavLink>
 );
 
 export const LinkToRegistration = (): JSX.Element => (
-  <NavLink to="/registration">
+  <NavLink to={PAGES.registration}>
     <i className={`pi pi-user-edit ${styles.fontSize}`}></i>
     Register
   </NavLink>
+
 );
 
 export const LinkToLogOut = (): JSX.Element => {
@@ -42,7 +44,7 @@ export const LinkToLogOut = (): JSX.Element => {
   };
 
   return (
-    <Link to="/" onClick={handleLogOut}>
+    <Link to={PAGES.main} onClick={handleLogOut}>
       <i className={`pi pi-sign-out ${styles.fontSize}`}></i>
       Exit
     </Link>

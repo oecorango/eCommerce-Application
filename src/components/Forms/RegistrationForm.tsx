@@ -39,8 +39,12 @@ export const RegistrationForm = (props: {
   const [checkedShip, setCheckedShip] = useState<boolean>(false);
   const [checkedBill, setCheckedBill] = useState<boolean>(false);
   const onSubmit = (data: IRegistrationForm): void => {
-    data.address[0].country = selectedCountry0?.countriCode as string;
-    data.address[1].country = selectedCountry1?.countriCode as string;
+    data.address[0].country = selectedCountry0
+      ? selectedCountry0.countriCode
+      : '';
+    data.address[1].country = selectedCountry1
+      ? selectedCountry1.countriCode
+      : '';
     takeDataForm(data, checkedShip, checkedBill, identicalAddresses);
     props.create();
   };

@@ -1,8 +1,6 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from './authProvider';
-import { Sidebar } from 'primereact/sidebar';
-import { Button } from 'primereact/button';
 import 'primeflex/primeflex.css';
 import {
   LinkToLogOut,
@@ -12,6 +10,7 @@ import {
 } from './Links';
 import logo from '../assets/logo.png';
 import styles from './Headers.module.scss';
+import { ShowBurger } from './Burger';
 
 export const Header = (): JSX.Element => {
   const { isAuth } = useContext(AuthContext);
@@ -28,25 +27,7 @@ export const Header = (): JSX.Element => {
       )}
     </>
   );
-  function ShowBurger(): JSX.Element {
-    const [visibleRight, setVisibleRight] = useState<boolean>(false);
-    return (
-      <div className="card">
-        <div className={styles.burger__button}>
-          <Button
-            icon="pi pi-bars"
-            onClick={(): void => setVisibleRight(true)}
-          />
-        </div>
-        <Sidebar
-          visible={visibleRight}
-          position="right"
-          onHide={(): void => setVisibleRight(false)}>
-          <div className={styles.open}>{<Auth />}</div>
-        </Sidebar>
-      </div>
-    );
-  }
+
   return (
     <>
       <header className={styles.header}>
@@ -54,18 +35,9 @@ export const Header = (): JSX.Element => {
           <NavLink to="/">
             <img src={logo} alt="logo" className="w-6rem h-2rem" />
           </NavLink>
-          {<ShowBurger />}
+          <ShowBurger />
           <div className={styles.navigation}>
-            {/* <Auth /> */}
-            {commonLinks}
-            {isAuth ? (
-              <LinkToLogOut />
-            ) : (
-              <>
-                <LinkToSignIn />
-                <LinkToRegistration />
-              </>
-            )}
+            <Auth />
           </div>
         </div>
       </header>

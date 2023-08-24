@@ -8,7 +8,7 @@ import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { ICountriesData, IRegistrationForm } from '../../types/interface';
 import { countriesData } from '../../constants/registratForm';
-import { takeDataForm } from './EntryDataForm';
+import { takeDataForm } from './utils/takeDataForm';
 import { validRegisterData } from './utils/validRegisterData';
 import { ErrorMessage } from './ErrorMessage';
 import { Checkbox } from 'primereact/checkbox';

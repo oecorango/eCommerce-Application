@@ -1,79 +1,16 @@
 import { useContext, useState } from 'react';
 import { Dialog } from 'primereact/dialog';
-import { registerNewCustomer } from '../../api/Client';
 import { RegistrationForm } from './RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
-import { IRegistrationForm, IAddresses } from '../../types/interface';
 import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn, userAge } from '../../utils/user';
 import { customerShippingBilling } from '../../api/requestAPI';
 import styles from './EntryDataForm.module.scss';
 import { PAGES } from '../../constants/pages';
-
-let newAddress: IAddresses[] = [
-  {
-    country: '',
-    city: '',
-    postalCode: '',
-    streetName: '',
-  },
-];
-let setBillShipp = [false, false, false];
-export const takeDataForm = (
-  dataForm: IRegistrationForm,
-  address0: boolean,
-  address1: boolean,
-  checkedDefaultAddressButton: boolean,
-): void => {
-  delete newCustomerData.defaultShippingAddress;
-  delete newCustomerData.defaultBillingAddress;
-  if (dataForm.dateOfBirth) {
-    dataForm.dateOfBirth = userAge(dataForm);
-  } else {
-    dataForm.dateOfBirth = '';
-  }
-
-  if (checkedDefaultAddressButton) {
-    newAddress = dataForm.address.slice(0, 1);
-    if (address0) {
-      if (address1) {
-        newCustomerData['defaultShippingAddress'] = 0;
-        newCustomerData['defaultBillingAddress'] = 0;
-        setBillShipp = [false, false, false];
-      } else {
-        newCustomerData['defaultShippingAddress'] = 0;
-        setBillShipp = [false, true, false];
-      }
-    } else {
-      if (address1) {
-        newCustomerData['defaultBillingAddress'] = 0;
-        setBillShipp = [true, false, false];
-      } else {
-        setBillShipp = [true, true, false];
-      }
-    }
-  } else {
-    newAddress = dataForm.address;
-    if (address0) {
-      newCustomerData['defaultShippingAddress'] = 0;
-      setBillShipp = [false, false, true];
-    } else {
-      setBillShipp = [true, false, true];
-    }
-    if (address1) {
-      newCustomerData['defaultBillingAddress'] = 1;
-      setBillShipp[2] = false;
-    }
-  }
-  newCustomerData.firstName = dataForm.firstName;
-  newCustomerData.lastName = dataForm.lastName;
-  newCustomerData.email = dataForm.email;
-  newCustomerData.password = dataForm.password;
-  newCustomerData.dateOfBirth = dataForm.dateOfBirth;
-  newCustomerData.addresses = newAddress;
-};
+import { setBillShipp } from './utils/takeDataForm';
+import { registerNewCustomer } from '../../api/Client';
 
 export const EntryDataForm = (): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);

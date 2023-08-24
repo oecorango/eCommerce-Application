@@ -13,7 +13,6 @@ import styles from './Headers.module.scss';
 import { ShowBurger } from './Burger';
 import { PAGES } from '../constants/pages';
 
-
 export const Header = (): JSX.Element => {
   const { isAuth } = useContext(AuthContext);
   const Auth = (): JSX.Element => (

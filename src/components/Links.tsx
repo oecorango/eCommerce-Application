@@ -6,15 +6,15 @@ import { AuthContext } from './authProvider';
 import styles from './Links.module.scss';
 
 export const commonLinks = [
-  <NavLink to={PAGES.main}>
+  <NavLink to={PAGES.main} key={'main'}>
     <i className={`pi pi-home ${styles.fontSize}`}></i>
     Home
   </NavLink>,
-  <NavLink to={PAGES.about}>
+  <NavLink to={PAGES.about} key={'about'}>
     <i className={`pi pi-users ${styles.fontSize}`}></i>
     About
   </NavLink>,
-  <NavLink to={PAGES.cart}>
+  <NavLink to={PAGES.cart} key={'cart'}>
     <i className={`pi pi-shopping-bag ${styles.fontSize}`}></i>
     Cart
   </NavLink>,
@@ -32,7 +32,6 @@ export const LinkToRegistration = (): JSX.Element => (
     <i className={`pi pi-user-edit ${styles.fontSize}`}></i>
     Register
   </NavLink>
-
 );
 
 export const LinkToLogOut = (): JSX.Element => {

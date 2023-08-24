@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import { IRegistrationForm, IAddresses } from '../../types/interface';
 import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
-import { logIn } from '../../utils/user';
+import { logIn, userAge } from '../../utils/user';
 import { customerShippingBilling } from '../../api/requestAPI';
 import styles from './EntryDataForm.module.scss';
 import { PAGES } from '../../constants/pages';
@@ -30,17 +30,7 @@ export const takeDataForm = (
   delete newCustomerData.defaultShippingAddress;
   delete newCustomerData.defaultBillingAddress;
   if (dataForm.dateOfBirth) {
-    const userAge = new Date(dataForm.dateOfBirth);
-    const userYear = userAge.getFullYear();
-    const userMonth = userAge.getMonth() + 1;
-    const userDate = userAge.getDate() + 1;
-    // console.log(userDate);
-    dataForm.dateOfBirth = `${userYear}-${userMonth}-${userDate}`;
-    // dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
-    //   .toLocaleDateString()
-    //   .split('.')
-    //   .reverse()
-    //   .join('-');
+    dataForm.dateOfBirth = userAge(dataForm);
   } else {
     dataForm.dateOfBirth = '';
   }

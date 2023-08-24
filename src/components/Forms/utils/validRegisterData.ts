@@ -56,6 +56,8 @@ export const validRegisterData = object().shape({
     .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
     .matches(REG_EXP_NAME.noSpecialCharacters, NAME_ERROR.noSpecialCharacters)
     .required(),
-  dateOfBirth: string().required().test('isOldEnough', isOldEnough),
+  dateOfBirth: string()
+    .required()
+    .test('isOldEnough', 'You must be over 13', isOldEnough),
   address: array().of(addressSchema).required(),
 });

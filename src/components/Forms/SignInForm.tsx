@@ -12,7 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { validAuthData } from './utils/validAuthData';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/user';
-import { ErrorMessage } from '../ErrorMessage';
+import { ErrorMessage } from './ErrorMessage';
 import styles from './SignInForm.module.scss';
 import { PAGES } from '../../constants/pages';
 
@@ -38,7 +38,7 @@ export const FormSingIn = (): JSX.Element => {
         if (data.statusCode === STATUS_OK) {
           setIsAuth(true);
           logIn(data);
-          isValidUser(PAGES.main);
+          isValidUser(PAGES.main.route);
         }
       })
       .catch(() =>
@@ -58,7 +58,7 @@ export const FormSingIn = (): JSX.Element => {
           type="text"
           placeholder="Enter your email"
         />
-        <ErrorMessage err={errors} name={'email'} />
+        <ErrorMessage err={errors.email?.message} />
 
         <div className="p-inputgroup">
           <InputText
@@ -75,7 +75,7 @@ export const FormSingIn = (): JSX.Element => {
             />
           </span>
         </div>
-        <ErrorMessage err={errors} name={'password'} />
+        <ErrorMessage err={errors.password?.message} />
 
         <Button
           className="mt-6 mb-5 border-round-lg"

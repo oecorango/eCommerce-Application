@@ -25,7 +25,7 @@ export const takeDataForm = (
   dataForm: IRegistrationForm,
   address0: boolean,
   address1: boolean,
-  checked: boolean,
+  checkedDefaultAddressButton: boolean,
 ): void => {
   delete newCustomerData.defaultShippingAddress;
   delete newCustomerData.defaultBillingAddress;
@@ -35,7 +35,7 @@ export const takeDataForm = (
     dataForm.dateOfBirth = '';
   }
 
-  if (checked) {
+  if (checkedDefaultAddressButton) {
     newAddress = dataForm.address.slice(0, 1);
     if (address0) {
       if (address1) {
@@ -135,7 +135,7 @@ export const EntryDataForm = (): JSX.Element => {
           setVisible(false);
           if (showSuccessMessage) {
             setIsAuth(true);
-            toMainPage(PAGES.main);
+            toMainPage(PAGES.main.route);
           }
         }}>
         <p className={styles.message}>{registrationMessage}</p>
@@ -148,7 +148,7 @@ export const EntryDataForm = (): JSX.Element => {
         label="Sign In"
         type="button"
         onClick={(): void => {
-          toSignInPage(PAGES.signin);
+          toSignInPage(PAGES.signin.route);
         }}
       />
     </>

@@ -1,13 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
-import { FieldErrors } from 'react-hook-form';
-import { IRegistrationForm } from './interface';
 
 export type IAuth = {
   isAuth: boolean;
   setIsAuth: Dispatch<SetStateAction<boolean>>;
 };
 
-export type err = {
-  err: FieldErrors<IRegistrationForm>;
-  name: string;
+export type errorMessage = {
+  err: string | undefined;
 };

@@ -5,26 +5,29 @@ import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
 import 'primeflex/primeflex.css';
 import {
-  LinkToAbout,
-  LinkToCart,
-  LinkToHome,
   LinkToLogOut,
   LinkToRegistration,
   LinkToSignIn,
+  commonLinks,
 } from './Links';
 import logo from '../assets/logo.png';
 import styles from './Headers.module.scss';
 
 export const Header = (): JSX.Element => {
   const { isAuth } = useContext(AuthContext);
-
-  const Auth = (): JSX.Element => {
-    if (isAuth) {
-      return authNavigation;
-    }
-    return noAuthNavigation;
-  };
-
+  const Auth = (): JSX.Element => (
+    <>
+      {commonLinks}
+      {isAuth ? (
+        <LinkToLogOut />
+      ) : (
+        <>
+          <LinkToSignIn />
+          <LinkToRegistration />
+        </>
+      )}
+    </>
+  );
   function ShowBurger(): JSX.Element {
     const [visibleRight, setVisibleRight] = useState<boolean>(false);
     return (
@@ -39,33 +42,11 @@ export const Header = (): JSX.Element => {
           visible={visibleRight}
           position="right"
           onHide={(): void => setVisibleRight(false)}>
-          <div className={styles.open}>
-            <Auth />
-          </div>
+          <div className={styles.open}>{<Auth />}</div>
         </Sidebar>
       </div>
     );
   }
-
-  const noAuthNavigation = (
-    <>
-      <LinkToHome />
-      <LinkToAbout />
-      <LinkToCart />
-      <LinkToSignIn />
-      <LinkToRegistration />
-    </>
-  );
-
-  const authNavigation = (
-    <>
-      <LinkToHome />
-      <LinkToAbout />
-      <LinkToCart />
-      <LinkToLogOut />
-    </>
-  );
-
   return (
     <>
       <header className={styles.header}>
@@ -73,9 +54,18 @@ export const Header = (): JSX.Element => {
           <NavLink to="/">
             <img src={logo} alt="logo" className="w-6rem h-2rem" />
           </NavLink>
-          <ShowBurger />
+          {<ShowBurger />}
           <div className={styles.navigation}>
-            <Auth />
+            {/* <Auth /> */}
+            {commonLinks}
+            {isAuth ? (
+              <LinkToLogOut />
+            ) : (
+              <>
+                <LinkToSignIn />
+                <LinkToRegistration />
+              </>
+            )}
           </div>
         </div>
       </header>

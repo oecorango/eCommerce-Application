@@ -30,14 +30,21 @@ export const takeDataForm = (
   delete newCustomerData.defaultShippingAddress;
   delete newCustomerData.defaultBillingAddress;
   if (dataForm.dateOfBirth) {
-    dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
-      .toLocaleDateString()
-      .split('.')
-      .reverse()
-      .join('-');
+    const userAge = new Date(dataForm.dateOfBirth);
+    const userYear = userAge.getFullYear();
+    const userMonth = userAge.getMonth() + 1;
+    const userDate = userAge.getDate() + 1;
+    // console.log(userDate);
+    dataForm.dateOfBirth = `${userYear}-${userMonth}-${userDate}`;
+    // dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
+    //   .toLocaleDateString()
+    //   .split('.')
+    //   .reverse()
+    //   .join('-');
   } else {
     dataForm.dateOfBirth = '';
   }
+
   dataForm.address[0].country = dataForm.address[0].country
     .slice(-3)
     .slice(0, -1);

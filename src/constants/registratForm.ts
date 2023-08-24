@@ -1,25 +1,12 @@
 import {
   ICountriesData,
-  IRegistrationForm,
   IAddresses,
   IAddress,
   InewCustomerData,
-} from '../interface/interface';
-
-// export const dataRegistrationForm: IRegistrationForm = {
-//   email: '',
-//   password: '',
-//   firstName: '',
-//   lastName: '',
-//   dateOfBirth: '',
-//   country: '',
-//   city: '',
-//   postalCode: '',
-//   streetName: '',
-// };
+} from '../types/interface';
 
 export const count: { version: number; ID: string } = {
-  version: 21,
+  version: 0,
   ID: '',
 };
 
@@ -52,10 +39,6 @@ export const newCustomerData: InewCustomerData = {
 };
 
 export const countriesData: ICountriesData[] = [
-  { name: 'Belarus (BY)', postalCode: '999999', countriCode: '(BY)' },
-  {
-    name: 'Russian Federation (RU)',
-    postalCode: '999999',
-    countriCode: '(RU)',
-  },
+  { name: 'Belarus (BY)', countriCode: 'BY' },
+  { name: 'Russian Federation (RU)', countriCode: 'RU' },
 ];

@@ -5,21 +5,8 @@ export interface SignInForm {
 
 export interface ICountriesData {
   name: string;
-  postalCode: string;
   countriCode: string;
 }
-
-// export interface IRegistrationForm01 {
-//   email: string;
-//   password: string;
-//   firstName: string;
-//   lastName: string;
-//   dateOfBirth: string;
-//   country: string;
-//   city: string;
-//   postalCode?: string;
-//   streetName: string;
-// }
 
 export interface IAddresses {
   country: string;

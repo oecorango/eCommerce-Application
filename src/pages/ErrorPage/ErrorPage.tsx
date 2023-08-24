@@ -8,7 +8,7 @@ export const ErrorPage = (): JSX.Element => {
       <div className={styles.page__content}>
         <p>
           This page was not found, return to the
-          <Link to={PAGES.main}>main page</Link>?
+          <Link to={PAGES.main.route}>main page</Link>?
         </p>
       </div>
     </div>

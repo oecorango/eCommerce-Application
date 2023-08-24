@@ -33,7 +33,7 @@ export const Header = (): JSX.Element => {
     <>
       <header className={styles.header}>
         <div className={styles.header__wrapper}>
-          <NavLink to={PAGES.main}>
+          <NavLink to={PAGES.main.route}>
             <img src={logo} alt="logo" className="w-6rem h-2rem" />
           </NavLink>
           <ShowBurger />

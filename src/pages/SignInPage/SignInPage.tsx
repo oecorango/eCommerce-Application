@@ -18,7 +18,7 @@ export const SignInPage = (): JSX.Element => {
         className="mt-3 mb-8 border-round-lg"
         label="Registration"
         type="button"
-        onClick={(): void => toRegistrationForm(PAGES.registration)}
+        onClick={(): void => toRegistrationForm(PAGES.registration.route)}
       />
     </div>
   );

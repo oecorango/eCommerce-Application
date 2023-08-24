@@ -26,7 +26,6 @@ export const RegistrationForm = (props: {
     mode: 'onBlur',
     resolver: yupResolver(validRegisterData),
   });
-  console.log(errors);
   const [identicalAddresses, setIdenticalAddresses] = useState(false);
   const [checkedPassword, setCheckedPassword] = useState(false);
 

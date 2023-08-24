@@ -29,19 +29,25 @@ function App(): JSX.Element {
           setIsAuth,
         }}>
         <Routes>
-          <Route path={PAGES.main} element={<Layout />}>
+          <Route path={PAGES.main.route} element={<Layout />}>
             <Route index element={<MainPage />} />
             <Route
-              path={PAGES.signin}
-              element={isAuth ? <Navigate to={PAGES.main} /> : <SignInPage />}
-            />
-            <Route
-              path={PAGES.registration}
+              path={PAGES.signin.route}
               element={
-                isAuth ? <Navigate to={PAGES.main} /> : <RegistrationPage />
+                isAuth ? <Navigate to={PAGES.main.route} /> : <SignInPage />
               }
             />
-            <Route path={PAGES.about} element={<AboutPage />} />
+            <Route
+              path={PAGES.registration.route}
+              element={
+                isAuth ? (
+                  <Navigate to={PAGES.main.route} />
+                ) : (
+                  <RegistrationPage />
+                )
+              }
+            />
+            <Route path={PAGES.about.route} element={<AboutPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>

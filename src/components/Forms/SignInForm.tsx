@@ -38,7 +38,7 @@ export const FormSingIn = (): JSX.Element => {
         if (data.statusCode === STATUS_OK) {
           setIsAuth(true);
           logIn(data);
-          isValidUser(PAGES.main);
+          isValidUser(PAGES.main.route);
         }
       })
       .catch(() =>

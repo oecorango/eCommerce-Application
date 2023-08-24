@@ -135,7 +135,7 @@ export const EntryDataForm = (): JSX.Element => {
           setVisible(false);
           if (showSuccessMessage) {
             setIsAuth(true);
-            toMainPage(PAGES.main);
+            toMainPage(PAGES.main.route);
           }
         }}>
         <p className={styles.message}>{registrationMessage}</p>
@@ -148,7 +148,7 @@ export const EntryDataForm = (): JSX.Element => {
         label="Sign In"
         type="button"
         onClick={(): void => {
-          toSignInPage(PAGES.signin);
+          toSignInPage(PAGES.signin.route);
         }}
       />
     </>

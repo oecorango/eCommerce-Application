@@ -14,6 +14,7 @@ import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/user';
 import { ErrorMessage } from '../ErrorMessage';
 import styles from './SignInForm.module.scss';
+import { PAGES } from '../../constants/pages';
 
 export const FormSingIn = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);
@@ -37,7 +38,7 @@ export const FormSingIn = (): JSX.Element => {
         if (data.statusCode === STATUS_OK) {
           setIsAuth(true);
           logIn(data);
-          isValidUser('/');
+          isValidUser(PAGES.main);
         }
       })
       .catch(() =>

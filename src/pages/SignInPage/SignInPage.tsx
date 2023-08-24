@@ -1,6 +1,7 @@
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
 import { FormSingIn } from '../../components/Forms/SignInForm';
+import { PAGES } from '../../constants/pages';
 import styles from './SignInPage.module.scss';
 
 export const SignInPage = (): JSX.Element => {
@@ -17,7 +18,7 @@ export const SignInPage = (): JSX.Element => {
         className="mt-3 mb-8 border-round-lg"
         label="Registration"
         type="button"
-        onClick={(): void => toRegistrationForm('/registration')}
+        onClick={(): void => toRegistrationForm(PAGES.registration)}
       />
     </div>
   );

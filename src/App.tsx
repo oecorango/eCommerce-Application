@@ -11,6 +11,7 @@ import 'primereact/resources/themes/mira/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.scss';
+import { PAGES } from './constants/pages';
 
 function App(): JSX.Element {
   const [isAuth, setIsAuth] = useState(false);
@@ -28,17 +29,19 @@ function App(): JSX.Element {
           setIsAuth,
         }}>
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path={PAGES.main} element={<Layout />}>
             <Route index element={<MainPage />} />
             <Route
-              path="signin"
-              element={isAuth ? <Navigate to={'/'} /> : <SignInPage />}
+              path={PAGES.signin}
+              element={isAuth ? <Navigate to={PAGES.main} /> : <SignInPage />}
             />
             <Route
-              path="registration"
-              element={isAuth ? <Navigate to={'/'} /> : <RegistrationPage />}
+              path={PAGES.registration}
+              element={
+                isAuth ? <Navigate to={PAGES.main} /> : <RegistrationPage />
+              }
             />
-            <Route path="about" element={<AboutPage />} />
+            <Route path={PAGES.about} element={<AboutPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>

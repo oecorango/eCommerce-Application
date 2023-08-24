@@ -10,6 +10,7 @@ import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/user';
 import { customerShippingBilling } from '../../api/requestAPI';
 import styles from './EntryDataForm.module.scss';
+import { PAGES } from '../../constants/pages';
 
 let newAddress: IAddresses[] = [
   {
@@ -29,11 +30,17 @@ export const takeDataForm = (
   delete newCustomerData.defaultShippingAddress;
   delete newCustomerData.defaultBillingAddress;
   if (dataForm.dateOfBirth) {
-    dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
-      .toLocaleDateString()
-      .split('.')
-      .reverse()
-      .join('-');
+    const userAge = new Date(dataForm.dateOfBirth);
+    const userYear = userAge.getFullYear();
+    const userMonth = userAge.getMonth() + 1;
+    const userDate = userAge.getDate() + 1;
+    // console.log(userDate);
+    dataForm.dateOfBirth = `${userYear}-${userMonth}-${userDate}`;
+    // dataForm.dateOfBirth = new Date(dataForm.dateOfBirth)
+    //   .toLocaleDateString()
+    //   .split('.')
+    //   .reverse()
+    //   .join('-');
   } else {
     dataForm.dateOfBirth = '';
   }
@@ -138,7 +145,7 @@ export const EntryDataForm = (): JSX.Element => {
           setVisible(false);
           if (showSuccessMessage) {
             setIsAuth(true);
-            toMainPage('/');
+            toMainPage(PAGES.main);
           }
         }}>
         <p className={styles.message}>{registrationMessage}</p>
@@ -151,7 +158,7 @@ export const EntryDataForm = (): JSX.Element => {
         label="Sign In"
         type="button"
         onClick={(): void => {
-          toSignInPage('/signin');
+          toSignInPage(PAGES.signin);
         }}
       />
     </>

@@ -7,6 +7,7 @@ import {
   CustomerSignin,
   CustomerSignInResult,
   CustomerUpdateAction,
+  ProductProjection,
   ProductProjectionPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { ApiRequest } from '@commercetools/platform-sdk/dist/declarations/src/generated/shared/utils/requests-utils';
@@ -31,6 +32,22 @@ export const getProducts = (): Promise<
   ClientResponse<ProductProjectionPagedQueryResponse>
 > => {
   return apiRoot.productProjections().get().execute();
+};
+
+export const getProductById = (
+  productId: string,
+): Promise<ClientResponse<ProductProjection>> => {
+  return apiRoot.productProjections().withId({ ID: productId }).get().execute();
+};
+
+export const getProductByKey = (
+  productId: string,
+): Promise<ClientResponse<ProductProjection>> => {
+  return apiRoot
+    .productProjections()
+    .withKey({ key: productId })
+    .get()
+    .execute();
 };
 
 export const shopList = (): ByProjectKeyShoppingListsRequestBuilder => {

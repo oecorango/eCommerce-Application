@@ -2,3 +2,14 @@
 .wrapper {
   display: flex;
 }
+
+.strikethrough {
+  text-decoration: line-through;
+  padding-top: 2em;
+}
+
+.highlight {
+  background-color: $color-green;
+  max-width: 5em;
+  font-weight: bold;
+}

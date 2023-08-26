@@ -1,9 +1,10 @@
 import { Galleria, GalleriaResponsiveOptions } from 'primereact/galleria';
 import { useEffect, useState } from 'react';
-import { Attribute, Image } from '@commercetools/platform-sdk';
+import { Image } from '@commercetools/platform-sdk';
 import { getProductByKey } from '../../api/Client';
 import { Card } from 'primereact/card';
 import styles from './DisplayProductInfo.module.scss';
+import { CENTS_PER_EURO } from '../../constants/common';
 
 export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const [images, setImages] = useState<Image[]>();
@@ -15,22 +16,22 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
       breakpoint: '991px',
-      numVisible: 4,
+      numVisible: 2,
     },
     {
       breakpoint: '767px',
-      numVisible: 3,
+      numVisible: 2,
     },
     {
       breakpoint: '575px',
-      numVisible: 1,
+      numVisible: 2,
     },
   ];
   const covertPrice = (price: number): string => {
     return new Intl.NumberFormat('de-DE', {
       style: 'currency',
       currency: 'EUR',
-    }).format(price / 100);
+    }).format(price / CENTS_PER_EURO);
   };
 
   useEffect(() => {
@@ -54,7 +55,6 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
       }
     });
   }, [keyProduct]);
-  // console.log(priceProduct);
   const itemTemplate = (item: Image): JSX.Element => {
     return (
       <img
@@ -83,14 +83,10 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
           thumbnail={thumbnailTemplate}
         />
       </div>
-      <Card
-        title={nameProduct}
-        subTitle={typeProduct}
-        footer={priceProduct}
-        // header={priceFullProduct}
-        className="md:w-25rem">
+      <Card title={nameProduct} subTitle={typeProduct} className="md:w-25rem">
         <p className="m-0">{descriptionProduct}</p>
-        <p className="m-0">{priceFullProduct}</p>
+        <p className={`m-0 ${styles.strikethrough}`}>{priceFullProduct}</p>
+        <p className={`m-10 ${styles.highlight}`}>{priceProduct}</p>{' '}
       </Card>
     </div>
   );

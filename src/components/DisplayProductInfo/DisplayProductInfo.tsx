@@ -32,6 +32,7 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
   useEffect(() => {
     getProductByKey(keyProduct)
       .then(data => {
+        console.log(data);
         const pathToPhoto = data.body.masterVariant.images;
         const productName = data.body.name['en-US'];
         const productDescription = data.body.description?.['en-US'];
@@ -75,30 +76,33 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const thumbnailTemplate = (item: Image): JSX.Element => {
     return <img src={item.url} alt={item.label} style={{ width: '50%' }} />;
   };
+
   return (
-    <div className={styles.wrapper}>
-      <div className="card">
-        <Galleria
-          value={images}
-          responsiveOptions={responsiveOptions}
-          numVisible={2}
-          circular
-          style={{ maxWidth: '500px' }}
-          showItemNavigators
-          showItemNavigatorsOnHover
-          item={itemTemplate}
-          thumbnail={thumbnailTemplate}
-        />
+    <>
+      <div className={styles.wrapper}>
+        <div className="card">
+          <Galleria
+            value={images}
+            responsiveOptions={responsiveOptions}
+            numVisible={2}
+            circular
+            style={{ maxWidth: '500px' }}
+            showItemNavigators
+            showItemNavigatorsOnHover
+            item={itemTemplate}
+            thumbnail={thumbnailTemplate}
+          />
+        </div>
+        <Card title={nameProduct} subTitle={typeProduct} className="md:w-25rem">
+          <p className="m-0">{descriptionProduct}</p>
+          {priceProductDiscount ? (
+            <p className={`${styles.strikethrough} m-0`}>{priceFullProduct}</p>
+          ) : (
+            <p className={`${styles.noDiscount} m-0`}>{priceFullProduct}</p>
+          )}
+          <p className={`m-10 ${styles.highlight}`}>{priceProductDiscount}</p>{' '}
+        </Card>
       </div>
-      <Card title={nameProduct} subTitle={typeProduct} className="md:w-25rem">
-        <p className="m-0">{descriptionProduct}</p>
-        {priceProductDiscount ? (
-          <p className={`${styles.strikethrough} m-0`}>{priceFullProduct}</p>
-        ) : (
-          <p className={`${styles.noDiscount} m-0`}>{priceFullProduct}</p>
-        )}
-        <p className={`m-10 ${styles.highlight}`}>{priceProductDiscount}</p>{' '}
-      </Card>
-    </div>
+    </>
   );
 }

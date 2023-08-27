@@ -1,11 +1,11 @@
 import { Galleria, GalleriaResponsiveOptions } from 'primereact/galleria';
 import { useEffect, useState } from 'react';
 import { Image } from '@commercetools/platform-sdk';
-import { getProductByKey } from '../../../api/Client';
+import { getProductByKey } from '../../api/Client';
 import { Card } from 'primereact/card';
 import styles from './DisplayProductInfo.module.scss';
-import { FIRST_INDEX } from '../../../constants/common';
-import { covertPrice } from '../utils/product';
+import { FIRST_INDEX } from '../../constants/common';
+import { covertPrice } from '../../utils/product';
 
 export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const [images, setImages] = useState<Image[]>();

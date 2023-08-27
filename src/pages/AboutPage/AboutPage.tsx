@@ -1,6 +1,6 @@
 import styles from './AboutPage.module.scss';
 import { Button } from 'primereact/button';
-import { DisplayProductInfo } from '../../components/Forms/product/DisplayProductInfo';
+import { DisplayProductInfo } from '../../components/DisplayProductInfo/DisplayProductInfo';
 
 export function AboutPage(): JSX.Element {
   // const [showProduct, setShowProduct] = useState<boolean>(false);

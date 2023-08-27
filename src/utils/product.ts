@@ -1,4 +1,4 @@
-import { CENTS_PER_EURO } from '../../../constants/common';
+import { CENTS_PER_EURO } from '../constants/common';
 
 export const covertPrice = (price: number): string => {
   return new Intl.NumberFormat('de-DE', {

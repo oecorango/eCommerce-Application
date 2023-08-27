@@ -1,10 +1,17 @@
 import styles from './AboutPage.module.scss';
+import { Button } from 'primereact/button';
+import { DisplayProductInfo } from '../../components/DisplayProductInfo/DisplayProductInfo';
 
-export const AboutPage = (): JSX.Element => {
+export function AboutPage(): JSX.Element {
+  // const [showProduct, setShowProduct] = useState<boolean>(false);
+  // const handleShowProduct = (): void => {
+  //   setShowProduct(true);
+  // };  bath-salt/ scrub/ soap
   return (
     <div className={styles.page}>
-      <h1>About us</h1>
-      <p>About us</p>
+      <Button label="Submit" />
+      {DisplayProductInfo('bath-salt')}
+      {/* @note Весь закоменченый код тут только для тестов  */}
     </div>
   );
-};
+}

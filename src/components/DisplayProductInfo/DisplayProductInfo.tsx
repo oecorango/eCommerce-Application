@@ -1,6 +1,6 @@
 import { Galleria, GalleriaResponsiveOptions } from 'primereact/galleria';
-import { useEffect, useState } from 'react';
-import { Image } from '@commercetools/platform-sdk';
+import { useEffect, useRef, useState } from 'react';
+import { Image as ImageSDK } from '@commercetools/platform-sdk';
 import { getProductByKey } from '../../api/Client';
 import { Card } from 'primereact/card';
 import styles from './DisplayProductInfo.module.scss';
@@ -8,12 +8,13 @@ import { FIRST_INDEX } from '../../constants/common';
 import { covertPrice } from '../../utils/product';
 
 export function DisplayProductInfo(keyProduct: string): JSX.Element {
-  const [images, setImages] = useState<Image[]>();
+  const [images, setImages] = useState<ImageSDK[]>();
   const [nameProduct, setNameProduct] = useState<string>();
   const [descriptionProduct, setDescriptionProduct] = useState<string>();
   const [typeProduct, setTypeProduct] = useState<string>();
   const [priceProductDiscount, setPriceProduct] = useState<string>();
   const [priceFullProduct, setpriceFullProduct] = useState<string>();
+  const galleria = useRef<Galleria>(null);
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
       breakpoint: '991px',
@@ -61,18 +62,21 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
         console.warn('Произошла ошибка при получении данных:', error);
       });
   }, [keyProduct]);
-
-  const itemTemplate = (item: Image): JSX.Element => {
+  const handleImageClick = (): void => {
+    galleria.current?.show();
+  };
+  const itemTemplate = (item: ImageSDK): JSX.Element => {
     return (
       <img
         src={item.url}
         alt={item.label}
         style={{ width: '100%', display: 'block' }}
+        onClick={handleImageClick}
       />
     );
   };
 
-  const thumbnailTemplate = (item: Image): JSX.Element => {
+  const thumbnailTemplate = (item: ImageSDK): JSX.Element => {
     return <img src={item.url} alt={item.label} style={{ width: '50%' }} />;
   };
   return (
@@ -90,6 +94,19 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
           thumbnail={thumbnailTemplate}
         />
       </div>
+      <Galleria
+        ref={galleria}
+        value={images}
+        numVisible={2}
+        style={{ maxWidth: '100%' }}
+        className={styles.enlarged}
+        circular
+        fullScreen
+        showItemNavigators
+        showThumbnails={false}
+        item={itemTemplate}
+        thumbnail={thumbnailTemplate}
+      />
       <Card title={nameProduct} subTitle={typeProduct} className="md:w-25rem">
         <p className="m-0">{descriptionProduct}</p>
         {priceProductDiscount ? (

@@ -1,17 +1,18 @@
 import { Galleria, GalleriaResponsiveOptions } from 'primereact/galleria';
 import { useEffect, useState } from 'react';
 import { Image } from '@commercetools/platform-sdk';
-import { getProductByKey } from '../../api/Client';
+import { getProductByKey } from '../../../api/Client';
 import { Card } from 'primereact/card';
 import styles from './DisplayProductInfo.module.scss';
-import { CENTS_PER_EURO } from '../../constants/common';
+import { FIRST_INDEX } from '../../../constants/common';
+import { covertPrice } from '../utils/product';
 
 export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const [images, setImages] = useState<Image[]>();
   const [nameProduct, setNameProduct] = useState<string>();
   const [descriptionProduct, setDescriptionProduct] = useState<string>();
   const [typeProduct, setTypeProduct] = useState<string>();
-  const [priceProduct, setPriceProduct] = useState<string>();
+  const [priceProductDiscount, setPriceProduct] = useState<string>();
   const [priceFullProduct, setpriceFullProduct] = useState<string>();
   const responsiveOptions: GalleriaResponsiveOptions[] = [
     {
@@ -27,34 +28,40 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
       numVisible: 2,
     },
   ];
-  const covertPrice = (price: number): string => {
-    return new Intl.NumberFormat('de-DE', {
-      style: 'currency',
-      currency: 'EUR',
-    }).format(price / CENTS_PER_EURO);
-  };
 
   useEffect(() => {
-    getProductByKey(keyProduct).then(data => {
-      const pathToPhoto = data.body.masterVariant.images;
-      const productName = data.body.name['en-US'];
-      const productDescription = data.body.description?.['en-US'];
-      const productType = data.body.masterVariant.attributes?.[0].name;
-      const productPrice = data.body.masterVariant.prices?.[0].value.centAmount;
-      const productPriceFull =
-        data.body.masterVariant.prices?.[1].value.centAmount;
-      if (productPrice && productPriceFull) {
-        const productPriceConvert = covertPrice(productPrice);
-        const productPriceFullConvert = covertPrice(productPriceFull);
-        setImages(pathToPhoto);
-        setNameProduct(productName);
-        setDescriptionProduct(productDescription);
-        setTypeProduct(productType);
-        setPriceProduct(productPriceConvert);
-        setpriceFullProduct(productPriceFullConvert);
-      }
-    });
+    getProductByKey(keyProduct)
+      .then(data => {
+        const pathToPhoto = data.body.masterVariant.images;
+        const productName = data.body.name['en-US'];
+        const productDescription = data.body.description?.['en-US'];
+        const productType =
+          data.body.masterVariant.attributes?.[FIRST_INDEX].name;
+        const productPriceDiscounted =
+          data.body.masterVariant.prices?.[FIRST_INDEX].discounted?.value
+            .centAmount;
+        const productPriceFull =
+          data.body.masterVariant.prices?.[FIRST_INDEX].value.centAmount;
+        if (productPriceFull) {
+          const productPriceFullConvert = covertPrice(productPriceFull);
+          setImages(pathToPhoto);
+          setNameProduct(productName);
+          setDescriptionProduct(productDescription);
+          setTypeProduct(productType);
+          setpriceFullProduct(productPriceFullConvert);
+        }
+        if (productPriceDiscounted) {
+          const productPriceConvert = covertPrice(productPriceDiscounted);
+          setPriceProduct(productPriceConvert);
+        } else {
+          setPriceProduct('');
+        }
+      })
+      .catch(error => {
+        console.warn('Произошла ошибка при получении данных:', error);
+      });
   }, [keyProduct]);
+
   const itemTemplate = (item: Image): JSX.Element => {
     return (
       <img
@@ -85,8 +92,12 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
       </div>
       <Card title={nameProduct} subTitle={typeProduct} className="md:w-25rem">
         <p className="m-0">{descriptionProduct}</p>
-        <p className={`m-0 ${styles.strikethrough}`}>{priceFullProduct}</p>
-        <p className={`m-10 ${styles.highlight}`}>{priceProduct}</p>{' '}
+        {priceProductDiscount ? (
+          <p className={`${styles.strikethrough} m-0`}>{priceFullProduct}</p>
+        ) : (
+          <p className={`${styles.noDiscount} m-0`}>{priceFullProduct}</p>
+        )}
+        <p className={`m-10 ${styles.highlight}`}>{priceProductDiscount}</p>{' '}
       </Card>
     </div>
   );

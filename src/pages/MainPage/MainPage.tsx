@@ -4,10 +4,6 @@ import { getProducts } from '../../api/Client';
 import { Aside } from '../../components/Aside';
 import { ProductItem } from '../../components/Product';
 import styles from './MainPage.module.scss';
-import accessories from '../../assets/accessories.jpg';
-import cosmetics from '../../assets/cosmetics.jpg';
-import textiles from '../../assets/textiles.jpg';
-import sets from '../../assets/gift_set.jpg';
 import { Button } from 'primereact/button';
 import { PRODUCTS_IN_PAGE } from '../../constants/common';
 import { getPageCount, getPagesArray } from '../../utils/product';
@@ -43,24 +39,13 @@ export const MainPage = (): JSX.Element => {
             <p>The best items</p>
             <p>&nbsp; for your bath</p>
           </div>
-          {/* <div className={styles.category}>
-            <div>
-              <img src={accessories} alt="" />
-              <Button>To accessories</Button>
-            </div>
-            <div>
-              <img src={cosmetics} alt="" />
-              <Button>To cosmetics</Button>
-            </div>
-            <div>
-              <img src={textiles} alt="" />
-              <Button>To textiles</Button>
-            </div>
-            <div>
-              <img src={sets} alt="" />
-              <Button>To gift sets</Button>
-            </div>
-          </div> */}
+          {/* @ToDo сделать слайдер для категорий*/}
+          <div className={styles.category}>
+            <div className={styles.accessories}>ACCESSORIES</div>
+            <div className={styles.cosmetics}>COSMETICS</div>
+            <div className={styles.textiles}>TEXTILES</div>
+            <div className={styles.sets}>GIFT SETS</div>
+          </div>
           <div className={styles.content}>
             {products?.map(data => <ProductItem {...data} key={data.id} />)}
           </div>

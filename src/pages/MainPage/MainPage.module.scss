@@ -48,7 +48,7 @@
 
 .content {
   display: grid;
-  padding: 30px 0;
+  padding: 20px 0;
   width: 100%;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
@@ -80,5 +80,17 @@
     button {
       margin: 10px 0;
     }
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  & .paginationButton {
+    margin: 10px;
+  }
+  & .paginationButtonActive {
+    border: solid 2px $color-red;
+    margin: 10px;
   }
 }

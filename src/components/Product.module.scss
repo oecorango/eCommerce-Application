@@ -11,14 +11,45 @@
     height: auto;
     border-radius: 8px;
   }
-  & .prices {
-    color: $color-red;
-    font-size: 24px;
-    padding: 5px 5px;
-  }
   & .name {
     color: $color-brown;
     font-size: 20px;
     padding: 5px 5px;
   }
+}
+
+.oldPrices {
+  display: flex;
+  align-items: center;
+}
+
+.newPrices {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.oldPrice {
+  color: $color-red;
+  font-size: 20px;
+  padding: 5px 5px;
+  text-decoration: line-through;
+  order: 2;
+}
+
+.price {
+  color: $color-red;
+  font-size: 24px;
+  padding: 5px 5px;
+}
+
+.discountPrice {
+  color: $color-green;
+  font-size: 24px;
+  padding: 5px 5px;
+  order: 1;
+}
+
+.noDiscount {
+  display: none;
 }

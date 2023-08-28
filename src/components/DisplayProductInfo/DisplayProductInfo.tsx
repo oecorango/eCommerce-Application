@@ -33,7 +33,6 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
   useEffect(() => {
     getProductByKey(keyProduct)
       .then(data => {
-        console.log(data);
         const pathToPhoto = data.body.masterVariant.images;
         const productName = data.body.name['en-US'];
         const productDescription = data.body.description?.['en-US'];

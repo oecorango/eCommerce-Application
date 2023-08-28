@@ -14,13 +14,15 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
     data.masterVariant.prices?.[0].discounted?.value.centAmount;
 
   const key = data.masterVariant.key;
+  const slug = data.slug['en-US'];
+
   const toProductPage = useNavigate();
 
   return (
     <div
       className={styles.products}
       onClick={(): void => {
-        if (key) toProductPage(PAGES.about.route, { state: key }); //@ToDo - поменять потом пути на страницу продукта
+        if (key) toProductPage(PAGES.product.route + slug, { state: key }); //@ToDo - поменять потом пути на страницу продукта
       }}>
       <img
         src={data.masterVariant.images?.[0].url}

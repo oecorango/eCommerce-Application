@@ -5,7 +5,8 @@ export type PageKey =
   | 'signin'
   | 'registration'
   | 'catalog'
-  | 'profile';
+  | 'profile'
+  | 'product';
 
 export interface Page {
   key: PageKey;

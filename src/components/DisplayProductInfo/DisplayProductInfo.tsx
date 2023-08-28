@@ -6,6 +6,7 @@ import { Card } from 'primereact/card';
 import styles from './DisplayProductInfo.module.scss';
 import { FIRST_INDEX } from '../../constants/common';
 import { covertPrice } from '../../utils/product';
+import { useNavigate } from 'react-router-dom';
 
 export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const [images, setImages] = useState<ImageSDK[]>();
@@ -29,6 +30,7 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
       numVisible: 2,
     },
   ];
+  const returnToErrorPage = useNavigate();
 
   useEffect(() => {
     getProductByKey(keyProduct)
@@ -60,6 +62,8 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
       })
       .catch(error => {
         console.warn('Произошла ошибка при получении данных:', error);
+        //редиректим при неудачном адресе или запросе на страницу 404
+        returnToErrorPage('*');
       });
   }, [keyProduct]);
   const handleImageClick = (): void => {

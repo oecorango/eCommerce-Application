@@ -1,7 +1,6 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
 import { getProducts } from '../../api/Client';
-import { Aside } from '../../components/Aside';
 import { ProductItem } from '../../components/Product';
 import styles from './MainPage.module.scss';
 import { Button } from 'primereact/button';
@@ -32,40 +31,24 @@ export const MainPage = (): JSX.Element => {
 
   return (
     <>
-      <div className={styles.page}>
-        <Aside />
-        <div className={styles.page__content}>
-          <div className={styles.page__header}>
-            <p>The best items</p>
-            <p>&nbsp; for your bath</p>
-          </div>
-          {/* @ToDo сделать слайдер для категорий*/}
-          <div className={styles.category}>
-            <div className={styles.accessories}>ACCESSORIES</div>
-            <div className={styles.cosmetics}>COSMETICS</div>
-            <div className={styles.textiles}>TEXTILES</div>
-            <div className={styles.sets}>GIFT SETS</div>
-          </div>
-          <div className={styles.content}>
-            {products?.map(data => <ProductItem {...data} key={data.id} />)}
-          </div>
-          <div className={styles.pagination}>
-            {pagesArr.map(
-              (index): JSX.Element => (
-                <Button
-                  className={
-                    currentPage === index
-                      ? styles.paginationButtonActive
-                      : styles.paginationButton
-                  }
-                  key={index}
-                  onClick={(): void => changePage(index)}>
-                  {index}
-                </Button>
-              ),
-            )}
-          </div>
-        </div>
+      <div className={styles.content}>
+        {products?.map(data => <ProductItem {...data} key={data.id} />)}
+      </div>
+      <div className={styles.pagination}>
+        {pagesArr.map(
+          (index): JSX.Element => (
+            <Button
+              className={
+                currentPage === index
+                  ? styles.paginationButtonActive
+                  : styles.paginationButton
+              }
+              key={index}
+              onClick={(): void => changePage(index)}>
+              {index}
+            </Button>
+          ),
+        )}
       </div>
     </>
   );

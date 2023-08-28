@@ -1,5 +1,21 @@
 @import '../styles/global';
 
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: $color-light;
+  color: $color-dark;
+  margin: 0 auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-general;
+  color: $color-brown;
+  height: 50px;
+}
+
 .header {
   display: flex;
   justify-content: center;
@@ -37,47 +53,7 @@
   }
 }
 
-.burger__button {
-  display: none;
-  background: #d3d3d3;
-  border: #ffffff;
-}
-
-.open {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  a {
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    color: $color-dark;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.3s;
-    margin: 10px 0;
-    &.active {
-      color: $color-brown;
-    }
-    &:hover {
-      color: $color-brown;
-    }
-    i {
-      padding: 0 30px;
-    }
-  }
-  @include media-hamburger {
-    .a {
-      display: block;
-    }
-  }
-}
-
 @include media-hamburger {
-  .burger__button {
-    display: block;
-  }
-
   .navigation {
     display: none;
   }

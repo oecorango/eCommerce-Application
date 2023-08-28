@@ -1,5 +1,6 @@
 import { ctpClient } from './BuildClient';
 import {
+  CategoryPagedQueryResponse,
   ClientResponse,
   createApiBuilderFromCtpClient,
   Customer,
@@ -28,10 +29,20 @@ export const clientSignIn = (
   return apiRoot.login().post({ body: data });
 };
 
-export const getProducts = (): Promise<
-  ClientResponse<ProductProjectionPagedQueryResponse>
+export const getCategoryProducts = (): Promise<
+  ClientResponse<CategoryPagedQueryResponse>
 > => {
-  return apiRoot.productProjections().get().execute();
+  return apiRoot.categories().get().execute();
+};
+
+export const getProducts = (
+  page: number,
+  productInPage: number,
+): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
+  return apiRoot
+    .productProjections()
+    .get({ queryArgs: { limit: productInPage, offset: page } })
+    .execute();
 };
 
 export const getProductById = (

@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Layout } from './components/Layout';
+import { Layout } from './Layouts/Layout';
 import { AboutPage } from './pages/AboutPage/AboutPage';
 import { ErrorPage } from './pages/ErrorPage/ErrorPage';
 import { MainPage } from './pages/MainPage/MainPage';
@@ -12,6 +12,8 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.scss';
 import { PAGES } from './constants/pages';
+import { LayoutMainPage } from './Layouts/LayoutMainPage';
+import { ProductPage } from './pages/ProductPage/ProductPage';
 
 function App(): JSX.Element {
   const [isAuth, setIsAuth] = useState(false);
@@ -20,6 +22,7 @@ function App(): JSX.Element {
       setIsAuth(true);
     }
   }, []);
+  // const key = 'bath-salt';
 
   return (
     <>
@@ -30,7 +33,12 @@ function App(): JSX.Element {
         }}>
         <Routes>
           <Route path={PAGES.main.route} element={<Layout />}>
-            <Route index element={<MainPage />} />
+            <Route element={<LayoutMainPage />}>
+              <Route element={<MainPage />} path={PAGES.main.route}></Route>
+            </Route>
+
+            {/* @ToDo разобраться с типизацией */}
+            <Route element={<ProductPage />} path={'/product/:key'}></Route>
             <Route
               path={PAGES.signin.route}
               element={

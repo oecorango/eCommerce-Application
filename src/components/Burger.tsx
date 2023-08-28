@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
-import styles from './Headers.module.scss';
+import styles from './Burger.module.scss';
 import { AuthContext } from './authProvider';
 import { AuthLinks } from './AuthLinks';
 

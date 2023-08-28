@@ -1,51 +1,5 @@
 @import '../../styles/global';
 
-.page {
-  display: flex;
-  max-width: 1280px;
-  padding: 0 50px;
-  margin: 0 auto;
-  min-height: calc(100vh - 150px);
-}
-
-.page__content {
-  width: 84%;
-  @include media-tablet {
-    width: 100%;
-  }
-}
-
-.page__header {
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  background-image: url(../../assets/main.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  height: 35vh;
-  width: 100%;
-  margin: 30px 0;
-  border-radius: 5px;
-  p {
-    color: $color-general;
-    font-size: 40px;
-    margin: 0 0 3px 15px;
-  }
-  @include media-tablet {
-    height: 25vh;
-    p {
-      font-size: 30px;
-    }
-  }
-  @include media-mobile {
-    height: 15vh;
-    p {
-      font-size: 20px;
-    }
-  }
-}
-
 .content {
   display: grid;
   padding: 30px 0;
@@ -54,31 +8,24 @@
   grid-template-rows: auto;
   column-gap: 50px;
   row-gap: 20px;
+  border-top: 3px solid $color-brown;
   @include media-tablet {
     grid-template-columns: repeat(2, 1fr);
   }
   @include media-mobile {
-    padding: 0 10%;
+    padding: 10%;
     grid-template-columns: repeat(1, 1fr);
   }
 }
 
-.category {
+.pagination {
   display: flex;
-  flex-wrap: nowrap;
-  div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    width: 25%;
-    img {
-      border-radius: 8px;
-      height: 80%;
-      width: 80%;
-    }
-    button {
-      margin: 10px 0;
-    }
+  justify-content: center;
+  & .paginationButton {
+    margin: 10px;
+  }
+  & .paginationButtonActive {
+    border: solid 2px $color-red;
+    margin: 10px;
   }
 }

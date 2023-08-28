@@ -29,4 +29,8 @@ export const PAGES: { [key in PageKey]: Page } = {
     key: 'profile',
     route: '/profile',
   },
+  product: {
+    key: 'product',
+    route: '/product/',
+  },
 };

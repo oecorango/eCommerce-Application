@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
-import { logIn, userAge } from '../../utils/user';
+import { logIn } from '../../utils/user';
 import { customerShippingBilling } from '../../api/requestAPI';
 import styles from './EntryDataForm.module.scss';
 import { PAGES } from '../../constants/pages';
@@ -23,7 +23,7 @@ export const EntryDataForm = (): JSX.Element => {
     null,
   );
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
-  const { isAuth, setIsAuth } = useContext(AuthContext);
+  const { setIsAuth } = useContext(AuthContext);
 
   const handleRegistration = (): void => {
     registerNewCustomer(newCustomerData)

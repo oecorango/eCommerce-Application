@@ -8,3 +8,8 @@ export type IAuth = {
 export type errorMessage = {
   err: string | undefined;
 };
+
+export type CategoryProduct = {
+  name: string;
+  id: string;
+};

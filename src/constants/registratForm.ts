@@ -3,11 +3,19 @@ import {
   IAddresses,
   IAddress,
   InewCustomerData,
+  IUserData,
 } from '../types/interface';
 
-export const count: { version: number; ID: string } = {
+export const count: {
+  version: number;
+  ID: string;
+  defaultShipping: string;
+  defaultBilling: string;
+} = {
   version: 0,
   ID: '',
+  defaultShipping: '',
+  defaultBilling: '',
 };
 
 export let newAddress: IAddresses[] = [
@@ -42,3 +50,10 @@ export const countriesData: ICountriesData[] = [
   { name: 'Belarus (BY)', countryCode: 'BY' },
   { name: 'Russian Federation (RU)', countryCode: 'RU' },
 ];
+
+export let userData: IUserData = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  dateOfBirth: '',
+};

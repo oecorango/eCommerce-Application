@@ -34,6 +34,13 @@ export const LinkToRegistration = (): JSX.Element => (
   </NavLink>
 );
 
+export const LinkToProfile = (): JSX.Element => (
+  <NavLink to={PAGES.profile.route} key={PAGES.profile.key}>
+    <i className={`pi pi-user ${styles.fontSize}`}></i>
+    Profile
+  </NavLink>
+);
+
 export const LinkToLogOut = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);
 
@@ -43,9 +50,12 @@ export const LinkToLogOut = (): JSX.Element => {
   };
 
   return (
-    <Link to={PAGES.main.route} onClick={handleLogOut}>
-      <i className={`pi pi-sign-out ${styles.fontSize}`}></i>
-      Exit
-    </Link>
+    <>
+      <Link to={PAGES.main.route} onClick={handleLogOut}>
+        <i className={`pi pi-sign-out ${styles.fontSize}`}></i>
+        Exit
+      </Link>
+      <LinkToProfile />
+    </>
   );
 };

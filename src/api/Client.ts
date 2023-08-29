@@ -51,6 +51,25 @@ export const getProductById = (
   return apiRoot.productProjections().withId({ ID: productId }).get().execute();
 };
 
+export const FilterProducts = (
+  filterStr: string,
+  page?: number,
+  productInPage?: number,
+): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        // limit: productInPage,
+        // offset: page,
+        filter: filterStr,
+        markMatchingVariants: true,
+      },
+    })
+    .execute();
+};
+
 export const getProductByKey = (
   productId: string,
 ): Promise<ClientResponse<ProductProjection>> => {

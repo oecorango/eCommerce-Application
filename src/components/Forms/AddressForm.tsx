@@ -12,7 +12,7 @@ import {
 import { countriesData } from '../../constants/registratForm';
 import { addressSchema } from './utils/validRegisterData';
 import { ErrorMessage } from './ErrorMessage';
-import styles from './RegistrationForm.module.scss';
+import styles from './AddressForm.module.scss';
 import { editAddressID } from '../../api/requestAddress';
 
 export const AddressForm = (props: IpropsAddres): JSX.Element => {

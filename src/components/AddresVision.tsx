@@ -1,5 +1,5 @@
 import { IpropsAddres } from '../types/interface';
-import styles from './Forms/RegistrationForm.module.scss';
+import styles from './Forms/AddressForm.module.scss';
 
 export default function AddresVision(props: IpropsAddres): JSX.Element {
   return (

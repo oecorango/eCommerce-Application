@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import { IUserData } from '../../types/interface';
 import { validUserData } from './utils/validRegisterData';
 import { ErrorMessage } from './ErrorMessage';
-import styles from './RegistrationForm.module.scss';
+import styles from './AddressForm.module.scss';
 import { userData, count } from '../../constants/registratForm';
 import { editUserData } from '../../api/requestAddress';
 import ListAddress from '../ListAddress';
@@ -58,15 +58,21 @@ export const UserDataForm = (): JSX.Element => {
       messageUser = 'Your Password has been successfully saved';
     }
     setVisible(true);
+    // messageUser = '';
   };
   const [visible, setVisible] = useState<boolean>(false);
   const [visiblePasswordForm, setvisiblePasswordForm] = useState(false);
   const onSubmit: SubmitHandler<IUserData> = (data: IUserData): void => {
     switchRender = true;
-    const callback = (): void => {
+    const callback = (errorMessage: string): void => {
       asyncRender();
-      messageUser = 'Your data has been successfully saved';
+      if (errorMessage !== '') {
+        messageUser = errorMessage;
+      } else {
+        messageUser = 'Your data has been successfully saved';
+      }
       setVisible(true);
+      // messageUser = '';
     };
     editUserData(data, callback);
   };

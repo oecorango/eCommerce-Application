@@ -7,7 +7,7 @@ import { INewPassword } from '../../types/interface';
 import { validPasswordForm } from './utils/validRegisterData';
 import { ErrorMessage } from './ErrorMessage';
 import { Checkbox } from 'primereact/checkbox';
-import styles from './RegistrationForm.module.scss';
+import styles from './AddressForm.module.scss';
 import { count } from '../../constants/registratForm';
 import { newUserPassword } from '../../api/requestAddress';
 

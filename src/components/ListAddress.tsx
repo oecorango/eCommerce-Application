@@ -8,10 +8,13 @@ import { deledeAddressID, setDefault } from '../api/requestAddress';
 import { getCustomerID } from '../api/Client';
 import AddresVision from './AddresVision';
 import AddressForm from './Forms/AddressForm';
-import styles from './Forms/RegistrationForm.module.scss';
+import styles from './Forms/AddressForm.module.scss';
 import { updateUserData } from './Forms/utils/updateUserData';
 
-count.ID = localStorage.getItem('id') as string;
+if (localStorage.getItem('id')) {
+  count.ID = localStorage.getItem('id') as string;
+}
+
 let switchToDo = '';
 let addressForForm: IAddress = newAddres[0];
 export default function ListAddress(): JSX.Element {

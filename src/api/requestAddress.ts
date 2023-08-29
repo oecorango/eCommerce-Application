@@ -1,28 +1,31 @@
 import { count } from '../constants/registratForm';
 import { CustomerUpdateAction } from '@commercetools/platform-sdk';
-import { getCustomerID, customersIdPostExecute, newPassword } from './Client';
+import { customersIdPostExecute, newPassword } from './Client';
 import { updateUserData } from '../components/Forms/utils/updateUserData';
 
 let action: CustomerUpdateAction[] = [];
 
-export const getCustomer01 = (customerID: string): void => {
-  getCustomerID(customerID)
-    .then(({ body }) => {
-      updateUserData(body);
-    })
-    .catch(console.error);
-};
-
 const requestStart = (
   action: CustomerUpdateAction[],
-  back: () => void,
+  back: (errorMessage: string) => void,
 ): void => {
+  let errorMessage = '';
   customersIdPostExecute(count.ID, count.version, action)
     .then(({ body }) => {
       updateUserData(body);
-      back();
     })
-    .catch(console.error);
+    .catch(error => {
+      console.warn(error);
+      console.log(error);
+      if (error.code === 400) {
+        errorMessage = `ERROR: ${error.message}`;
+      } else {
+        errorMessage = 'ERROR, Should try again later';
+      }
+    })
+    .finally(() => {
+      back(errorMessage);
+    });
 };
 
 export const setDefault = (defoltShip: string, defoltBill: string): void => {
@@ -73,7 +76,7 @@ export const editUserData = (
     lastName: string;
     dateOfBirth: string;
   },
-  toForm: () => void,
+  toForm: (errorMessage: string) => void,
 ): void => {
   action = [
     { action: 'changeEmail', email: UserData.email },
@@ -81,8 +84,8 @@ export const editUserData = (
     { action: 'setLastName', lastName: UserData.lastName },
     { action: 'setDateOfBirth', dateOfBirth: UserData.dateOfBirth },
   ];
-  const callback = (): void => {
-    toForm();
+  const callback = (errorMessage: string): void => {
+    toForm(errorMessage);
   };
   requestStart(action, callback);
 };
@@ -99,8 +102,10 @@ export const newUserPassword = (
     })
     .catch(error => {
       console.warn(error);
+      console.log(error);
+
       if (error.code === 400) {
-        errorMessage = 'ERROR: Incorrect password';
+        errorMessage = `ERROR: ${error.message}`;
       } else {
         errorMessage = 'ERROR, Should try again later';
       }

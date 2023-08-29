@@ -36,8 +36,8 @@ export const getCategoryProducts = (): Promise<
 };
 
 export const getProducts = (
-  page: number,
-  productInPage: number,
+  page?: number,
+  productInPage?: number,
 ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
   return apiRoot
     .productProjections()

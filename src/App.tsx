@@ -12,9 +12,9 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.scss';
 import { PAGES } from './constants/pages';
-import { LayoutMainPage } from './Layouts/LayoutMainPage';
 import { ProductPage } from './pages/ProductPage/ProductPage';
 import { UserProfilePage } from './pages/UserProfilePage/UserProfilePage';
+import { CatalogPage } from './pages/CatalogPage/CatalogPage';
 
 function App(): JSX.Element {
   const [isAuth, setIsAuth] = useState(false);
@@ -34,9 +34,8 @@ function App(): JSX.Element {
         }}>
         <Routes>
           <Route path={PAGES.main.route} element={<Layout />}>
-            <Route element={<LayoutMainPage />}>
-              <Route element={<MainPage />} path={PAGES.main.route}></Route>
-            </Route>
+            <Route element={<MainPage />} path={PAGES.main.route} />
+            <Route element={<CatalogPage />} path={PAGES.catalog.route}></Route>
 
             {/* @ToDo разобраться с типизацией */}
             <Route element={<ProductPage />} path={'/product/:key'}></Route>

@@ -1,31 +1,106 @@
 @import '../../styles/global';
 
+.page {
+  display: flex;
+  max-width: 1280px;
+  padding: 0 50px;
+  margin: 0 auto;
+  min-height: calc(100vh - 150px);
+}
+
+.page__content {
+  width: 84%;
+  @include media-tablet {
+    width: 100%;
+  }
+}
+
+.page__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  background-image: url(../../assets/main.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 35vh;
+  width: 100%;
+  margin: 30px 0;
+  border-radius: 5px;
+  p {
+    color: $color-general;
+    font-size: 40px;
+    margin: 0 0 3px 15px;
+  }
+  @include media-tablet {
+    height: 25vh;
+    p {
+      font-size: 30px;
+    }
+  }
+  @include media-mobile {
+    height: 15vh;
+    p {
+      font-size: 20px;
+    }
+  }
+}
+
+.category {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding-bottom: 10px;
+  > * {
+    height: 200px;
+    width: 200px;
+    padding-top: 5px;
+    text-align: center;
+    align-items: flex-end;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-radius: 8px;
+    color: $color-white;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .accessories {
+    background-image: url(../../assets/accessories.jpg);
+  }
+  .cosmetics {
+    background-image: url(../../assets/cosmetics.jpg);
+  }
+  .textiles {
+    background-image: url(../../assets/textiles.jpg);
+  }
+  .sets {
+    background-image: url(../../assets/gift_set.jpg);
+  }
+}
+
+.text {
+  font-size: 30px;
+  border-top: 3px solid $color-brown;
+  padding: 20px;
+  margin: 0;
+  color: $color-brown;
+}
+
 .content {
   display: grid;
-  padding: 30px 0;
+  padding: 5px 0;
   width: 100%;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
   column-gap: 50px;
   row-gap: 20px;
-  border-top: 3px solid $color-brown;
   @include media-tablet {
     grid-template-columns: repeat(2, 1fr);
   }
   @include media-mobile {
     padding: 10%;
     grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  & .paginationButton {
-    margin: 10px;
-  }
-  & .paginationButtonActive {
-    border: solid 2px $color-red;
-    margin: 10px;
   }
 }

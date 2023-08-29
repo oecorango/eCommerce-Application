@@ -11,10 +11,8 @@ import AddressForm from './Forms/AddressForm';
 import styles from './Forms/AddressForm.module.scss';
 import { updateUserData } from './Forms/utils/updateUserData';
 
-if (localStorage.getItem('id')) {
-  count.ID = localStorage.getItem('id') as string;
-}
-
+const id = localStorage.getItem('id');
+if (id) count.ID = id;
 let switchToDo = '';
 let addressForForm: IAddress = newAddres[0];
 export default function ListAddress(): JSX.Element {

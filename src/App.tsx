@@ -14,6 +14,7 @@ import 'primeflex/primeflex.scss';
 import { PAGES } from './constants/pages';
 import { LayoutMainPage } from './Layouts/LayoutMainPage';
 import { ProductPage } from './pages/ProductPage/ProductPage';
+import { UserProfilePage } from './pages/UserProfilePage/UserProfilePage';
 
 function App(): JSX.Element {
   const [isAuth, setIsAuth] = useState(false);
@@ -56,6 +57,7 @@ function App(): JSX.Element {
               }
             />
             <Route path={PAGES.about.route} element={<AboutPage />} />
+            <Route path={PAGES.profile.route} element={<UserProfilePage />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>

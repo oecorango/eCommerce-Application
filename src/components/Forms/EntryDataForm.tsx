@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import { newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/user';
-import { customerShippingBilling } from '../../api/requestAPI';
+import { customerShippingBilling } from '../../api/requestAddress';
 import styles from './EntryDataForm.module.scss';
 import { PAGES } from '../../constants/pages';
 import { setBillShipp } from './utils/takeDataForm';

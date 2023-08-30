@@ -1,30 +1,40 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { Button } from 'primereact/button';
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getProducts } from '../../api/Client';
 import { ProductItem } from '../../components/Product';
 import { PRODUCTS_IN_PAGE } from '../../constants/common';
 import { getPageCount, getPagesArray } from '../../utils/product';
-import styles from './CatalogPage.module.scss';
+import styles from './CatalogMain.module.scss';
 
-export const CatalogPage = (): JSX.Element => {
+export const CatalogMain = (): JSX.Element => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const currentLocation = parseInt(location.search?.split('=')[1]) || 1;
+
   const [products, setProducts] = useState<ProductProjection[]>();
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(currentLocation);
+  const startIndexProduct = (currentPage - 1) * PRODUCTS_IN_PAGE;
+  const pagesArray = getPagesArray(totalPages);
 
-  const pagesArr = getPagesArray(totalPages);
-  const startIndexProduct = currentPage * PRODUCTS_IN_PAGE - PRODUCTS_IN_PAGE;
-
-  const changePage = (page: number): void => {
-    setCurrentPage(page);
-  };
+  useEffect(() => {
+    setCurrentPage(currentLocation);
+  }, [currentLocation]);
 
   useEffect(() => {
     const allProduct = async (): Promise<void> => {
-      const products = await getProducts(startIndexProduct, PRODUCTS_IN_PAGE);
-      const totalCount = products.body.total;
-      if (totalCount) setTotalPages(getPageCount(totalCount, PRODUCTS_IN_PAGE));
-      setProducts(products.body.results);
+      try {
+        const products = await getProducts(startIndexProduct, PRODUCTS_IN_PAGE);
+        const totalCount = products.body.total;
+        if (totalCount)
+          setTotalPages(getPageCount(totalCount, PRODUCTS_IN_PAGE));
+        setProducts(products.body.results);
+      } catch (err) {
+        console.error(err);
+      }
     };
     allProduct();
   }, [startIndexProduct]);
@@ -35,7 +45,7 @@ export const CatalogPage = (): JSX.Element => {
         {products?.map(data => <ProductItem {...data} key={data.id} />)}
       </div>
       <div className={styles.pagination}>
-        {pagesArr.map(
+        {pagesArray.map(
           (index): JSX.Element => (
             <Button
               className={
@@ -44,7 +54,9 @@ export const CatalogPage = (): JSX.Element => {
                   : styles.paginationButton
               }
               key={index}
-              onClick={(): void => changePage(index)}>
+              onClick={(): void => {
+                navigate(`?page=${index}`);
+              }}>
               {index}
             </Button>
           ),

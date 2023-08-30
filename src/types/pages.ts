@@ -6,7 +6,11 @@ export type PageKey =
   | 'registration'
   | 'catalog'
   | 'profile'
-  | 'product';
+  | 'product'
+  | 'sets'
+  | 'textiles'
+  | 'cosmetics'
+  | 'accessories';
 
 export interface Page {
   key: PageKey;

@@ -33,4 +33,20 @@ export const PAGES: { [key in PageKey]: Page } = {
     key: 'product',
     route: '/product/',
   },
+  accessories: {
+    key: 'accessories',
+    route: '/accessories',
+  },
+  cosmetics: {
+    key: 'cosmetics',
+    route: '/cosmetics',
+  },
+  textiles: {
+    key: 'textiles',
+    route: '/textiles',
+  },
+  sets: {
+    key: 'sets',
+    route: '/sets',
+  },
 };

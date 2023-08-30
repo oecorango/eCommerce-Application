@@ -3,52 +3,42 @@ import { useEffect, useState } from 'react';
 import { getProducts } from '../../api/Client';
 import { ProductItem } from '../../components/Product';
 import styles from './MainPage.module.scss';
-import { Button } from 'primereact/button';
-import { PRODUCTS_IN_PAGE } from '../../constants/common';
-import { getPageCount, getPagesArray } from '../../utils/product';
+import { POPULAR_PRODUCTS_IN_PAGE } from '../../constants/common';
+import { indexRandomProducts } from '../../utils/product';
+import { Aside } from '../../components/Aside';
+import { ProductsCategory } from '../../components/ProductsCategory';
 
 export const MainPage = (): JSX.Element => {
   const [products, setProducts] = useState<ProductProjection[]>();
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const pagesArr = getPagesArray(totalPages);
-  const startIndexProduct = currentPage * PRODUCTS_IN_PAGE - PRODUCTS_IN_PAGE;
-
-  const changePage = (page: number): void => {
-    setCurrentPage(page);
-  };
-
   useEffect(() => {
-    const allProduct = async (): Promise<void> => {
-      const products = await getProducts(startIndexProduct, PRODUCTS_IN_PAGE);
-      const totalCount = products.body.total;
-      if (totalCount) setTotalPages(getPageCount(totalCount, PRODUCTS_IN_PAGE));
-      setProducts(products.body.results);
-    };
     allProduct();
-  }, [startIndexProduct]);
+  }, []);
+
+  const allProduct = async (): Promise<void> => {
+    const products = await getProducts();
+    const totalCount = products.body.total;
+    if (totalCount) {
+      const index = indexRandomProducts(totalCount);
+      const randomProducts = await getProducts(index, POPULAR_PRODUCTS_IN_PAGE);
+      setProducts(randomProducts.body.results);
+    }
+  };
 
   return (
     <>
-      <div className={styles.content}>
-        {products?.map(data => <ProductItem {...data} key={data.id} />)}
-      </div>
-      <div className={styles.pagination}>
-        {pagesArr.map(
-          (index): JSX.Element => (
-            <Button
-              className={
-                currentPage === index
-                  ? styles.paginationButtonActive
-                  : styles.paginationButton
-              }
-              key={index}
-              onClick={(): void => changePage(index)}>
-              {index}
-            </Button>
-          ),
-        )}
+      <div className={styles.page}>
+        <Aside />
+        <div className={styles.page__content}>
+          <div className={styles.page__header}>
+            <p>The best items</p>
+            <p>&nbsp; for your bath</p>
+          </div>
+          <ProductsCategory />
+          <p className={styles.text}>Popular items in our store</p>
+          <div className={styles.content}>
+            {products?.map(data => <ProductItem {...data} key={data.id} />)}
+          </div>
+        </div>
       </div>
     </>
   );

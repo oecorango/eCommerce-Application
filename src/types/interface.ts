@@ -42,3 +42,21 @@ export interface InewCustomerData {
   defaultBillingAddress?: number;
   addresses: IAddresses[];
 }
+
+export interface IpropsAddres {
+  value: IAddress;
+  toDo: string;
+  closeForm: () => void;
+}
+
+export interface IUserData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+}
+
+export interface INewPassword {
+  passwordOld: string;
+  passwordNew: string;
+}

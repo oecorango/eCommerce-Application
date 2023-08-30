@@ -19,7 +19,7 @@ const isOldEnough = (value: Date | string): boolean => {
   return new Date(value) <= thirteenYearsAgo;
 };
 
-const addressSchema = object().shape({
+export const addressSchema = object().shape({
   country: string().required(NAME_ERROR.emptyString),
   city: string()
     .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
@@ -60,4 +60,45 @@ export const validRegisterData = object().shape({
     .required()
     .test('isOldEnough', 'You must be over 13', isOldEnough),
   address: array().of(addressSchema).required(),
+});
+
+export const validPasswordForm = object().shape({
+  passwordOld: string()
+    .min(PASSWORD_ERROR.minLength, PASSWORD_ERROR.minLengthText)
+    .max(PASSWORD_ERROR.maxLength, PASSWORD_ERROR.maxLengthText)
+    .matches(REG_EXP_PASSWORD.oneNumber, PASSWORD_ERROR.oneNumber)
+    .matches(REG_EXP_PASSWORD.oneUpperCase, PASSWORD_ERROR.oneUpperCase)
+    .matches(REG_EXP_PASSWORD.oneLowerCase, PASSWORD_ERROR.oneLowerCase)
+    .matches(REG_EXP_PASSWORD.leadingSpace, PASSWORD_ERROR.leadingSpace)
+    .matches(REG_EXP_PASSWORD.trailingSpace, PASSWORD_ERROR.trailingSpace)
+    .matches(REG_EXP_PASSWORD.latinLetters, PASSWORD_ERROR.latinLetters)
+    .required(),
+  passwordNew: string()
+    .min(PASSWORD_ERROR.minLength, PASSWORD_ERROR.minLengthText)
+    .max(PASSWORD_ERROR.maxLength, PASSWORD_ERROR.maxLengthText)
+    .matches(REG_EXP_PASSWORD.oneNumber, PASSWORD_ERROR.oneNumber)
+    .matches(REG_EXP_PASSWORD.oneUpperCase, PASSWORD_ERROR.oneUpperCase)
+    .matches(REG_EXP_PASSWORD.oneLowerCase, PASSWORD_ERROR.oneLowerCase)
+    .matches(REG_EXP_PASSWORD.leadingSpace, PASSWORD_ERROR.leadingSpace)
+    .matches(REG_EXP_PASSWORD.trailingSpace, PASSWORD_ERROR.trailingSpace)
+    .matches(REG_EXP_PASSWORD.latinLetters, PASSWORD_ERROR.latinLetters)
+    .required(),
+});
+
+export const validUserData = object().shape({
+  email: string()
+    .email()
+    .matches(REG_EXP_EMAIL.emailValid, EMAIL_ERROR.error)
+    .required(),
+  firstName: string()
+    .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
+    .matches(REG_EXP_NAME.noSpecialCharacters, NAME_ERROR.noSpecialCharacters)
+    .required(),
+  lastName: string()
+    .min(NAME_ERROR.minLength, NAME_ERROR.minLengthText)
+    .matches(REG_EXP_NAME.noSpecialCharacters, NAME_ERROR.noSpecialCharacters)
+    .required(),
+  dateOfBirth: string()
+    .required()
+    .test('isOldEnough', 'You must be over 13', isOldEnough),
 });

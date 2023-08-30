@@ -12,9 +12,10 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.scss';
 import { PAGES } from './constants/pages';
-import { LayoutMainPage } from './Layouts/LayoutMainPage';
 import { ProductPage } from './pages/ProductPage/ProductPage';
 import { UserProfilePage } from './pages/UserProfilePage/UserProfilePage';
+import { LayoutCatalog } from './Layouts/LayoutCatalog';
+import { CatalogMain } from './pages/CatalogPage/CatalogMain';
 
 function App(): JSX.Element {
   const [isAuth, setIsAuth] = useState(false);
@@ -23,7 +24,6 @@ function App(): JSX.Element {
       setIsAuth(true);
     }
   }, []);
-  // const key = 'bath-salt';
 
   return (
     <>
@@ -34,12 +34,18 @@ function App(): JSX.Element {
         }}>
         <Routes>
           <Route path={PAGES.main.route} element={<Layout />}>
-            <Route element={<LayoutMainPage />}>
-              <Route element={<MainPage />} path={PAGES.main.route}></Route>
+            <Route path={PAGES.main.route} element={<MainPage />} />
+
+            {/* @ToDo разобраться с типизацией роутов*/}
+            <Route element={<LayoutCatalog />} errorElement={<ErrorPage />}>
+              <Route path={'catalog'} element={<CatalogMain />} />
+              <Route path={'accessories'} element={<RegistrationPage />} />
+              <Route path={'cosmetics'} element={<RegistrationPage />} />
+              <Route path={'textiles'} element={<UserProfilePage />} />
+              <Route path={'sets'} element={<UserProfilePage />} />
             </Route>
 
-            {/* @ToDo разобраться с типизацией */}
-            <Route element={<ProductPage />} path={'/product/:key'}></Route>
+            <Route path={'product/:key'} element={<ProductPage />} />
             <Route
               path={PAGES.signin.route}
               element={

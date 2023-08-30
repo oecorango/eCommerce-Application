@@ -5,9 +5,7 @@ import { useLocation, useParams } from 'react-router-dom';
 export function ProductPage(): JSX.Element | null {
   const key = useParams().key;
   const keyLocation = useLocation().state;
-  // может все таки вынести сюда всю логику для построения страници о товаре?
 
-  // не нравится такой вызов метода, надо придумать лучше!)
   if (key) {
     return <div className={styles.page}>{DisplayProductInfo(key)}</div>;
   }

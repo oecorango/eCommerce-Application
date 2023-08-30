@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { InputText } from 'primereact/inputtext';
-import { FilterProducts } from '../api/Client';
+import { FilterProducts, SortProducts, searchProducts } from '../api/Client';
 
+// interface FilterByPriceProps {
+//   setShowFilteredProducts: React.Dispatch<React.SetStateAction<boolean>>;
+// }
+// {
+//   setShowFilteredProducts,
+// }: FilterByPriceProps
 export function FilterByPrice(): JSX.Element {
   const [value, setValue] = useState<[number, number]>([0, 500]);
 
@@ -10,7 +16,9 @@ export function FilterByPrice(): JSX.Element {
     const updatedValue = [...value];
     updatedValue[index] = +inputValue;
     setValue(updatedValue as [number, number]);
+    // setShowFilteredProducts(true);
   };
+
   // тесты
   // (startIndexProduct, PRODUCTS_IN_PAGE);
 
@@ -23,12 +31,39 @@ export function FilterByPrice(): JSX.Element {
   const FilterByPrice = `variants.price.centAmount:range (${
     value[0] * 100
   } to ${value[1] * 100})`;
+  // const FilterByPrice = 'variants.price.centAmount:range ( 100 to 1000)';
   // const FilterByFun = 'variants.attributes.name:"{value}"';
-  // variants.attributes.{name}:"{value}"
 
-  FilterProducts(FilterByPrice).then(data => {
+  // sort: ['name.en-us asc'],
+  // ['name.en-us desc']
+  // const sortByName = ['name.en-us desc'];
+  // const sortByPrice = 'price desc';
+  // SortProducts(sortByPrice).then(data => {
+  //   console.log('сортировка = ', data.body.results);
+  // });
+
+  FilterProducts(FilterByPrice, 1, 6).then(data => {
     console.log('Фильтр = ', data.body.results);
   });
+  const partialSearchQuery = 'cosmetics';
+  searchProducts(partialSearchQuery) // 'name asc' - сортировка по имени в порядке возрастания
+    .then(response => {
+      console.log(response);
+      const products = response.body.results;
+      if (products.length > 0) {
+        console.log('Найденные товары:');
+
+        console.log(products);
+      } else {
+        console.log('Товары не найдены.');
+      }
+    })
+    .catch(error => {
+      console.error('Ошибка при поиске товаров:', error);
+    });
+  // searchProducts(partialSearchQuery).then(data => {
+  //   console.log('Поиск = ', data.body.results);
+  // });
 
   return (
     <div className="card flex justify-content-start">

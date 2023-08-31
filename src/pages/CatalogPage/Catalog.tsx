@@ -2,16 +2,17 @@ import { ProductProjection } from '@commercetools/platform-sdk';
 import { Button } from 'primereact/button';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getProducts } from '../../api/Client';
+import { FilterProducts } from '../../api/Client';
 import { ProductItem } from '../../components/Product';
 import { PRODUCTS_IN_PAGE } from '../../constants/common';
 import { getPageCount, getPagesArray } from '../../utils/product';
-import styles from './CatalogMain.module.scss';
-import { FilterByPrice } from '../../components/filterProduct';
+import styles from './Catalog.module.scss';
 
-export const CatalogMain = (): JSX.Element => {
+export const Catalog = ({ ...options }): JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();
+  const idCategory = options.options.id;
+  console.log(idCategory);
 
   const currentLocation = parseInt(location.search?.split('=')[1]) || 1;
 
@@ -26,9 +27,13 @@ export const CatalogMain = (): JSX.Element => {
   }, [currentLocation]);
 
   useEffect(() => {
-    const allProduct = async (): Promise<void> => {
+    const getCategoryProduct = async (): Promise<void> => {
       try {
-        const products = await getProducts(startIndexProduct, PRODUCTS_IN_PAGE);
+        const products = await FilterProducts(
+          startIndexProduct,
+          PRODUCTS_IN_PAGE,
+          idCategory,
+        );
         const totalCount = products.body.total;
         if (totalCount)
           setTotalPages(getPageCount(totalCount, PRODUCTS_IN_PAGE));
@@ -37,8 +42,8 @@ export const CatalogMain = (): JSX.Element => {
         console.error(err);
       }
     };
-    allProduct();
-  }, [startIndexProduct]);
+    getCategoryProduct();
+  }, [startIndexProduct, idCategory]);
 
   return (
     <>

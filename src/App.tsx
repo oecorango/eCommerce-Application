@@ -15,7 +15,8 @@ import { PAGES } from './constants/pages';
 import { ProductPage } from './pages/ProductPage/ProductPage';
 import { UserProfilePage } from './pages/UserProfilePage/UserProfilePage';
 import { LayoutCatalog } from './Layouts/LayoutCatalog';
-import { CatalogMain } from './pages/CatalogPage/CatalogMain';
+import { Catalog } from './pages/CatalogPage/Catalog';
+import { ID_PRODUCT_CATEGORIES } from './constants/api';
 
 function App(): JSX.Element {
   const [isAuth, setIsAuth] = useState(false);
@@ -36,16 +37,43 @@ function App(): JSX.Element {
           <Route path={PAGES.main.route} element={<Layout />}>
             <Route path={PAGES.main.route} element={<MainPage />} />
 
-            {/* @ToDo разобраться с типизацией роутов*/}
-            <Route element={<LayoutCatalog />} errorElement={<ErrorPage />}>
-              <Route path={'catalog'} element={<CatalogMain />} />
-              <Route path={'accessories'} element={<RegistrationPage />} />
-              <Route path={'cosmetics'} element={<RegistrationPage />} />
-              <Route path={'textiles'} element={<UserProfilePage />} />
-              <Route path={'sets'} element={<UserProfilePage />} />
+            <Route
+              path={PAGES.catalog.route}
+              element={<LayoutCatalog />}
+              errorElement={<ErrorPage />}>
+              <Route index element={<Catalog options={{ id: undefined }} />} />
+              <Route
+                path={PAGES.accessories.route}
+                element={
+                  <Catalog
+                    options={{ id: ID_PRODUCT_CATEGORIES.accessories }}
+                  />
+                }
+              />
+              <Route
+                path={PAGES.cosmetics.route}
+                element={
+                  <Catalog options={{ id: ID_PRODUCT_CATEGORIES.cosmetics }} />
+                }
+              />
+              <Route
+                path={PAGES.textiles.route}
+                element={
+                  <Catalog options={{ id: ID_PRODUCT_CATEGORIES.textiles }} />
+                }
+              />
+              <Route
+                path={PAGES.sets.route}
+                element={
+                  <Catalog options={{ id: ID_PRODUCT_CATEGORIES.sets }} />
+                }
+              />
             </Route>
 
-            <Route path={'product/:key'} element={<ProductPage />} />
+            <Route
+              path={PAGES.product.route + ':key'}
+              element={<ProductPage />}
+            />
             <Route
               path={PAGES.signin.route}
               element={

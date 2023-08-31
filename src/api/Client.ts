@@ -51,6 +51,66 @@ export const getProductById = (
   return apiRoot.productProjections().withId({ ID: productId }).get().execute();
 };
 
+export const FilterProducts = (
+  filterStr: string,
+  page?: number,
+  productInPage?: number,
+): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        limit: productInPage,
+        offset: page,
+        filter: filterStr,
+        markMatchingVariants: true,
+      },
+    })
+    .execute();
+};
+
+export const SortProducts = (
+  sorted: string[] | string,
+  filterStr?: string,
+  page?: number,
+  productInPage?: number,
+): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        limit: 30,
+        // offset: page,
+        sort: sorted,
+        markMatchingVariants: true,
+      },
+    })
+    .execute();
+};
+
+export const searchProducts = (
+  searchText: string,
+  filterStr?: string,
+  page?: number,
+  productInPage?: number,
+): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        limit: 20,
+        'text.en-US': searchText,
+        // offset: page,
+        markMatchingVariants: true,
+        fuzzy: true,
+      },
+    })
+    .execute();
+};
+
 export const getProductByKey = (
   productId: string,
 ): Promise<ClientResponse<ProductProjection>> => {

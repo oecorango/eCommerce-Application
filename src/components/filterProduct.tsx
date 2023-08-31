@@ -3,20 +3,13 @@ import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { InputText } from 'primereact/inputtext';
 import { FilterProducts, SortProducts, searchProducts } from '../api/Client';
 
-// interface FilterByPriceProps {
-//   setShowFilteredProducts: React.Dispatch<React.SetStateAction<boolean>>;
-// }
-// {
-//   setShowFilteredProducts,
-// }: FilterByPriceProps
 export function FilterByPrice(): JSX.Element {
   const [value, setValue] = useState<[number, number]>([0, 500]);
-
+  //
   const handleInputChange = (index: number, inputValue: string): void => {
     const updatedValue = [...value];
     updatedValue[index] = +inputValue;
     setValue(updatedValue as [number, number]);
-    // setShowFilteredProducts(true);
   };
 
   // тесты
@@ -32,10 +25,8 @@ export function FilterByPrice(): JSX.Element {
     value[0] * 100
   } to ${value[1] * 100})`;
   // const FilterByPrice = 'variants.price.centAmount:range ( 100 to 1000)';
-  // const FilterByFun = 'variants.attributes.name:"{value}"';
 
-  // sort: ['name.en-us asc'],
-  // ['name.en-us desc']
+  // ['name.en-us desc'] asc - по возрастанию\ desc по убыванию
   // const sortByName = ['name.en-us desc'];
   // const sortByPrice = 'price desc';
   // SortProducts(sortByPrice).then(data => {
@@ -45,7 +36,7 @@ export function FilterByPrice(): JSX.Element {
   FilterProducts(FilterByPrice, 1, 6).then(data => {
     console.log('Фильтр = ', data.body.results);
   });
-  const partialSearchQuery = 'cosmetics';
+  const partialSearchQuery = 'cosm';
   searchProducts(partialSearchQuery) // 'name asc' - сортировка по имени в порядке возрастания
     .then(response => {
       console.log(response);

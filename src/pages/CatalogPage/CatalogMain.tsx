@@ -7,7 +7,8 @@ import { ProductItem } from '../../components/Product';
 import { PRODUCTS_IN_PAGE } from '../../constants/common';
 import { getPageCount, getPagesArray } from '../../utils/product';
 import styles from './CatalogMain.module.scss';
-//
+import { FilterByPrice } from '../../components/filterProduct';
+
 export const CatalogMain = (): JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();

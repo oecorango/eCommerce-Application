@@ -9,20 +9,26 @@ import { ErrorMessage } from './ErrorMessage';
 import styles from './AddressForm.module.scss';
 import { userData, count } from '../../constants/registratForm';
 import { editUserData } from '../../api/requestAddress';
-import ListAddress from '../ListAddress';
 import { updateUserData } from './utils/updateUserData';
 import { getCustomerID } from '../../api/Client';
 import { Dialog } from 'primereact/dialog';
 import NewPasswordForm from './NewPasswordForm';
+import ListAddress from '../ListAddress';
 
 count.ID = localStorage.getItem('id') as string;
-let switchRender = true;
+
 let messageUser = '';
+let switchButton: 'button' | 'submit' | 'reset' | undefined = 'submit';
+let switchReadOnly = true;
+let switchRender = true;
+let buttonLabel = 'Edit';
+let background = { background: 'transparent' };
 let asyncRender = async (): Promise<void> => {};
 export const UserDataForm = (): JSX.Element => {
   const {
     register,
     setValue,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<IUserData>({
@@ -72,79 +78,101 @@ export const UserDataForm = (): JSX.Element => {
         messageUser = 'Your data has been successfully saved';
       }
       setVisible(true);
-      // messageUser = '';
     };
     editUserData(data, callback);
   };
 
   return (
-    <div className={styles.registration_data_name}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles.registration_address}>
-        <label htmlFor="serial" className={styles.span_head}>
-          My Data
-        </label>
-        <InputText
-          className="mb-1 border-round-lg"
-          {...register('email')}
-          type="text"
-          placeholder="Enter your email"
-        />
-        <ErrorMessage err={errors.email?.message} />
+    <div className={styles.user_data_main}>
+      <div className={styles.registration_data_name}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={styles.registration_address}
+          style={background}>
+          <label htmlFor="serial" className={styles.span_head}>
+            My Data
+          </label>
+          <InputText
+            readOnly={switchReadOnly}
+            className="mb-1 border-round-lg"
+            {...register('email')}
+            type="text"
+            placeholder="Enter your email"
+          />
+          <ErrorMessage err={errors.email?.message} />
 
-        <InputText
-          className="mb-1 border-round-lg"
-          {...register('firstName')}
-          placeholder="Enter your firstName"
-        />
-        <ErrorMessage err={errors.firstName?.message} />
+          <InputText
+            readOnly={switchReadOnly}
+            className="mb-1 border-round-lg"
+            {...register('firstName')}
+            placeholder="Enter your firstName"
+          />
+          <ErrorMessage err={errors.firstName?.message} />
 
-        <InputText
-          className="mb-1 border-round-lg"
-          {...register('lastName')}
-          placeholder="Enter your LastName"
-        />
-        <ErrorMessage err={errors.lastName?.message} />
+          <InputText
+            readOnly={switchReadOnly}
+            className="mb-1 border-round-lg"
+            {...register('lastName')}
+            placeholder="Enter your LastName"
+          />
+          <ErrorMessage err={errors.lastName?.message} />
 
-        <label className={styles.registration_span}>Date of your birth</label>
-        <InputText
-          className="mb-1 border-round-lg"
-          type={'date'}
-          {...register('dateOfBirth')}
-        />
-        <ErrorMessage err={errors.dateOfBirth?.message} />
-        <Dialog
-          className={styles.module__window}
-          header="Notification"
-          visible={visible}
-          onHide={(): void => {
-            setVisible(false);
-          }}>
-          <p className={styles.message}>{messageUser}</p>
-        </Dialog>
-        <Button
-          className="mt-3 mb-1 border-round-lg"
-          label="Save"
-          type="submit"
-        />
-      </form>
-      <div className="mb-5">
-        <Dialog
-          header="Change your Password"
-          style={{ maxWidth: '80vw' }}
-          visible={visiblePasswordForm}
-          onHide={(): void => setvisiblePasswordForm(false)}>
-          <NewPasswordForm toBack={closeForm} />
-        </Dialog>
-        <Button
-          className="mt-3 mb-1"
-          label="Change your Password"
-          onClick={(): void => {
-            setvisiblePasswordForm(true);
-          }}
-        />
+          <label className={styles.registration_span}>Date of your birth</label>
+          <InputText
+            readOnly={switchReadOnly}
+            className="mb-1 border-round-lg"
+            type={'date'}
+            {...register('dateOfBirth')}
+          />
+          <ErrorMessage err={errors.dateOfBirth?.message} />
+          <Dialog
+            className={styles.module__window}
+            header="Notification"
+            visible={visible}
+            onHide={(): void => {
+              setVisible(false);
+            }}>
+            <p className={styles.message}>{messageUser}</p>
+          </Dialog>
+          <Button
+            className="mt-3 mb-1 border-round-lg"
+            label={buttonLabel}
+            type={switchButton}
+            onClick={(): void => {
+              console.log(switchReadOnly, switchButton, buttonLabel);
+              switchReadOnly = switchButton === 'submit' ? false : true;
+              if (switchReadOnly) {
+                switchButton = 'submit';
+                buttonLabel = 'Edit';
+                background = { background: 'transparent' };
+              } else {
+                switchButton = 'button';
+                buttonLabel = 'Save';
+                background = { background: '#e7dacf' }; //d8c0aa a3e0fe
+              }
+              // console.log(switchReadOnly, switchButton, buttonLabel);
+              reset({}, { keepValues: true });
+            }}
+          />
+        </form>
+        <div className="mb-5">
+          <Dialog
+            header="Change your Password"
+            style={{ maxWidth: '80vw' }}
+            visible={visiblePasswordForm}
+            onHide={(): void => setvisiblePasswordForm(false)}>
+            <NewPasswordForm toBack={closeForm} />
+          </Dialog>
+          <Button
+            className="mt-3 mb-1"
+            label="Change your Password"
+            onClick={(): void => {
+              setvisiblePasswordForm(true);
+            }}
+          />
+        </div>
       </div>
+
       <div className="mb-5">
         <ListAddress />
       </div>

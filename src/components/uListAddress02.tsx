@@ -1,5 +1,4 @@
 import { Button } from 'primereact/button';
-import { ScrollPanel } from 'primereact/scrollpanel';
 import { Dialog } from 'primereact/dialog';
 import { RadioButton } from 'primereact/radiobutton';
 import { useState } from 'react';
@@ -15,18 +14,15 @@ import { updateUserData } from './Forms/utils/updateUserData';
 const id = localStorage.getItem('id');
 if (id) count.ID = id;
 let switchToDo = '';
-let switchRender = true;
-let messageUser = '';
 let addressForForm: IAddress = newAddres[0];
 export default function ListAddress(): JSX.Element {
   const [visible, setVisible] = useState<boolean>(false);
-  const [visibleError, setVisibleError] = useState<boolean>(false);
   const [visibleAddresForm, setVisibleAddresForm] = useState(false);
   const [allAdress, setAdress] = useState(newAddres);
   const [getDefoltShip, setDefoltShip] = useState<string>('');
   const [getDefoltBill, setDefoltBill] = useState<string>('');
 
-  const renderForm = (errorMessage: string): void => {
+  const renderForm = (): void => {
     (async (): Promise<void> => {
       await getCustomerID(count.ID)
         .then(({ body }) => {
@@ -36,60 +32,27 @@ export default function ListAddress(): JSX.Element {
       if (switchToDo === 'Add' || switchToDo === 'Edit') {
         setVisibleAddresForm(false);
       } else {
-        // if (switchToDo === 'DefoltStart') {
-        setDefoltShip(count.defaultShipping);
-        setDefoltBill(count.defaultBilling);
-        // }
+        if (switchToDo === 'DefoltStart') {
+          setDefoltShip(count.defaultShipping);
+          setDefoltBill(count.defaultBilling);
+        }
       }
       switchToDo = '';
       setAdress([...newAddres]);
     })();
-    if (errorMessage !== '') {
-      messageUser = errorMessage;
-    }
-    setVisibleError(true);
   };
-  if (switchRender) {
-    renderForm(
-      `Your choice of default billing and shipping 
-      addresses will be saved when you close the form.`,
-    );
-    switchRender = false;
-  }
 
   return (
-    <div className={styles.registration_data_name}>
-      <div
-        className="card"
-        style={{
-          minWidth: '274px',
-          margin: '5px',
-          padding: '0.5rem',
-          border: '0.05vw',
-          borderStyle: 'solid',
-          borderColor: '$color-brown',
-          borderRadius: '8px',
-        }}>
-        <ScrollPanel style={{ width: '100%', height: '270px' }}>
-          <div className="mb-5">
-            {allAdress.map((adress, i) => (
-              <div className={styles.list_address} key={adress.id}>
-                <AddresVision
-                  value={{
-                    country: adress.country,
-                    city: adress.city,
-                    postalCode: adress.postalCode,
-                    streetName: adress.streetName,
-                    id: adress.id,
-                  }}
-                  toDo={'readOnly'}
-                  closeForm={renderForm}
-                />
-              </div>
-            ))}
-          </div>
-        </ScrollPanel>
-      </div>
+    <div className="card flex justify-content-center">
+      <Button
+        label="Show your addresses"
+        icon="pi pi-external-link"
+        onClick={(): void => {
+          switchToDo = 'DefoltStart';
+          renderForm();
+          setVisible(true);
+        }}
+      />
       <Dialog
         header="My addresses"
         visible={visible}
@@ -142,7 +105,6 @@ export default function ListAddress(): JSX.Element {
                 label="Delete"
                 onClick={(): void => {
                   switchToDo = 'Delete';
-                  messageUser = 'Address successfully deleted';
                   deledeAddressID(adress.id, renderForm);
                 }}
               />
@@ -176,7 +138,7 @@ export default function ListAddress(): JSX.Element {
             label="New Address"
             onClick={(): void => {
               addressForForm = {
-                country: 'BY',
+                country: '',
                 city: '',
                 id: '',
                 postalCode: '',
@@ -186,27 +148,8 @@ export default function ListAddress(): JSX.Element {
               setVisibleAddresForm(true);
             }}
           />
-          <Dialog
-            className={styles.module__window}
-            style={{ maxWidth: '340px' }}
-            header="Notification"
-            visible={visibleError}
-            onHide={(): void => {
-              setVisibleError(false);
-            }}>
-            <p className={styles.message}>{messageUser}</p>
-          </Dialog>
         </div>
       </Dialog>
-      <Button
-        label="Edit and Add addresses"
-        className="mt-3 mb-1"
-        onClick={(): void => {
-          switchToDo = 'DefoltStart';
-          renderForm('');
-          setVisible(true);
-        }}
-      />
     </div>
   );
 }

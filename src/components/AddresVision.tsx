@@ -1,5 +1,6 @@
 import { IpropsAddres } from '../types/interface';
 import styles from './Forms/AddressForm.module.scss';
+import { count } from '../constants/registratForm';
 
 export default function AddresVision(props: IpropsAddres): JSX.Element {
   return (
@@ -29,6 +30,20 @@ export default function AddresVision(props: IpropsAddres): JSX.Element {
         </span>
       </p>
       <div className={styles.list_address} style={{ padding: '0rem' }}></div>
+      {props.value.id === count.defaultShipping && props.toDo === 'readOnly' ? (
+        <label style={{ color: 'red' }} className="ml-2">
+          defolt Shipping&nbsp;&nbsp;
+        </label>
+      ) : (
+        <></>
+      )}
+      {props.value.id === count.defaultBilling && props.toDo === 'readOnly' ? (
+        <label style={{ color: 'red' }} className="ml-2">
+          defolt Billing
+        </label>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

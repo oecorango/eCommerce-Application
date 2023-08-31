@@ -46,7 +46,7 @@ export interface InewCustomerData {
 export interface IpropsAddres {
   value: IAddress;
   toDo: string;
-  closeForm: () => void;
+  closeForm: (errorMessage: string) => void;
 }
 
 export interface IUserData {

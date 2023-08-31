@@ -15,12 +15,11 @@ const requestStart = (
       updateUserData(body);
     })
     .catch(error => {
-      console.warn(error);
       console.log(error);
       if (error.code === 400) {
         errorMessage = `ERROR: ${error.message}`;
       } else {
-        errorMessage = 'ERROR, Should try again later';
+        errorMessage = `ERROR: ${error.message}  Should try again later`;
       }
     })
     .finally(() => {
@@ -44,7 +43,9 @@ export const setDefault = (defoltShip: string, defoltBill: string): void => {
       });
     }
     const callback = (): void => {};
-    requestStart(action, callback);
+    if (action.length > 0) {
+      requestStart(action, callback);
+    }
   }
 };
 
@@ -56,15 +57,15 @@ export const editAddressID = (
     country: string;
   },
   id: string,
-  toForm: () => void,
+  toForm: (errorMessage: string) => void,
 ): void => {
   if (id) {
     action = [{ action: 'changeAddress', addressId: id, address: newAddress }];
   } else {
     action = [{ action: 'addAddress', address: newAddress }];
   }
-  const callback = (): void => {
-    toForm();
+  const callback = (errorMessage: string): void => {
+    toForm(errorMessage);
   };
   requestStart(action, callback);
 };
@@ -101,13 +102,11 @@ export const newUserPassword = (
       updateUserData(body);
     })
     .catch(error => {
-      console.warn(error);
       console.log(error);
-
       if (error.code === 400) {
         errorMessage = `ERROR: ${error.message}`;
       } else {
-        errorMessage = 'ERROR, Should try again later';
+        errorMessage = `ERROR: ${error.message}  Should try again later`;
       }
     })
     .finally(() => {
@@ -115,10 +114,13 @@ export const newUserPassword = (
     });
 };
 
-export const deledeAddressID = (id: string, toForm: () => void): void => {
+export const deledeAddressID = (
+  id: string,
+  toForm: (errorMessage: string) => void,
+): void => {
   action = [{ action: 'removeAddress', addressId: id }];
-  const callback = (): void => {
-    toForm();
+  const callback = (errorMessage: string): void => {
+    toForm(errorMessage);
   };
   requestStart(action, callback);
 };

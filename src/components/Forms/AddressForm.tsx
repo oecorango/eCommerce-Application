@@ -28,17 +28,25 @@ export const AddressForm = (props: IpropsAddres): JSX.Element => {
   const nameForm = props.toDo === 'Add' ? 'New Address' : 'Edit Address';
   const countryOld =
     props.value.country === 'RU' ? 'Russian Federation (RU)' : 'Belarus (BY)';
-  const [selectedCountry0, setSelectedCountry0] =
-    useState<ICountriesData | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<ICountriesData | null>(
+    null,
+  );
   const countries: ICountriesData[] = countriesData;
 
   const onSubmit: SubmitHandler<IAddresses> = (data: IAddresses): void => {
-    data.country = selectedCountry0
-      ? selectedCountry0.countryCode
+    data.country = selectedCountry
+      ? selectedCountry.countryCode
       : props.value.country;
-
-    const callback = (): void => {
-      props.closeForm();
+    const callback = (errorMessage: string): void => {
+      console.log(errorMessage);
+      if (errorMessage === '') {
+        errorMessage =
+          props.toDo === 'Add'
+            ? 'Address added successfully'
+            : 'Address changed successfully';
+      }
+      console.log(errorMessage);
+      props.closeForm(errorMessage);
     };
     if (props.toDo === 'Add') {
       editAddressID(data, '', callback);
@@ -72,9 +80,9 @@ export const AddressForm = (props: IpropsAddres): JSX.Element => {
             className="w-full border-round-lg"
             {...register('country', { value: countryOld })}
             onChange={(e: DropdownChangeEvent): void => {
-              setSelectedCountry0(e.value);
+              setSelectedCountry(e.value);
             }}
-            value={selectedCountry0}
+            value={selectedCountry}
             options={countries}
             optionLabel="name"
             placeholder={countryOld}

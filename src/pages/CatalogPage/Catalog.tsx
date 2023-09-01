@@ -92,6 +92,22 @@ export const Catalog = ({ ...options }): JSX.Element => {
   // когда добавим кнопку сброса всех фильтров, то значения надо будет сбрасывать
   // для кнопок на undefined, чтобы не было сортировки, т.к если сбрость на false
   // то будет сортировка в обратную сторону...
+  const [resetFilters, setResetFilters] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (resetFilters) {
+      handleButtonSubmit();
+      setResetFilters(false);
+    }
+  }, [resetFilters]);
+
+  const handleButtonSubmit = (): void => {
+    setFilterParams(currentArray => [
+      ...currentArray.filter(el => el.name !== 'priceFilter'),
+      { name: 'priceFilter', value: filterByPrice },
+    ]);
+    setResetFilters(true);
+  };
 
   return (
     <>
@@ -124,16 +140,22 @@ export const Catalog = ({ ...options }): JSX.Element => {
           />
           <Button
             label="Filter Price"
-            onClick={(): void => {
-              /* во всех этих хуках, если в массиве уже существует объект с данным именем,
+            onClick={handleButtonSubmit}
+            /* во всех этих хуках, если в массиве уже существует объект с данным именем,
                 с помощью фильтра мы его удаляем, и добавляем объект с новыми параметрами.
                 Наверное можно написать функцию которая будет принимать name и value
                 вызывать setFilterParams... */
-              setFilterParams(currentArray => [
-                ...currentArray.filter(el => el.name !== 'priceFilter'),
-                { name: 'priceFilter', value: filterByPrice },
-              ]);
+          />
+          <Button
+            icon="pi pi-times"
+            rounded
+            text
+            onClick={(): void => {
+              setFilterPriceMinMax([0, 500]);
+              setResetFilters(true);
             }}
+            severity="danger"
+            aria-label="User"
           />
         </div>
       </div>
@@ -159,6 +181,7 @@ export const Catalog = ({ ...options }): JSX.Element => {
         offIcon="pi pi-arrow-down"
         onChange={(e: ToggleButtonChangeEvent): void => {
           setCheckedPrice(e.value);
+          setCheckedName(false);
           setFilterParams(currentArray => [
             ...currentArray.filter(el => el.name !== 'sort'),
             { name: 'sort', value: sortedPrice },
@@ -174,6 +197,7 @@ export const Catalog = ({ ...options }): JSX.Element => {
         offIcon="pi pi-arrow-down"
         onChange={(e: ToggleButtonChangeEvent): void => {
           setCheckedName(e.value);
+          setCheckedPrice(false);
           setFilterParams(currentArray => [
             ...currentArray.filter(el => el.name !== 'sort'),
             { name: 'sort', value: sortedName },

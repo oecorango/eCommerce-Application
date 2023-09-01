@@ -94,6 +94,25 @@ export const getProducts = (
 //     .execute();
 // };
 
+// export const FilterProducts = (
+//   category: string[] | string,
+//   page?: number,
+//   productInPage?: number,
+// ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
+//   return apiRoot
+//     .productProjections()
+//     .search()
+//     .get({
+//       queryArgs: {
+//         limit: productInPage,
+//         offset: page,
+//         filter: category,
+//         markMatchingVariants: true,
+//       },
+//     })
+//     .execute();
+// };
+
 // export const searchProducts = (
 //   searchText: string,
 //   page?: number,

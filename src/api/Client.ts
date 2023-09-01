@@ -54,7 +54,7 @@ export const getProductById = (
 export const getProducts = (
   page?: number,
   productInPage?: number,
-  category?: string,
+  category?: string | string[],
   sorted?: string[] | string,
   searchText?: string,
 ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {

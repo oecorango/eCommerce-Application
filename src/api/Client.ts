@@ -35,15 +35,15 @@ export const getCategoryProducts = (): Promise<
   return apiRoot.categories().get().execute();
 };
 
-export const getProducts = (
-  page?: number,
-  productInPage?: number,
-): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
-  return apiRoot
-    .productProjections()
-    .get({ queryArgs: { limit: productInPage, offset: page } })
-    .execute();
-};
+// export const getProducts = (
+//   page?: number,
+//   productInPage?: number,
+// ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
+//   return apiRoot
+//     .productProjections()
+//     .get({ queryArgs: { limit: productInPage, offset: page } })
+//     .execute();
+// };
 
 export const getProductById = (
   productId: string,
@@ -51,29 +51,12 @@ export const getProductById = (
   return apiRoot.productProjections().withId({ ID: productId }).get().execute();
 };
 
-export const FilterProducts = (
-  page: number,
-  productInPage: number,
-  filterStr: string,
-): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
-  return apiRoot
-    .productProjections()
-    .search()
-    .get({
-      queryArgs: {
-        limit: productInPage,
-        offset: page,
-        filter: filterStr,
-        markMatchingVariants: true,
-      },
-    })
-    .execute();
-};
-
-export const SortProducts = (
-  sorted: string[] | string,
+export const getProducts = (
   page?: number,
   productInPage?: number,
+  category?: string | string[],
+  sorted?: string[] | string,
+  searchText?: string,
 ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
   return apiRoot
     .productProjections()
@@ -82,32 +65,54 @@ export const SortProducts = (
       queryArgs: {
         limit: productInPage,
         offset: page,
+        filter: category,
         sort: sorted,
-        markMatchingVariants: true,
+        'text.en-US': searchText,
+        markMatchingVariants: true, // для чего?
+        fuzzy: true, // для чего? можно тоже передавать в функцию как парамент
       },
     })
     .execute();
 };
 
-export const searchProducts = (
-  searchText: string,
-  page?: number,
-  productInPage?: number,
-): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
-  return apiRoot
-    .productProjections()
-    .search()
-    .get({
-      queryArgs: {
-        limit: productInPage,
-        'text.en-US': searchText,
-        // offset: page,
-        markMatchingVariants: true,
-        fuzzy: true,
-      },
-    })
-    .execute();
-};
+// export const SortProducts = (
+//   sorted: string[] | string,
+//   page?: number,
+//   productInPage?: number,
+// ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
+//   return apiRoot
+//     .productProjections()
+//     .search()
+//     .get({
+//       queryArgs: {
+//         limit: productInPage,
+//         offset: page,
+//         sort: sorted,
+//         markMatchingVariants: true,
+//       },
+//     })
+//     .execute();
+// };
+
+// export const searchProducts = (
+//   searchText: string,
+//   page?: number,
+//   productInPage?: number,
+// ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> => {
+//   return apiRoot
+//     .productProjections()
+//     .search()
+//     .get({
+//       queryArgs: {
+//         limit: productInPage,
+//         'text.en-US': searchText,
+//         // offset: page,
+//         markMatchingVariants: true,
+//         fuzzy: true,
+//       },
+//     })
+//     .execute();
+// };
 
 export const getProductByKey = (
   productId: string,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { Slider, SliderChangeEvent } from 'primereact/slider';
 // import { InputText } from 'primereact/inputtext';
 // import { FilterProducts, SortProducts, searchProducts } from '../api/Client';
@@ -21,6 +21,14 @@ import { useState } from 'react';
 //   const currentLocation = parseInt(location.search?.split('=')[1]) || 1;
 //   const [currentPage, setCurrentPage] = useState<number>(currentLocation);
 //   const startIndexProduct = (currentPage - 1) * PRODUCTS_IN_PAGE;
+//   const [resetFilters, setResetFilters] = useState<boolean>(false);
+
+//   useEffect(() => {
+//     if (resetFilters) {
+//       handleButtonSubmit();
+//       setResetFilters(false);
+//     }
+//   }, [resetFilters]);
 
 //   const handleInputChange = (index: number, inputValue: string): void => {
 //     const updatedValue = [...value];
@@ -127,6 +135,17 @@ import { useState } from 'react';
 //               range
 //             />
 //             <Button label="Filter Price" onClick={handleButtonSubmit} />
+//             <Button
+//               icon="pi pi-times"
+//               rounded
+//               text
+//               onClick={(): void => {
+//                 setValue([0, 500]);
+//                 setResetFilters(true);
+//               }}
+//               severity="danger"
+//               aria-label="User"
+//             />
 //           </div>
 //         </div>
 //         <span className="p-input-icon-left">
@@ -142,6 +161,7 @@ import { useState } from 'react';
 //           onChange={(e: ToggleButtonChangeEvent): void => {
 //             sortAllProductsByPrice();
 //             setChecked(e.value);
+//             setChecked2(false);
 //           }}
 //           className="w-8rem"
 //         />
@@ -154,6 +174,7 @@ import { useState } from 'react';
 //           onChange={(e: ToggleButtonChangeEvent): void => {
 //             sortAllProductsByName();
 //             setChecked2(e.value);
+//             setChecked(false);
 //           }}
 //           className="w-8rem"
 //         />

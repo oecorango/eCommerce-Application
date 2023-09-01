@@ -72,6 +72,9 @@ export const Catalog = ({ ...options }): JSX.Element => {
           startIndexProduct,
           PRODUCTS_IN_PAGE,
           [idCategory, params.priceFilter],
+          // ниже по аналогии с верхнем параметром, можно при желании
+          // объединить и сортировку по цене и по имени, одновременно,
+          // т.к. функция может принять массив строк...
           params.sort,
           params.searchText,
         );
@@ -85,6 +88,10 @@ export const Catalog = ({ ...options }): JSX.Element => {
     };
     getCategoryProduct();
   }, [startIndexProduct, idCategory, filterParams]);
+
+  // когда добавим кнопку сброса всех фильтров, то значения надо будет сбрасывать
+  // для кнопок на undefined, чтобы не было сортировки, т.к если сбрость на false
+  // то будет сортировка в обратную сторону...
 
   return (
     <>
@@ -118,6 +125,10 @@ export const Catalog = ({ ...options }): JSX.Element => {
           <Button
             label="Filter Price"
             onClick={(): void => {
+              /* во всех этих хуках, если в массиве уже существует объект с данным именем,
+                с помощью фильтра мы его удаляем, и добавляем объект с новыми параметрами.
+                Наверное можно написать функцию которая будет принимать name и value
+                вызывать setFilterParams... */
               setFilterParams(currentArray => [
                 ...currentArray.filter(el => el.name !== 'priceFilter'),
                 { name: 'priceFilter', value: filterByPrice },

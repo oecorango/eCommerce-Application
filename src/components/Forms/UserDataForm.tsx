@@ -15,8 +15,6 @@ import { Dialog } from 'primereact/dialog';
 import NewPasswordForm from './NewPasswordForm';
 import ListAddress from '../ListAddress';
 
-count.ID = localStorage.getItem('id') as string;
-
 let messageUser = '';
 let switchButton: 'button' | 'submit' | 'reset' | undefined = 'submit';
 let switchReadOnly = true;
@@ -42,6 +40,8 @@ export const UserDataForm = (): JSX.Element => {
     },
   });
   if (switchRender) {
+    const id = localStorage.getItem('id');
+    if (id) count.ID = id;
     asyncRender = async (): Promise<void> => {
       await getCustomerID(count.ID)
         .then(({ body }) => {

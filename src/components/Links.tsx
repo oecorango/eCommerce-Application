@@ -15,7 +15,7 @@ export const commonLinks = [
     About
   </NavLink>,
   <NavLink to={PAGES.cart.route} key={PAGES.cart.key}>
-    <i className={`pi pi-shopping-bag ${styles.fontSize}`}></i>
+    <i className={`pi pi-cart-plus ${styles.fontSize}`}></i>
     Cart
   </NavLink>,
 ];

@@ -12,8 +12,6 @@ import AddressForm from './Forms/AddressForm';
 import styles from './Forms/AddressForm.module.scss';
 import { updateUserData } from './Forms/utils/updateUserData';
 
-const id = localStorage.getItem('id');
-if (id) count.ID = id;
 let switchToDo = '';
 let switchRender = true;
 let messageUser = '';
@@ -72,7 +70,7 @@ export default function ListAddress(): JSX.Element {
         }}>
         <ScrollPanel style={{ width: '100%', height: '270px' }}>
           <div className="mb-5">
-            {allAdress.map((adress, i) => (
+            {allAdress.map(adress => (
               <div className={styles.list_address} key={adress.id}>
                 <AddresVision
                   value={{
@@ -99,6 +97,8 @@ export default function ListAddress(): JSX.Element {
           count.defaultBilling = getDefoltBill;
           setDefault(getDefoltShip, getDefoltBill);
           setVisible(false);
+          messageUser = `Your choice of default billing and shipping 
+          addresses will be saved when you close the form.`;
         }}>
         <div className="mb-5">
           {allAdress.map((adress, i) => (

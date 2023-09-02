@@ -11,11 +11,13 @@ export const count: {
   ID: string;
   defaultShipping: string;
   defaultBilling: string;
+  versionCart: number;
 } = {
-  version: 0,
+  version: 1,
   ID: '',
   defaultShipping: '',
   defaultBilling: '',
+  versionCart: 1,
 };
 
 export let newAddress: IAddresses[] = [

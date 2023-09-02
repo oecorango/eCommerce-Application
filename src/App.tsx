@@ -17,6 +17,7 @@ import { UserProfilePage } from './pages/UserProfilePage/UserProfilePage';
 import { LayoutCatalog } from './Layouts/LayoutCatalog';
 import { Catalog } from './pages/CatalogPage/Catalog';
 import { ID_PRODUCT_CATEGORIES } from './constants/api';
+import { CartPage } from './pages/Cart/Cart';
 
 function App(): JSX.Element {
   const [isAuth, setIsAuth] = useState(false);
@@ -91,6 +92,7 @@ function App(): JSX.Element {
               }
             />
             <Route path={PAGES.about.route} element={<AboutPage />} />
+            <Route path={PAGES.cart.route} element={<CartPage />} />
             <Route path={PAGES.profile.route} element={<UserProfilePage />} />
             <Route path="*" element={<ErrorPage />} />
           </Route>

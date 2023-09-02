@@ -60,3 +60,16 @@ export interface INewPassword {
   passwordOld: string;
   passwordNew: string;
 }
+
+export interface IcartItems {
+  name: string;
+  id: string;
+  price: number;
+  count: number;
+  img: string;
+  version: number;
+}
+
+export interface IpropsItems {
+  value: IcartItems;
+}

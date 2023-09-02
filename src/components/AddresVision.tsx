@@ -32,14 +32,14 @@ export default function AddresVision(props: IpropsAddres): JSX.Element {
       <div className={styles.list_address} style={{ padding: '0rem' }}></div>
       {props.value.id === count.defaultShipping && props.toDo === 'readOnly' ? (
         <label style={{ color: 'red' }} className="ml-2">
-          defolt Shipping&nbsp;&nbsp;
+          default Shipping&nbsp;&nbsp;
         </label>
       ) : (
         <></>
       )}
       {props.value.id === count.defaultBilling && props.toDo === 'readOnly' ? (
         <label style={{ color: 'red' }} className="ml-2">
-          defolt Billing
+          default Billing
         </label>
       ) : (
         <></>

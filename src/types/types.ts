@@ -9,3 +9,8 @@ export type CategoryProduct = {
   name: string;
   id: string;
 };
+
+export type FilterParams = {
+  name: string;
+  value: string;
+};

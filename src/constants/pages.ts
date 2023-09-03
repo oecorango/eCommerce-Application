@@ -31,7 +31,7 @@ export const PAGES: { [key in PageKey]: Page } = {
   },
   product: {
     key: 'product',
-    route: '/product/',
+    route: 'product/',
   },
   accessories: {
     key: 'accessories',
@@ -44,9 +44,5 @@ export const PAGES: { [key in PageKey]: Page } = {
   textiles: {
     key: 'textiles',
     route: 'textiles/',
-  },
-  sets: {
-    key: 'sets',
-    route: 'sets/',
   },
 };

@@ -4,10 +4,6 @@ import { PAGES } from '../constants/pages';
 import { covertPrice } from '../utils/product';
 import styles from './Product.module.scss';
 
-// const AccessoriesID = '059dc4ff-dab0-4723-bc77-4be94226adb5';
-// const TextilesID = 'c2788add-fc7f-449d-9119-90734f995c2a';
-// const CosmeticsID = 'de4d113c-211b-439d-9771-dadd0e7b9928';
-
 export const ProductItem = (data: ProductProjection): JSX.Element => {
   const price = data.masterVariant.prices?.[0].value.centAmount;
   const discountPrice =
@@ -22,7 +18,10 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
     <div
       className={styles.products}
       onClick={(): void => {
-        if (key) navigate(PAGES.product.route + slug, { state: key });
+        if (key)
+          navigate(PAGES.catalog.route + PAGES.product.route + slug, {
+            state: key,
+          });
       }}>
       <img
         src={data.masterVariant.images?.[0].url}

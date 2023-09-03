@@ -7,7 +7,6 @@ export type PageKey =
   | 'catalog'
   | 'profile'
   | 'product'
-  | 'sets'
   | 'textiles'
   | 'cosmetics'
   | 'accessories';

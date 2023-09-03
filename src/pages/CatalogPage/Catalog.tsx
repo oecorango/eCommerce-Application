@@ -95,6 +95,18 @@ export const Catalog = ({ ...options }): JSX.Element => {
     setResetFilters(true);
   };
 
+  const items: MenuItem[] = [];
+  const home: MenuItem = { icon: 'pi pi-home', url: '/' };
+
+  location.pathname.split('/').forEach(path => {
+    if (path === PAGES.catalog.key) {
+      items.push({ label: `${path}`, url: `/${path}` });
+    }
+    if (path.length && path !== PAGES.catalog.key) {
+      items.push({ label: `${path}` });
+    }
+  });
+
   return (
     <div className={styles.content_main}>
       <div>
@@ -199,7 +211,8 @@ export const Catalog = ({ ...options }): JSX.Element => {
           className="w-8rem"
         />
         {/* <ScrollPanel style={{ width: '100%', height: '500px' }}> */}
-        <div className="mb-5">
+        <div className={styles.main}>
+          <BreadCrumb model={items} home={home} className={styles.breadcrumb} />
           <div className={styles.content}>
             {products?.map(data => <ProductItem {...data} key={data.id} />)}
           </div>

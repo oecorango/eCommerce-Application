@@ -10,6 +10,7 @@
     max-width: 100%;
     height: auto;
     border-radius: 8px;
+    margin-bottom: 10px;
   }
   & .name {
     color: $color-brown;
@@ -25,7 +26,8 @@
 
 .newPrices {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
 }
 
@@ -52,4 +54,14 @@
 
 .noDiscount {
   display: none;
+}
+
+.prices {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .icon {
+    font-size: 1.8rem;
+    color: $color-brown;
+  }
 }

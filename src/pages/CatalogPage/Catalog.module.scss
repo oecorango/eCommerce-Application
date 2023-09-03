@@ -1,14 +1,19 @@
 @import '../../styles/global';
 
+.main {
+  margin: 20px 0;
+  border-top: 2px solid $color-brown;
+}
+
 .content {
   display: grid;
-  padding: 30px 0;
+  padding: 10px 0;
   width: 100%;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
   column-gap: 50px;
   row-gap: 20px;
-  border-top: 3px solid $color-brown;
+
   @include media-tablet {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -39,4 +44,12 @@
     border: solid 2px $color-red;
     margin: 10px;
   }
+}
+
+.breadcrumb {
+  display: flex;
+  border: none;
+  margin: 0 auto;
+
+  background: $color-light;
 }

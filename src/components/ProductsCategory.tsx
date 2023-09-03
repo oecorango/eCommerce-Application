@@ -7,17 +7,12 @@ export const ProductsCategory = (): JSX.Element => {
   const navigate = useNavigate();
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-      }}>
+    <div className={styles.main}>
       <div className={styles.category}>
         <div
           className={styles.catalog}
           onClick={(): void => navigate(PAGES.catalog.route)}>
-          Catalog
+          CATALOG
         </div>
         <div
           className={styles.accessories}

@@ -12,6 +12,7 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
   const key = data.masterVariant.key;
   const slug = data.slug['en-US'];
   const categories = data.masterVariant.attributes?.[0].name;
+  const description = data.description?.['en-US'].slice(0, 50);
 
   const navigate = useNavigate();
 
@@ -29,18 +30,25 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
         alt={data.masterVariant.images?.[0].label}
       />
 
-      <div className={discountPrice ? styles.newPrices : styles.oldPrices}>
-        <div className={discountPrice ? styles.oldPrice : styles.price}>
-          {price ? covertPrice(price) : '0.00'}
+      <div className={styles.prices}>
+        <div className={discountPrice ? styles.newPrices : styles.oldPrices}>
+          <div className={discountPrice ? styles.oldPrice : styles.price}>
+            {price ? covertPrice(price) : '0.00'}
+          </div>
+
+          <div
+            className={
+              discountPrice ? styles.discountPrice : styles.noDiscount
+            }>
+            {discountPrice ? covertPrice(discountPrice) : ''}
+          </div>
         </div>
 
-        <div
-          className={discountPrice ? styles.discountPrice : styles.noDiscount}>
-          {discountPrice ? covertPrice(discountPrice) : ''}
-        </div>
+        <i className={`${styles.icon} pi pi-cart-plus`} />
       </div>
 
       <div className={styles.name}>{data.name?.['en-US']}</div>
+      <p>{description}...</p>
     </div>
   );
 };

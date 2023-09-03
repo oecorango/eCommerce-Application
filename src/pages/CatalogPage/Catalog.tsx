@@ -1,6 +1,7 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { ScrollPanel } from 'primereact/scrollpanel';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import { useEffect, useState } from 'react';
@@ -110,122 +111,135 @@ export const Catalog = ({ ...options }): JSX.Element => {
   };
 
   return (
-    <>
-      <div className="card flex justify-content-start">
-        <div className="w-14rem">
-          <span>Цена</span>
-          <div className="input-container">
-            <label htmlFor="fromInput">From</label>
-            <InputText
-              id="fromInput"
-              value={filterPriceMinMax[0].toString()}
-              onChange={(e): void => handleInputChange(0, e.target.value)}
-            />
-          </div>
-          <div className="input-container">
-            <label htmlFor="toInput">To</label>
-            <InputText
-              id="toInput"
-              value={filterPriceMinMax[1].toString()}
-              onChange={(e): void => handleInputChange(1, e.target.value)}
-            />
-          </div>
-          <Slider
-            value={filterPriceMinMax}
-            onChange={(e: SliderChangeEvent): void =>
-              setFilterPriceMinMax(e.value as [number, number])
-            }
-            className="w-14rem"
-            range
+    <div className={styles.content_main}>
+      <div>
+        <span className="p-input-icon-left">
+          <i className="pi pi-search" />
+          <InputText
+            style={{ width: '12rem' }}
+            placeholder="Search"
+            onChange={(event): void => {
+              if (event.target.value.length >= 3) {
+                setFilterParams(currentArray => [
+                  ...currentArray.filter(el => el.name !== 'searchText'),
+                  { name: 'searchText', value: event.target.value },
+                ]);
+              }
+            }}
           />
-          <Button
-            label="Filter Price"
-            onClick={handleButtonSubmit}
-            /* во всех этих хуках, если в массиве уже существует объект с данным именем,
+        </span>
+        <div className="card flex justify-content-start">
+          <div className="w-14rem">
+            <span>Цена</span>
+            <div className="input-container">
+              <p style={{ margin: '0px' }}>From</p>
+              <InputText
+                style={{ width: '12rem' }}
+                id="fromInput"
+                value={filterPriceMinMax[0].toString()}
+                onChange={(e): void => handleInputChange(0, e.target.value)}
+              />
+            </div>
+            <div className="input-container">
+              <p style={{ margin: '0px' }}>To</p>
+              <InputText
+                style={{ width: '12rem' }}
+                id="toInput"
+                value={filterPriceMinMax[1].toString()}
+                onChange={(e): void => handleInputChange(1, e.target.value)}
+              />
+            </div>
+            <Slider
+              style={{ width: '12rem' }}
+              value={filterPriceMinMax}
+              onChange={(e: SliderChangeEvent): void =>
+                setFilterPriceMinMax(e.value as [number, number])
+              }
+              range
+            />
+            <Button
+              style={{ top: '10px' }}
+              label="Filter Price"
+              onClick={handleButtonSubmit}
+              /* во всех этих хуках, если в массиве уже существует объект с данным именем,
                 с помощью фильтра мы его удаляем, и добавляем объект с новыми параметрами.
                 Наверное можно написать функцию которая будет принимать name и value
                 вызывать setFilterParams... */
-          />
-          <Button
-            icon="pi pi-times"
-            rounded
-            text
-            onClick={(): void => {
-              setFilterPriceMinMax([0, 500]);
-              setResetFilters(true);
-            }}
-            severity="danger"
-            aria-label="User"
-          />
+            />
+            <Button
+              icon="pi pi-times"
+              rounded
+              text
+              onClick={(): void => {
+                setFilterPriceMinMax([0, 500]);
+                setResetFilters(true);
+              }}
+              severity="danger"
+              aria-label="User"
+            />
+          </div>
         </div>
       </div>
-      <span className="p-input-icon-left">
-        <i className="pi pi-search" />
-        <InputText
-          placeholder="Search"
-          onChange={(event): void => {
-            if (event.target.value.length >= 3) {
-              setFilterParams(currentArray => [
-                ...currentArray.filter(el => el.name !== 'searchText'),
-                { name: 'searchText', value: event.target.value },
-              ]);
-            }
+
+      <div className="card">
+        <ToggleButton
+          checked={checkedPrice}
+          onLabel="Price"
+          offLabel="Price"
+          onIcon="pi pi-arrow-up"
+          offIcon="pi pi-arrow-down"
+          onChange={(e: ToggleButtonChangeEvent): void => {
+            setCheckedPrice(e.value);
+            setCheckedName(false);
+            setFilterParams(currentArray => [
+              ...currentArray.filter(el => el.name !== 'sort'),
+              { name: 'sort', value: sortedPrice },
+            ]);
           }}
+          className="w-8rem"
         />
-      </span>
-      <ToggleButton
-        checked={checkedPrice}
-        onLabel="Price"
-        offLabel="Price"
-        onIcon="pi pi-arrow-up"
-        offIcon="pi pi-arrow-down"
-        onChange={(e: ToggleButtonChangeEvent): void => {
-          setCheckedPrice(e.value);
-          setCheckedName(false);
-          setFilterParams(currentArray => [
-            ...currentArray.filter(el => el.name !== 'sort'),
-            { name: 'sort', value: sortedPrice },
-          ]);
-        }}
-        className="w-8rem"
-      />
-      <ToggleButton
-        checked={checkedName}
-        onLabel="Name"
-        offLabel="Name"
-        onIcon="pi pi-arrow-up"
-        offIcon="pi pi-arrow-down"
-        onChange={(e: ToggleButtonChangeEvent): void => {
-          setCheckedName(e.value);
-          setCheckedPrice(false);
-          setFilterParams(currentArray => [
-            ...currentArray.filter(el => el.name !== 'sort'),
-            { name: 'sort', value: sortedName },
-          ]);
-        }}
-        className="w-8rem"
-      />
-      <div className={styles.content}>
-        {products?.map(data => <ProductItem {...data} key={data.id} />)}
+        <ToggleButton
+          checked={checkedName}
+          onLabel="Name"
+          offLabel="Name"
+          onIcon="pi pi-arrow-up"
+          offIcon="pi pi-arrow-down"
+          onChange={(e: ToggleButtonChangeEvent): void => {
+            setCheckedName(e.value);
+            setCheckedPrice(false);
+            setFilterParams(currentArray => [
+              ...currentArray.filter(el => el.name !== 'sort'),
+              { name: 'sort', value: sortedName },
+            ]);
+          }}
+          className="w-8rem"
+        />
+        <ScrollPanel style={{ width: '100%', height: '500px' }}>
+          <div className="mb-5">
+            <div className={styles.content}>
+              {products?.map(data => <ProductItem {...data} key={data.id} />)}
+            </div>
+            <div className={styles.pagination}>
+              {pagesArray.map(
+                (index): JSX.Element => (
+                  <Button
+                    className={
+                      currentPage === index
+                        ? styles.paginationButtonActive
+                        : styles.paginationButton
+                    }
+                    key={index}
+                    onClick={(): void => {
+                      navigate(`?page=${index}`);
+                    }}>
+                    {index}
+                  </Button>
+                ),
+              )}
+            </div>
+          </div>
+        </ScrollPanel>
       </div>
-      <div className={styles.pagination}>
-        {pagesArray.map(
-          (index): JSX.Element => (
-            <Button
-              className={
-                currentPage === index
-                  ? styles.paginationButtonActive
-                  : styles.paginationButton
-              }
-              key={index}
-              onClick={(): void => {
-                navigate(`?page=${index}`);
-              }}>
-              {index}
-            </Button>
-          ),
-        )}
-      </div>
-    </>
+    </div>
   );
 };

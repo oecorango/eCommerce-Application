@@ -18,6 +18,17 @@
   }
 }
 
+.content_main {
+  display: flex;
+  flex-direction: row;
+  @include media-tablet {
+    flex-direction: column;
+  }
+  @include media-mobile {
+    flex-direction: column;
+  }
+}
+
 .pagination {
   display: flex;
   justify-content: center;

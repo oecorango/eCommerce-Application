@@ -10,12 +10,16 @@ export const commonLinks = [
     <i className={`pi pi-home ${styles.fontSize}`}></i>
     Home
   </NavLink>,
+  <NavLink to={PAGES.catalog.route} key={PAGES.catalog.key}>
+    <i className={`pi pi-gift ${styles.fontSize}`}></i>
+    Catalog
+  </NavLink>,
   <NavLink to={PAGES.about.route} key={PAGES.about.key}>
     <i className={`pi pi-users ${styles.fontSize}`}></i>
     About
   </NavLink>,
   <NavLink to={PAGES.cart.route} key={PAGES.cart.key}>
-    <i className={`pi pi-cart-plus ${styles.fontSize}`}></i>
+    <i className={`pi pi-shopping-cart ${styles.fontSize}`}></i>
     Cart
   </NavLink>,
 ];

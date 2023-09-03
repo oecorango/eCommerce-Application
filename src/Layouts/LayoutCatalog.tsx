@@ -7,7 +7,6 @@ export const LayoutCatalog = (): JSX.Element => {
   return (
     <>
       <div className={styles.page}>
-        <Aside />
         <div className={styles.page__content}>
           <ProductsCategory />
           <Outlet />

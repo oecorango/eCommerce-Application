@@ -42,19 +42,21 @@ export const UserDataForm = (): JSX.Element => {
   if (switchRender) {
     const id = localStorage.getItem('id');
     if (id) count.ID = id;
-    asyncRender = async (): Promise<void> => {
-      await getCustomerID(count.ID)
-        .then(({ body }) => {
-          updateUserData(body);
-        })
-        .catch(console.error);
-      setValue('email', userData.email);
-      setValue('firstName', userData.firstName);
-      setValue('lastName', userData.lastName);
-      setValue('dateOfBirth', userData.dateOfBirth);
-    };
-    asyncRender();
-    switchRender = false;
+    if (count.ID) {
+      asyncRender = async (): Promise<void> => {
+        await getCustomerID(count.ID)
+          .then(({ body }) => {
+            updateUserData(body);
+          })
+          .catch(console.error);
+        setValue('email', userData.email);
+        setValue('firstName', userData.firstName);
+        setValue('lastName', userData.lastName);
+        setValue('dateOfBirth', userData.dateOfBirth);
+      };
+      asyncRender();
+      switchRender = false;
+    }
   }
 
   const closeForm = (errorMessage: string): void => {

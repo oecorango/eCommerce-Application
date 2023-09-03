@@ -2,12 +2,14 @@ import {
   ClientResponse,
   CustomerSignInResult,
 } from '@commercetools/platform-sdk';
+import { count } from '../constants/registratForm';
 import { IRegistrationForm } from '../types/interface';
 
 export const logOut = (): void => {
   localStorage.removeItem('id');
   localStorage.removeItem('auth');
   localStorage.removeItem('name');
+  count.ID = '';
 };
 
 export const logIn = (data: ClientResponse<CustomerSignInResult>): void => {

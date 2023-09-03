@@ -1,20 +1,23 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
+import { BreadCrumb } from 'primereact/breadcrumb';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { ScrollPanel } from 'primereact/scrollpanel';
+import { MenuItem } from 'primereact/menuitem';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { getProducts } from '../../api/Client';
 import { ProductItem } from '../../components/Product';
 import { PRODUCTS_IN_PAGE } from '../../constants/common';
+import { PAGES } from '../../constants/pages';
 import { FilterParams } from '../../types/types';
 import { getPageCount, getPagesArray } from '../../utils/product';
 import styles from './Catalog.module.scss';
 
 export const Catalog = ({ ...options }): JSX.Element => {
   const idCategory = options.options.id;
+  const location = useLocation();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const currentLocation = searchParams.get('page') || '1';
@@ -56,7 +59,6 @@ export const Catalog = ({ ...options }): JSX.Element => {
         const params = Object.fromEntries(
           filterParams.map(n => [n.name, n.value]),
         );
-        console.log(params);
 
         const products = await getProducts(
           startIndexProduct,
@@ -196,31 +198,31 @@ export const Catalog = ({ ...options }): JSX.Element => {
           }}
           className="w-8rem"
         />
-        <ScrollPanel style={{ width: '100%', height: '500px' }}>
-          <div className="mb-5">
-            <div className={styles.content}>
-              {products?.map(data => <ProductItem {...data} key={data.id} />)}
-            </div>
-            <div className={styles.pagination}>
-              {pagesArray.map(
-                (index): JSX.Element => (
-                  <Button
-                    className={
-                      currentPage === index.toString()
-                        ? styles.paginationButtonActive
-                        : styles.paginationButton
-                    }
-                    key={index}
-                    onClick={(): void => {
-                      setSearchParams({ page: index.toString() });
-                    }}>
-                    {index}
-                  </Button>
-                ),
-              )}
-            </div>
+        {/* <ScrollPanel style={{ width: '100%', height: '500px' }}> */}
+        <div className="mb-5">
+          <div className={styles.content}>
+            {products?.map(data => <ProductItem {...data} key={data.id} />)}
           </div>
-        </ScrollPanel>
+          <div className={styles.pagination}>
+            {pagesArray.map(
+              (index): JSX.Element => (
+                <Button
+                  className={
+                    currentPage === index.toString()
+                      ? styles.paginationButtonActive
+                      : styles.paginationButton
+                  }
+                  key={index}
+                  onClick={(): void => {
+                    setSearchParams({ page: index.toString() });
+                  }}>
+                  {index}
+                </Button>
+              ),
+            )}
+          </div>
+        </div>
+        {/* </ScrollPanel> */}
       </div>
     </div>
   );

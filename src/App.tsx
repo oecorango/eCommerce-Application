@@ -64,7 +64,15 @@ function App(): JSX.Element {
                 }
               />
               <Route
-                path={PAGES.product.route + ':key'}
+                path={PAGES.accessories.route + '/:key'}
+                element={<ProductPage />}
+              />
+              <Route
+                path={PAGES.cosmetics.route + '/:key'}
+                element={<ProductPage />}
+              />
+              <Route
+                path={PAGES.textiles.route + '/:key'}
                 element={<ProductPage />}
               />
             </Route>

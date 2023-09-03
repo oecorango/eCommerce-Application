@@ -11,6 +11,7 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
 
   const key = data.masterVariant.key;
   const slug = data.slug['en-US'];
+  const categories = data.masterVariant.attributes?.[0].name;
 
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
       className={styles.products}
       onClick={(): void => {
         if (key)
-          navigate(PAGES.catalog.route + PAGES.product.route + slug, {
+          navigate(PAGES.catalog.route + `${categories}/` + slug, {
             state: key,
           });
       }}>

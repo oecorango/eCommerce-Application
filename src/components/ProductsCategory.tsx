@@ -13,7 +13,7 @@ export const ProductsCategory = (): JSX.Element => {
         flexDirection: 'row',
         justifyContent: 'space-between',
       }}>
-      <Aside />
+      {/* <Aside /> */}
 
       {/* @ToDo сделать слайдер для категорий*/}
       <div className={styles.category}>

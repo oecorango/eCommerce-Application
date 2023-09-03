@@ -3,12 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 import { Image as ImageSDK } from '@commercetools/platform-sdk';
 import { getProductByKey } from '../../api/Client';
 import { Card } from 'primereact/card';
-import styles from './DisplayProductInfo.module.scss';
 import { FIRST_INDEX } from '../../constants/common';
 import { covertPrice } from '../../utils/product';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { BreadCrumb } from 'primereact/breadcrumb';
+import { MenuItem } from 'primereact/menuitem';
+import { PAGES } from '../../constants/pages';
+import styles from './DisplayProductInfo.module.scss';
 
 export function DisplayProductInfo(keyProduct: string): JSX.Element {
+  const location = useLocation();
   const [images, setImages] = useState<ImageSDK[]>();
   const [nameProduct, setNameProduct] = useState<string>();
   const [descriptionProduct, setDescriptionProduct] = useState<string>();
@@ -84,8 +88,21 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
     return <img src={item.url} alt={item.label} style={{ width: '50%' }} />;
   };
 
+  const items: MenuItem[] = [];
+  const home: MenuItem = { icon: 'pi pi-home', url: '/' };
+
+  location.pathname.split('/').forEach(path => {
+    if (path === PAGES.catalog.key) {
+      items.push({ label: `${path}`, url: `/${path}` });
+    }
+    if (path.length && path !== PAGES.catalog.key) {
+      items.push({ label: `${path}` });
+    }
+  });
+
   return (
     <>
+      <BreadCrumb model={items} home={home} className={styles.breadcrumb} />
       <div className={styles.wrapper}>
         <div className="card">
           <Galleria

@@ -17,12 +17,7 @@ import styles from './RegistrationForm.module.scss';
 export const RegistrationForm = (props: {
   create: () => void;
 }): JSX.Element => {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({
+  const form = useForm({
     mode: 'onBlur',
     resolver: yupResolver(validRegisterData),
   });
@@ -49,19 +44,19 @@ export const RegistrationForm = (props: {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-column">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-column">
       <InputText
         className="mb-1 border-round-lg"
-        {...register('email')}
+        {...form.register('email')}
         type="text"
         placeholder="Enter your email"
       />
-      <ErrorMessage err={errors.email?.message} />
+      <ErrorMessage err={form.formState.errors.email?.message} />
 
       <div className="p-inputgroup mb-1">
         <InputText
           className={styles.input}
-          {...register('password')}
+          {...form.register('password')}
           type={!checkedPassword ? 'password' : 'text'}
           placeholder="Enter your password"
           autoComplete="on"
@@ -73,31 +68,31 @@ export const RegistrationForm = (props: {
           />
         </span>
       </div>
-      <ErrorMessage err={errors.password?.message} />
+      <ErrorMessage err={form.formState.errors.password?.message} />
 
       <InputText
         className="mb-1 border-round-lg"
-        {...register('firstName')}
+        {...form.register('firstName')}
         placeholder="Enter your FirstName"
       />
-      <ErrorMessage err={errors.firstName?.message} />
+      <ErrorMessage err={form.formState.errors.firstName?.message} />
 
       <InputText
         className="mb-1 border-round-lg"
-        {...register('lastName')}
+        {...form.register('lastName')}
         placeholder="Enter your LastName"
       />
-      <ErrorMessage err={errors.lastName?.message} />
+      <ErrorMessage err={form.formState.errors.lastName?.message} />
 
       <label className={styles.registration_span}>Enter your age</label>
       <InputText
         className="mb-1 border-round-lg"
         type={'date'}
-        {...register('dateOfBirth', {
+        {...form.register('dateOfBirth', {
           valueAsDate: true,
         })}
       />
-      <ErrorMessage err={errors.dateOfBirth?.message} />
+      <ErrorMessage err={form.formState.errors.dateOfBirth?.message} />
 
       <div className="flex mt-2">
         <InputSwitch
@@ -116,22 +111,24 @@ export const RegistrationForm = (props: {
         </label>
         <InputText
           className="mb-1 w-full border-round-lg"
-          {...register('address.0.streetName')}
+          {...form.register('address.0.streetName')}
           placeholder="Enter your street"
         />
-        <ErrorMessage err={errors.address?.[0]?.streetName?.message} />
+        <ErrorMessage
+          err={form.formState.errors.address?.[0]?.streetName?.message}
+        />
 
         <InputText
           className="mb-1 w-full border-round-lg"
-          {...register('address.0.city')}
+          {...form.register('address.0.city')}
           placeholder="Enter your city"
         />
-        <ErrorMessage err={errors.address?.[0]?.city?.message} />
+        <ErrorMessage err={form.formState.errors.address?.[0]?.city?.message} />
 
         <div className="mb-1 w-full">
           <Dropdown
             className="w-full border-round-lg"
-            {...register('address.0.country')}
+            {...form.register('address.0.country')}
             onChange={(e: DropdownChangeEvent): void => {
               setSelectedCountry0(e.value);
             }}
@@ -140,15 +137,19 @@ export const RegistrationForm = (props: {
             optionLabel="name"
             placeholder="Select your Country"
           />
-          <ErrorMessage err={errors.address?.[0]?.city?.message} />
+          <ErrorMessage
+            err={form.formState.errors.address?.[0]?.city?.message}
+          />
         </div>
 
         <InputText
           className="mb-1 w-full border-round-lg"
-          {...register('address.0.postalCode')}
+          {...form.register('address.0.postalCode')}
           placeholder="Enter your Post-Code"
         />
-        <ErrorMessage err={errors.address?.[0]?.postalCode?.message} />
+        <ErrorMessage
+          err={form.formState.errors.address?.[0]?.postalCode?.message}
+        />
 
         <ToggleButton
           onLabel="Default address"
@@ -170,22 +171,24 @@ export const RegistrationForm = (props: {
         </label>
         <InputText
           className="mb-1 w-full border-round-lg"
-          {...register('address.1.streetName')}
+          {...form.register('address.1.streetName')}
           placeholder="Enter your street"
         />
-        <ErrorMessage err={errors.address?.[1]?.streetName?.message} />
+        <ErrorMessage
+          err={form.formState.errors.address?.[1]?.streetName?.message}
+        />
 
         <InputText
           className="mb-1 w-full border-round-lg"
-          {...register('address.1.city')}
+          {...form.register('address.1.city')}
           placeholder="Enter your city"
         />
-        <ErrorMessage err={errors.address?.[1]?.city?.message} />
+        <ErrorMessage err={form.formState.errors.address?.[1]?.city?.message} />
 
         <div className="w-full mb-1">
           <Dropdown
             className="w-full border-round-lg"
-            {...register('address.1.country')}
+            {...form.register('address.1.country')}
             onChange={(e: DropdownChangeEvent): void => {
               setSelectedCountry1(e.value);
             }}
@@ -194,16 +197,20 @@ export const RegistrationForm = (props: {
             optionLabel="name"
             placeholder="Select your Country"
           />
-          <ErrorMessage err={errors.address?.[1]?.country?.message} />
+          <ErrorMessage
+            err={form.formState.errors.address?.[1]?.country?.message}
+          />
         </div>
 
         <div className="w-full mb-1">
           <InputText
             className="mb-1 w-full border-round-lg"
-            {...register('address.1.postalCode')}
+            {...form.register('address.1.postalCode')}
             placeholder="Enter your Post-Code"
           />
-          <ErrorMessage err={errors.address?.[1]?.postalCode?.message} />
+          <ErrorMessage
+            err={form.formState.errors.address?.[1]?.postalCode?.message}
+          />
         </div>
 
         <ToggleButton
@@ -225,10 +232,10 @@ export const RegistrationForm = (props: {
         type="submit"
         onClick={(): void => {
           if (identicalAddresses) {
-            setValue('address.1.streetName', 'a');
-            setValue('address.1.city', 'b');
-            setValue('address.1.country', 'BY');
-            setValue('address.1.postalCode', '123456');
+            form.setValue('address.1.streetName', 'a');
+            form.setValue('address.1.city', 'b');
+            form.setValue('address.1.country', 'BY');
+            form.setValue('address.1.postalCode', '123456');
           }
         }}
       />

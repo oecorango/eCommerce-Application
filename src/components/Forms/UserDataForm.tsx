@@ -23,13 +23,7 @@ let buttonLabel = 'Edit';
 let background = { background: 'transparent' };
 let asyncRender = async (): Promise<void> => {};
 export const UserDataForm = (): JSX.Element => {
-  const {
-    register,
-    setValue,
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IUserData>({
+  const form = useForm({
     mode: 'onBlur',
     resolver: yupResolver(validUserData),
     defaultValues: {
@@ -49,10 +43,10 @@ export const UserDataForm = (): JSX.Element => {
             updateUserData(body);
           })
           .catch(console.error);
-        setValue('email', userData.email);
-        setValue('firstName', userData.firstName);
-        setValue('lastName', userData.lastName);
-        setValue('dateOfBirth', userData.dateOfBirth);
+        form.setValue('email', userData.email);
+        form.setValue('firstName', userData.firstName);
+        form.setValue('lastName', userData.lastName);
+        form.setValue('dateOfBirth', userData.dateOfBirth);
       };
       asyncRender();
       switchRender = false;
@@ -88,7 +82,7 @@ export const UserDataForm = (): JSX.Element => {
     <div className={styles.user_data_main}>
       <div className={styles.registration_data_name}>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit)}
           className={styles.registration_address}
           style={background}>
           <label htmlFor="serial" className={styles.span_head}>
@@ -97,36 +91,36 @@ export const UserDataForm = (): JSX.Element => {
           <InputText
             readOnly={switchReadOnly}
             className="mb-1 border-round-lg"
-            {...register('email')}
+            {...form.register('email')}
             type="text"
             placeholder="Enter your email"
           />
-          <ErrorMessage err={errors.email?.message} />
+          <ErrorMessage err={form.formState.errors.email?.message} />
 
           <InputText
             readOnly={switchReadOnly}
             className="mb-1 border-round-lg"
-            {...register('firstName')}
+            {...form.register('firstName')}
             placeholder="Enter your firstName"
           />
-          <ErrorMessage err={errors.firstName?.message} />
+          <ErrorMessage err={form.formState.errors.firstName?.message} />
 
           <InputText
             readOnly={switchReadOnly}
             className="mb-1 border-round-lg"
-            {...register('lastName')}
+            {...form.register('lastName')}
             placeholder="Enter your LastName"
           />
-          <ErrorMessage err={errors.lastName?.message} />
+          <ErrorMessage err={form.formState.errors.lastName?.message} />
 
           <label className={styles.registration_span}>Date of your birth</label>
           <InputText
             readOnly={switchReadOnly}
             className="mb-1 border-round-lg"
             type={'date'}
-            {...register('dateOfBirth')}
+            {...form.register('dateOfBirth')}
           />
-          <ErrorMessage err={errors.dateOfBirth?.message} />
+          <ErrorMessage err={form.formState.errors.dateOfBirth?.message} />
           <Dialog
             className={styles.module__window}
             header="Notification"
@@ -153,7 +147,7 @@ export const UserDataForm = (): JSX.Element => {
                 background = { background: '#e7dacf' }; //d8c0aa a3e0fe
               }
               // console.log(switchReadOnly, switchButton, buttonLabel);
-              reset({}, { keepValues: true });
+              form.reset({}, { keepValues: true });
             }}
           />
         </form>

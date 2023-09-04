@@ -14,38 +14,30 @@ export const commonLinks = [
     <i className={`pi pi-gift ${styles.fontSize}`}></i>
     Catalog
   </NavLink>,
-  <NavLink to={PAGES.about.route} key={PAGES.about.key}>
-    <i className={`pi pi-users ${styles.fontSize}`}></i>
-    About
-  </NavLink>,
   <NavLink to={PAGES.cart.route} key={PAGES.cart.key}>
     <i className={`pi pi-shopping-cart ${styles.fontSize}`}></i>
     Cart
   </NavLink>,
+  <NavLink to={PAGES.about.route} key={PAGES.about.key}>
+    <i className={`pi pi-users ${styles.fontSize}`}></i>
+    About
+  </NavLink>,
 ];
 
-export const LinkToSignIn = (): JSX.Element => (
-  <NavLink to={PAGES.signin.route}>
-    <i className={`pi pi-sign-in ${styles.fontSize}`}></i>
-    Sign in
-  </NavLink>
+export const LinksIsNotAuth = (): JSX.Element => (
+  <>
+    <NavLink to={PAGES.signin.route}>
+      <i className={`pi pi-sign-in ${styles.fontSize}`}></i>
+      Sign in
+    </NavLink>
+    <NavLink to={PAGES.registration.route}>
+      <i className={`pi pi-user-edit ${styles.fontSize}`}></i>
+      Register
+    </NavLink>
+  </>
 );
 
-export const LinkToRegistration = (): JSX.Element => (
-  <NavLink to={PAGES.registration.route}>
-    <i className={`pi pi-user-edit ${styles.fontSize}`}></i>
-    Register
-  </NavLink>
-);
-
-export const LinkToProfile = (): JSX.Element => (
-  <NavLink to={PAGES.profile.route} key={PAGES.profile.key}>
-    <i className={`pi pi-user ${styles.fontSize}`}></i>
-    Profile
-  </NavLink>
-);
-
-export const LinkToLogOut = (): JSX.Element => {
+export const LinksIsAuth = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);
 
   const handleLogOut = (): void => {
@@ -55,11 +47,15 @@ export const LinkToLogOut = (): JSX.Element => {
 
   return (
     <>
+      <NavLink to={PAGES.profile.route} key={PAGES.profile.key}>
+        <i className={`pi pi-user ${styles.fontSize}`}></i>
+        Profile
+      </NavLink>
       <Link to={PAGES.main.route} onClick={handleLogOut}>
         <i className={`pi pi-sign-out ${styles.fontSize}`}></i>
         Exit
       </Link>
-      <LinkToProfile />
+      ,
     </>
   );
 };

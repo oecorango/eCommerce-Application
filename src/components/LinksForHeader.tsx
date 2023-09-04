@@ -1,11 +1,6 @@
 import { useContext } from 'react';
 import { AuthContext } from './authProvider';
-import {
-  commonLinks,
-  LinkToLogOut,
-  LinkToRegistration,
-  LinkToSignIn,
-} from './Links';
+import { commonLinks, LinksIsNotAuth, LinksIsAuth } from './Links';
 
 export const LinksForHeader = (): JSX.Element => {
   const { isAuth } = useContext(AuthContext);
@@ -13,14 +8,7 @@ export const LinksForHeader = (): JSX.Element => {
   return (
     <>
       {commonLinks}
-      {isAuth ? (
-        <LinkToLogOut />
-      ) : (
-        <>
-          <LinkToSignIn />
-          <LinkToRegistration />
-        </>
-      )}
+      {isAuth ? <LinksIsAuth /> : <LinksIsNotAuth />}
     </>
   );
 };

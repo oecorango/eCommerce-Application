@@ -6,6 +6,9 @@
   padding: 0 50px;
   margin: 0 auto;
   min-height: calc(100vh - 150px);
+  @include media-mobile-big {
+    padding: 0 15px;
+  }
 }
 
 .page__content {
@@ -66,7 +69,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
   @include media-mobile {
-    padding: 10%;
+    padding: 3%;
     grid-template-columns: repeat(1, 1fr);
   }
 }

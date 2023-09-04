@@ -10,8 +10,8 @@
   }
 }
 
-@mixin media-hamburger {
-  @media (max-width: $hamburger-width) {
+@mixin media-mobile-big {
+  @media (max-width: $mobile-big-width) {
     @content;
   }
 }

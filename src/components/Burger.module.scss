@@ -29,14 +29,14 @@
       padding: 0 30px;
     }
   }
-  @include media-hamburger {
+  @include media-mobile-big {
     .a {
       display: block;
     }
   }
 }
 
-@include media-hamburger {
+@include media-mobile-big {
   .burger__button {
     display: block;
   }

@@ -2,19 +2,23 @@
 
 .main {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 10px;
 }
 
 .category {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: space-between;
   width: 90vw;
   margin: 20px 0px;
+  @include media-mobile {
+    justify-content: space-around;
+  }
   > * {
-    height: 140px;
-    width: 140px;
+    height: 190px;
+    width: 190px;
     padding-top: 5px;
     margin: 10px 0;
     text-align: center;
@@ -27,6 +31,10 @@
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
+    @media (max-width: 640px) {
+      height: 150px;
+      width: 150px;
+    }
   }
   .accessories {
     background-image: url(../assets/accessories.jpg);

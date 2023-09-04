@@ -97,15 +97,17 @@ export const Catalog = ({ ...options }): JSX.Element => {
 
   const items: MenuItem[] = [];
   const home: MenuItem = { icon: 'pi pi-home', url: '/' };
+  const locationPage = location.search?.split('=')[1];
 
   location.pathname.split('/').forEach(path => {
     if (path === PAGES.catalog.key) {
       items.push({ label: `${path}`, url: `/${path}` });
     }
     if (path.length && path !== PAGES.catalog.key) {
-      items.push({ label: `${path}` });
+      items.push({ label: `${path}`, url: `${path}` });
     }
   });
+  if (locationPage) items.push({ label: `page ${locationPage}` });
 
   return (
     <div className={styles.content_main}>

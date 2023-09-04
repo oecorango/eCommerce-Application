@@ -94,8 +94,14 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
   location.pathname.split('/').forEach(path => {
     if (path === PAGES.catalog.key) {
       items.push({ label: `${path}`, url: `/${path}` });
-    }
-    if (path.length && path !== PAGES.catalog.key) {
+    } else if (
+      path.length &&
+      (path === PAGES.accessories.key ||
+        path === PAGES.textiles.key ||
+        path === PAGES.cosmetics.key)
+    ) {
+      items.push({ label: `${path}`, url: `../${path}` });
+    } else if (path.length) {
       items.push({ label: `${path}` });
     }
   });

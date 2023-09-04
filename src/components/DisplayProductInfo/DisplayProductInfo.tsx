@@ -131,13 +131,13 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
           thumbnail={thumbnailTemplate}
         />
         <Card title={nameProduct} subTitle={typeProduct} className="md:w-25rem">
-          <p className="m-0">{descriptionProduct}</p>
           {priceProductDiscount ? (
             <p className={`${styles.strikethrough} m-0`}>{priceFullProduct}</p>
           ) : (
             <p className={`${styles.noDiscount} m-0`}>{priceFullProduct}</p>
           )}
-          <p className={`m-10 ${styles.highlight}`}>{priceProductDiscount}</p>{' '}
+          <p className={`m-10 ${styles.highlight}`}>{priceProductDiscount}</p>
+          <p className="m-0">{descriptionProduct}</p>
         </Card>
       </div>
     </>

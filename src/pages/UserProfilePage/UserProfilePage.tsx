@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import UserDataForm from '../../components/Forms/UserDataForm';
 import { PAGES } from '../../constants/pages';
 import { count } from '../../constants/registratForm';
+import styles from './UserProfilePage.module.scss';
 
 export const UserProfilePage = (): JSX.Element => {
   const toSignInPage = useNavigate();
@@ -17,9 +18,8 @@ export const UserProfilePage = (): JSX.Element => {
   return (
     <div>
       {count.ID ? (
-        <div className="content wrapper">
+        <div className={styles.page}>
           <h1>Profile</h1>
-          <p>Profile</p>
           <div className="registration__page content">
             <UserDataForm />
           </div>

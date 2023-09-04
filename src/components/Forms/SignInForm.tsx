@@ -4,7 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { clientSignIn } from '../../api/Client';
+import { clientSignIn } from '../../api/customers';
 import { STATUS_OK } from '../../constants/api';
 import { AUTHENTICATE_ERROR } from '../../constants/errors';
 import { SignInForm } from '../../types/interface';

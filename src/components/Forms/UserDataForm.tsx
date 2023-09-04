@@ -10,7 +10,7 @@ import styles from './AddressForm.module.scss';
 import { userData, count } from '../../constants/registratForm';
 import { editUserData } from '../../api/requestAddress';
 import { updateUserData } from './utils/updateUserData';
-import { getCustomerID } from '../../api/Client';
+import { getCustomerID } from '../../api/customers';
 import { Dialog } from 'primereact/dialog';
 import NewPasswordForm from './NewPasswordForm';
 import ListAddress from '../ListAddress';

@@ -1,4 +1,4 @@
-import { cartAll, cartID, changeItemQuantity } from '../../api/Client';
+import { cartAll, cartID, changeItemQuantity } from '../../api/customerCart';
 import { useState } from 'react';
 import { LineItem } from '@commercetools/platform-sdk';
 import { cartData } from './CartList';

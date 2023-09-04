@@ -1,6 +1,6 @@
 import { count } from '../constants/registratForm';
 import { CustomerUpdateAction } from '@commercetools/platform-sdk';
-import { customersIdPostExecute, newPassword } from './Client';
+import { customersIdPostExecute, newPassword } from './customers';
 import { updateUserData } from '../components/Forms/utils/updateUserData';
 
 let action: CustomerUpdateAction[] = [];

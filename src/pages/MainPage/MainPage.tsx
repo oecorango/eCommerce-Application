@@ -1,6 +1,6 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { useEffect, useState } from 'react';
-import { getProducts } from '../../api/Client';
+import { getProducts } from '../../api/products';
 import { ProductItem } from '../../components/Product';
 import styles from './MainPage.module.scss';
 import { POPULAR_PRODUCTS_IN_PAGE } from '../../constants/common';

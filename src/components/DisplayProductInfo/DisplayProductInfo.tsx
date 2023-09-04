@@ -1,7 +1,7 @@
 import { Galleria, GalleriaResponsiveOptions } from 'primereact/galleria';
 import { useEffect, useRef, useState } from 'react';
 import { Image as ImageSDK } from '@commercetools/platform-sdk';
-import { getProductByKey } from '../../api/Client';
+import { getProductByKey } from '../../api/products';
 import { Card } from 'primereact/card';
 import { FIRST_INDEX } from '../../constants/common';
 import { covertPrice } from '../../utils/product';

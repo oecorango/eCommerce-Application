@@ -10,7 +10,7 @@ import {
   cartDraft,
   cartID,
   changeItemQuantity,
-} from '../../api/Client';
+} from '../../api/customerCart';
 
 import styles from './CartForm.module.scss';
 import {

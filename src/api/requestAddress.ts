@@ -15,7 +15,6 @@ const requestStart = (
       updateUserData(body);
     })
     .catch(error => {
-      console.log(error);
       if (error.code === 400) {
         errorMessage = `ERROR: ${error.message}`;
       } else {
@@ -92,17 +91,16 @@ export const editUserData = (
 };
 
 export const newUserPassword = (
-  asswordOld: string,
-  asswordNew: string,
+  passwordOld: string,
+  passwordNew: string,
   toForm: (errorMessage: string) => void,
 ): void => {
   let errorMessage = '';
-  newPassword(count.ID, count.version, asswordOld, asswordNew)
+  newPassword(count.ID, count.version, passwordOld, passwordNew)
     .then(({ body }) => {
       updateUserData(body);
     })
     .catch(error => {
-      console.log(error);
       if (error.code === 400) {
         errorMessage = `ERROR: ${error.message}`;
       } else {

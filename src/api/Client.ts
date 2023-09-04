@@ -273,13 +273,6 @@ export const changeItemQuantity = (
       body: {
         version: version,
         actions: actions,
-        // [
-        //   {
-        //     action: 'changeLineItemQuantity',
-        //     lineItemId: 'aa24f2e2-9a84-47bb-a1b0-3f1e88ce6df9',
-        //     quantity: 10,
-        //   },
-        // ],
       },
     })
     .execute();

@@ -13,7 +13,6 @@ import styles from './Forms/AddressForm.module.scss';
 import { updateUserData } from './Forms/utils/updateUserData';
 
 let switchToDo = '';
-let switchRender = true;
 let messageUser = '';
 let addressForForm: IAddress = newAddres[0];
 export default function ListAddress(): JSX.Element {
@@ -47,12 +46,12 @@ export default function ListAddress(): JSX.Element {
     }
     setVisibleError(true);
   };
-  if (switchRender) {
+  if (count.switchRender) {
     renderForm(
       `Your choice of default billing and shipping 
       addresses will be saved when you close the form.`,
     );
-    switchRender = false;
+    count.switchRender = false;
   }
 
   return (

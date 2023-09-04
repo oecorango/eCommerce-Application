@@ -10,6 +10,8 @@ export const logOut = (): void => {
   localStorage.removeItem('auth');
   localStorage.removeItem('name');
   count.ID = '';
+  count.switchRender = true;
+  count.switchRenderUserData = true;
 };
 
 export const logIn = (data: ClientResponse<CustomerSignInResult>): void => {

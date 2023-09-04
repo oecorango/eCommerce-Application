@@ -34,14 +34,12 @@ export const AddressForm = (props: IpropsAddres): JSX.Element => {
       ? selectedCountry.countryCode
       : props.value.country;
     const callback = (errorMessage: string): void => {
-      console.log(errorMessage);
       if (errorMessage === '') {
         errorMessage =
           props.toDo === 'Add'
             ? 'Address added successfully'
             : 'Address changed successfully';
       }
-      console.log(errorMessage);
       props.closeForm(errorMessage);
     };
     if (props.toDo === 'Add') {

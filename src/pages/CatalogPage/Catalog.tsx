@@ -130,9 +130,9 @@ export const Catalog = ({ ...options }): JSX.Element => {
         </span>
         <div className="card flex justify-content-start">
           <div className="w-14rem">
-            <span>Price</span>
+            {/* <span>Price</span> */}
             <div className="input-container">
-              <p style={{ margin: '0px' }}>From</p>
+              <p style={{ margin: '0px' }}>Price From</p>
               <InputText
                 style={{ width: '12rem' }}
                 id="fromInput"
@@ -158,7 +158,7 @@ export const Catalog = ({ ...options }): JSX.Element => {
               range
             />
             <Button
-              style={{ top: '10px' }}
+              style={{ margin: '10px 0px' }}
               label="Filter Price"
               onClick={handleButtonSubmit}
             />

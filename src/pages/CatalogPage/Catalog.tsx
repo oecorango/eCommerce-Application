@@ -7,7 +7,7 @@ import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import { useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { getProducts } from '../../api/Client';
+import { getProducts } from '../../api/products';
 import { ProductItem } from '../../components/Product';
 import { PRODUCTS_IN_PAGE } from '../../constants/common';
 import { PAGES } from '../../constants/pages';

@@ -1,4 +1,4 @@
-import { getCategoryProducts } from '../api/Client';
+import { getCategoryProducts } from '../api/products';
 import { CENTS_PER_EURO, POPULAR_PRODUCTS_IN_PAGE } from '../constants/common';
 import { CategoryProduct } from '../types/types';
 

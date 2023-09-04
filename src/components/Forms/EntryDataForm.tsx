@@ -10,7 +10,7 @@ import { customerShippingBilling } from '../../api/requestAddress';
 import styles from './EntryDataForm.module.scss';
 import { PAGES } from '../../constants/pages';
 import { setBillShipp } from './utils/takeDataForm';
-import { registerNewCustomer } from '../../api/Client';
+import { registerNewCustomer } from '../../api/customers';
 
 export const EntryDataForm = (): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);

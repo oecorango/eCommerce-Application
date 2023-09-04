@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { IAddress } from '../types/interface';
 import { newAddres, count } from '../constants/registratForm';
 import { deledeAddressID, setDefault } from '../api/requestAddress';
-import { getCustomerID } from '../api/Client';
+import { getCustomerID } from '../api/customers';
 import AddresVision from './AddresVision';
 import AddressForm from './Forms/AddressForm';
 import styles from './Forms/AddressForm.module.scss';

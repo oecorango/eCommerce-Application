@@ -1,5 +1,3 @@
-// на спец символы валидацию писать не стал, т.к. вроде это не обязательное требование
-
 export const REG_EXP_PASSWORD = {
   oneNumber: new RegExp(/(?=.*?[0-9])+/),
   oneUpperCase: new RegExp(/(?=.*?[A-Z])+/),

@@ -1,39 +1,38 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
+import { BreadCrumb } from 'primereact/breadcrumb';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { ScrollPanel } from 'primereact/scrollpanel';
+import { MenuItem } from 'primereact/menuitem';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { getProducts } from '../../api/Client';
 import { ProductItem } from '../../components/Product';
 import { PRODUCTS_IN_PAGE } from '../../constants/common';
+import { PAGES } from '../../constants/pages';
+import { FilterParams } from '../../types/types';
 import { getPageCount, getPagesArray } from '../../utils/product';
 import styles from './Catalog.module.scss';
 
 export const Catalog = ({ ...options }): JSX.Element => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  // при переходе на категорию получаем ссылку путь категории, потом используем в фильтрации
   const idCategory = options.options.id;
+  const location = useLocation();
 
-  // испльзуем для хранения страниц в каталоге
-  const currentLocation = parseInt(location.search?.split('=')[1]) || 1;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentLocation = searchParams.get('page') || '1';
 
   const [products, setProducts] = useState<ProductProjection[]>();
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(currentLocation);
-  const startIndexProduct = (currentPage - 1) * PRODUCTS_IN_PAGE;
+  const [currentPage, setCurrentPage] = useState<string>(currentLocation);
+  const startIndexProduct = (Number(currentPage) - 1) * PRODUCTS_IN_PAGE;
   const pagesArray = getPagesArray(totalPages);
 
-  // фильтрация по цене или имени
   const [checkedPrice, setCheckedPrice] = useState<boolean>();
   const [checkedName, setCheckedName] = useState<boolean>();
   const sortedPrice = checkedPrice ? 'price desc' : 'price asc';
   const sortedName = checkedName ? 'name.en-us desc' : 'name.en-us asc';
 
-  // фильтрация по диапазону цен
   const [filterPriceMinMax, setFilterPriceMinMax] = useState<[number, number]>([
     0, 500,
   ]);
@@ -48,13 +47,6 @@ export const Catalog = ({ ...options }): JSX.Element => {
     filterPriceMinMax[0] * 100
   } to ${filterPriceMinMax[1] * 100})`;
 
-  // объект для фильтрации или сортировки
-  type FilterParams = {
-    name: string;
-    value: string;
-  };
-
-  // массив со всеми фильтрами и сортировками
   const [filterParams, setFilterParams] = useState<FilterParams[]>([]);
 
   useEffect(() => {
@@ -67,15 +59,11 @@ export const Catalog = ({ ...options }): JSX.Element => {
         const params = Object.fromEntries(
           filterParams.map(n => [n.name, n.value]),
         );
-        console.log(params);
 
         const products = await getProducts(
           startIndexProduct,
           PRODUCTS_IN_PAGE,
           [idCategory, params.priceFilter],
-          // ниже по аналогии с верхнем параметром, можно при желании
-          // объединить и сортировку по цене и по имени, одновременно,
-          // т.к. функция может принять массив строк...
           params.sort,
           params.searchText,
         );
@@ -90,9 +78,6 @@ export const Catalog = ({ ...options }): JSX.Element => {
     getCategoryProduct();
   }, [startIndexProduct, idCategory, filterParams]);
 
-  // когда добавим кнопку сброса всех фильтров, то значения надо будет сбрасывать
-  // для кнопок на undefined, чтобы не было сортировки, т.к если сбрость на false
-  // то будет сортировка в обратную сторону...
   const [resetFilters, setResetFilters] = useState<boolean>(false);
 
   useEffect(() => {
@@ -110,6 +95,18 @@ export const Catalog = ({ ...options }): JSX.Element => {
     setResetFilters(true);
   };
 
+  const items: MenuItem[] = [];
+  const home: MenuItem = { icon: 'pi pi-home', url: '/' };
+
+  location.pathname.split('/').forEach(path => {
+    if (path === PAGES.catalog.key) {
+      items.push({ label: `${path}`, url: `/${path}` });
+    }
+    if (path.length && path !== PAGES.catalog.key) {
+      items.push({ label: `${path}` });
+    }
+  });
+
   return (
     <div className={styles.content_main}>
       <div>
@@ -119,18 +116,21 @@ export const Catalog = ({ ...options }): JSX.Element => {
             style={{ width: '12rem' }}
             placeholder="Search"
             onChange={(event): void => {
-              if (event.target.value.length >= 3) {
-                setFilterParams(currentArray => [
-                  ...currentArray.filter(el => el.name !== 'searchText'),
-                  { name: 'searchText', value: event.target.value },
-                ]);
-              }
+              event.target.value.length >= 3
+                ? setFilterParams(currentArray => [
+                    ...currentArray.filter(el => el.name !== 'searchText'),
+                    { name: 'searchText', value: event.target.value },
+                  ])
+                : setFilterParams(currentArray => [
+                    ...currentArray.filter(el => el.name !== 'searchText'),
+                    { name: 'searchText', value: '' },
+                  ]);
             }}
           />
         </span>
         <div className="card flex justify-content-start">
           <div className="w-14rem">
-            <span>Цена</span>
+            <span>Price</span>
             <div className="input-container">
               <p style={{ margin: '0px' }}>From</p>
               <InputText
@@ -161,10 +161,6 @@ export const Catalog = ({ ...options }): JSX.Element => {
               style={{ top: '10px' }}
               label="Filter Price"
               onClick={handleButtonSubmit}
-              /* во всех этих хуках, если в массиве уже существует объект с данным именем,
-                с помощью фильтра мы его удаляем, и добавляем объект с новыми параметрами.
-                Наверное можно написать функцию которая будет принимать name и value
-                вызывать setFilterParams... */
             />
             <Button
               icon="pi pi-times"
@@ -214,31 +210,32 @@ export const Catalog = ({ ...options }): JSX.Element => {
           }}
           className="w-8rem"
         />
-        <ScrollPanel style={{ width: '100%', height: '500px' }}>
-          <div className="mb-5">
-            <div className={styles.content}>
-              {products?.map(data => <ProductItem {...data} key={data.id} />)}
-            </div>
-            <div className={styles.pagination}>
-              {pagesArray.map(
-                (index): JSX.Element => (
-                  <Button
-                    className={
-                      currentPage === index
-                        ? styles.paginationButtonActive
-                        : styles.paginationButton
-                    }
-                    key={index}
-                    onClick={(): void => {
-                      navigate(`?page=${index}`);
-                    }}>
-                    {index}
-                  </Button>
-                ),
-              )}
-            </div>
+        {/* <ScrollPanel style={{ width: '100%', height: '500px' }}> */}
+        <div className={styles.main}>
+          <BreadCrumb model={items} home={home} className={styles.breadcrumb} />
+          <div className={styles.content}>
+            {products?.map(data => <ProductItem {...data} key={data.id} />)}
           </div>
-        </ScrollPanel>
+          <div className={styles.pagination}>
+            {pagesArray.map(
+              (index): JSX.Element => (
+                <Button
+                  className={
+                    currentPage === index.toString()
+                      ? styles.paginationButtonActive
+                      : styles.paginationButton
+                  }
+                  key={index}
+                  onClick={(): void => {
+                    setSearchParams({ page: index.toString() });
+                  }}>
+                  {index}
+                </Button>
+              ),
+            )}
+          </div>
+        </div>
+        {/* </ScrollPanel> */}
       </div>
     </div>
   );

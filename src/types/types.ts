@@ -5,11 +5,12 @@ export type IAuth = {
   setIsAuth: Dispatch<SetStateAction<boolean>>;
 };
 
-export type errorMessage = {
-  err: string | undefined;
-};
-
 export type CategoryProduct = {
   name: string;
   id: string;
+};
+
+export type FilterParams = {
+  name: string;
+  value: string;
 };

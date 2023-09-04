@@ -1,8 +1,11 @@
 import { Message } from 'primereact/message';
-import { errorMessage } from '../../types/types';
+import { FC } from 'react';
 
-export const ErrorMessage = (props: errorMessage): JSX.Element => {
-  const err = props.err;
+interface ErrorMessageProp {
+  err: string | undefined;
+}
+
+export const ErrorMessage: FC<ErrorMessageProp> = ({ err }): JSX.Element => {
   return (
     <Message
       className={(err && 'h-2rem mb-1 w-full border-round-md') || 'hidden'}

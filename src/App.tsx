@@ -64,17 +64,19 @@ function App(): JSX.Element {
                 }
               />
               <Route
-                path={PAGES.sets.route}
-                element={
-                  <Catalog options={{ id: ID_PRODUCT_CATEGORIES.sets }} />
-                }
+                path={PAGES.accessories.route + '/:key'}
+                element={<ProductPage />}
+              />
+              <Route
+                path={PAGES.cosmetics.route + '/:key'}
+                element={<ProductPage />}
+              />
+              <Route
+                path={PAGES.textiles.route + '/:key'}
+                element={<ProductPage />}
               />
             </Route>
 
-            <Route
-              path={PAGES.product.route + ':key'}
-              element={<ProductPage />}
-            />
             <Route
               path={PAGES.signin.route}
               element={

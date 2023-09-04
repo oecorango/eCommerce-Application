@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-import { Aside } from '../components/Aside';
 import { ProductsCategory } from '../components/ProductsCategory';
 import styles from './LayoutCatalog.module.scss';
 

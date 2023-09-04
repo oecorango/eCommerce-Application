@@ -18,12 +18,7 @@ import { PAGES } from '../../constants/pages';
 
 export const FormSingIn = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<SignInForm>({
+  const form = useForm<SignInForm>({
     mode: 'onChange',
     resolver: yupResolver(validAuthData),
   });
@@ -42,7 +37,7 @@ export const FormSingIn = (): JSX.Element => {
         }
       })
       .catch(() =>
-        setError('email', {
+        form.setError('email', {
           type: 'manual',
           message: AUTHENTICATE_ERROR,
         }),
@@ -51,19 +46,19 @@ export const FormSingIn = (): JSX.Element => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-column">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-column">
         <InputText
           className="mb-1 border-round-lg"
-          {...register('email')}
+          {...form.register('email')}
           type="text"
           placeholder="Enter your email"
         />
-        <ErrorMessage err={errors.email?.message} />
+        <ErrorMessage err={form.formState.errors.email?.message} />
 
         <div className="p-inputgroup">
           <InputText
             className={(styles.input, 'mt-5 mb-1')}
-            {...register('password')}
+            {...form.register('password')}
             type={!checked ? 'password' : 'text'}
             placeholder="Enter your password"
             autoComplete="off"
@@ -75,7 +70,7 @@ export const FormSingIn = (): JSX.Element => {
             />
           </span>
         </div>
-        <ErrorMessage err={errors.password?.message} />
+        <ErrorMessage err={form.formState.errors.password?.message} />
 
         <Button
           className="mt-6 mb-5 border-round-lg"

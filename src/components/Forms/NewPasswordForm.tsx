@@ -16,11 +16,7 @@ count.ID = localStorage.getItem('id') as string;
 export const NewPasswordForm = (props: {
   toBack: (errorMessage: string) => void;
 }): JSX.Element => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<INewPassword>({
+  const form = useForm<INewPassword>({
     mode: 'onBlur',
     resolver: yupResolver(validPasswordForm),
   });
@@ -35,11 +31,11 @@ export const NewPasswordForm = (props: {
 
   return (
     <div className={styles.registration_data_name}>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-column">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-column">
         <div className="p-inputgroup mb-1">
           <InputText
             className={styles.input}
-            {...register('passwordOld')}
+            {...form.register('passwordOld')}
             type={!checkedOldPassword ? 'password' : 'text'}
             placeholder="Enter your Old password"
             autoComplete="on"
@@ -52,12 +48,12 @@ export const NewPasswordForm = (props: {
           </span>
         </div>
 
-        <ErrorMessage err={errors.passwordOld?.message} />
+        <ErrorMessage err={form.formState.errors.passwordOld?.message} />
 
         <div className="p-inputgroup mb-1">
           <InputText
             className={styles.input}
-            {...register('passwordNew')}
+            {...form.register('passwordNew')}
             type={!checkedNewPassword ? 'password' : 'text'}
             placeholder="Enter your New password"
             autoComplete="on"
@@ -70,7 +66,7 @@ export const NewPasswordForm = (props: {
           </span>
         </div>
 
-        <ErrorMessage err={errors.passwordNew?.message} />
+        <ErrorMessage err={form.formState.errors.passwordNew?.message} />
 
         <Button
           className="mt-3 mb-1 border-round-lg"

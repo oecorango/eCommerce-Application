@@ -16,11 +16,7 @@ import styles from './AddressForm.module.scss';
 import { editAddressID } from '../../api/requestAddress';
 
 export const AddressForm = (props: IpropsAddres): JSX.Element => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IAddresses>({
+  const form = useForm({
     mode: 'onBlur',
     resolver: yupResolver(addressSchema),
   });
@@ -56,29 +52,29 @@ export const AddressForm = (props: IpropsAddres): JSX.Element => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-column">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-column">
       <div className={styles.registration_address}>
         <label htmlFor="serial" className={styles.span_head}>
           {nameForm}
         </label>
         <InputText
           className="mb-1 w-full border-round-lg"
-          {...register('streetName', { value: props.value.streetName })}
+          {...form.register('streetName', { value: props.value.streetName })}
           placeholder="Enter your street"
         />
-        <ErrorMessage err={errors.streetName?.message} />
+        <ErrorMessage err={form.formState.errors.streetName?.message} />
 
         <InputText
           className="mb-1 w-full border-round-lg"
-          {...register('city', { value: props.value.city })}
+          {...form.register('city', { value: props.value.city })}
           placeholder="Enter your city"
         />
-        <ErrorMessage err={errors.city?.message} />
+        <ErrorMessage err={form.formState.errors.city?.message} />
 
         <div className="mb-1 w-full">
           <Dropdown
             className="w-full border-round-lg"
-            {...register('country', { value: countryOld })}
+            {...form.register('country', { value: countryOld })}
             onChange={(e: DropdownChangeEvent): void => {
               setSelectedCountry(e.value);
             }}
@@ -87,15 +83,15 @@ export const AddressForm = (props: IpropsAddres): JSX.Element => {
             optionLabel="name"
             placeholder={countryOld}
           />
-          <ErrorMessage err={errors.country?.message} />
+          <ErrorMessage err={form.formState.errors.country?.message} />
         </div>
 
         <InputText
           className="mb-1 w-full border-round-lg"
-          {...register('postalCode', { value: props.value.postalCode })}
+          {...form.register('postalCode', { value: props.value.postalCode })}
           placeholder="Enter your Post-Code"
         />
-        <ErrorMessage err={errors.postalCode?.message} />
+        <ErrorMessage err={form.formState.errors.postalCode?.message} />
       </div>
 
       <Button

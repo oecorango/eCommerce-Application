@@ -3,7 +3,7 @@ import { Page, PageKey } from '../types/pages';
 export const PAGES: { [key in PageKey]: Page } = {
   main: {
     key: 'main',
-    route: '/',
+    route: '',
   },
   about: {
     key: 'about',
@@ -31,22 +31,18 @@ export const PAGES: { [key in PageKey]: Page } = {
   },
   product: {
     key: 'product',
-    route: '/product/',
+    route: 'product/',
   },
   accessories: {
     key: 'accessories',
-    route: 'accessories/',
+    route: 'accessories',
   },
   cosmetics: {
     key: 'cosmetics',
-    route: 'cosmetics/',
+    route: 'cosmetics',
   },
   textiles: {
     key: 'textiles',
-    route: 'textiles/',
-  },
-  sets: {
-    key: 'sets',
-    route: 'sets/',
+    route: 'textiles',
   },
 };

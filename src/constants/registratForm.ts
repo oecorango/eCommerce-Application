@@ -12,12 +12,16 @@ export const count: {
   defaultShipping: string;
   defaultBilling: string;
   versionCart: number;
+  switchRender: boolean;
+  switchRenderUserData: boolean;
 } = {
   version: 1,
   ID: '',
   defaultShipping: '',
   defaultBilling: '',
   versionCart: 1,
+  switchRender: true,
+  switchRenderUserData: true,
 };
 
 export let newAddress: IAddresses[] = [

@@ -18,7 +18,6 @@ import ListAddress from '../ListAddress';
 let messageUser = '';
 let switchButton: 'button' | 'submit' | 'reset' | undefined = 'submit';
 let switchReadOnly = true;
-let switchRender = true;
 let buttonLabel = 'Edit';
 let background = { background: 'transparent' };
 let asyncRender = async (): Promise<void> => {};
@@ -33,7 +32,7 @@ export const UserDataForm = (): JSX.Element => {
       dateOfBirth: userData.dateOfBirth,
     },
   });
-  if (switchRender) {
+  if (count.switchRenderUserData) {
     const id = localStorage.getItem('id');
     if (id) count.ID = id;
     if (count.ID) {
@@ -49,7 +48,7 @@ export const UserDataForm = (): JSX.Element => {
         form.setValue('dateOfBirth', userData.dateOfBirth);
       };
       asyncRender();
-      switchRender = false;
+      count.switchRenderUserData = false;
     }
   }
 
@@ -65,7 +64,7 @@ export const UserDataForm = (): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
   const [visiblePasswordForm, setvisiblePasswordForm] = useState(false);
   const onSubmit: SubmitHandler<IUserData> = (data: IUserData): void => {
-    switchRender = true;
+    count.switchRenderUserData = true;
     const callback = (errorMessage: string): void => {
       asyncRender();
       if (errorMessage !== '') {
@@ -135,7 +134,6 @@ export const UserDataForm = (): JSX.Element => {
             label={buttonLabel}
             type={switchButton}
             onClick={(): void => {
-              console.log(switchReadOnly, switchButton, buttonLabel);
               switchReadOnly = switchButton === 'submit' ? false : true;
               if (switchReadOnly) {
                 switchButton = 'submit';
@@ -144,9 +142,8 @@ export const UserDataForm = (): JSX.Element => {
               } else {
                 switchButton = 'button';
                 buttonLabel = 'Save';
-                background = { background: '#e7dacf' }; //d8c0aa a3e0fe
+                background = { background: '#e7dacf' };
               }
-              // console.log(switchReadOnly, switchButton, buttonLabel);
               form.reset({}, { keepValues: true });
             }}
           />

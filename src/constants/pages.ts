@@ -3,7 +3,7 @@ import { Page, PageKey } from '../types/pages';
 export const PAGES: { [key in PageKey]: Page } = {
   main: {
     key: 'main',
-    route: '',
+    route: '/',
   },
   about: {
     key: 'about',

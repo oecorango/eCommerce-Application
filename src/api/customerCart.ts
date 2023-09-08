@@ -20,7 +20,7 @@ export const cartAll = (): Promise<ClientResponse<CartPagedQueryResponse>> => {
   return apiRoot.carts().get().execute();
 };
 
-export const cartDraft = (cartID: string): Promise<ClientResponse<Cart>> => {
+export const cartDraft = (): Promise<ClientResponse<Cart>> => {
   return apiRoot
     .carts()
     .post({
@@ -48,17 +48,23 @@ export const cartDeleteID = (
 };
 
 export const addProductCart = (
-  customerID: string,
+  cartID: string,
   version: number,
-  actions: CartAddLineItemAction[],
+  productId: string,
 ): Promise<ClientResponse<Cart>> => {
   return apiRoot
     .carts()
-    .withId({ ID: customerID })
+    .withId({ ID: cartID })
     .post({
       body: {
         version: version,
-        actions: actions,
+        actions: [
+          {
+            action: 'addLineItem',
+            productId: productId,
+            quantity: 1,
+          },
+        ],
       },
     })
     .execute();

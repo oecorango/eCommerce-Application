@@ -72,4 +72,5 @@ export interface IcartItems {
 
 export interface IpropsItems {
   value: IcartItems;
+  editDataCart: (delet: boolean, sumaItem: number) => void;
 }

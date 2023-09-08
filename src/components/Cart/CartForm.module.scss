@@ -81,6 +81,18 @@
   background: transparent;
 }
 
+.cart_between_row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: #333;
+  font-size: 2vw;
+  padding: 5px;
+  // margin: auto;
+  background: transparent;
+}
+
 .cart_small_row {
   display: flex;
   flex-direction: row;

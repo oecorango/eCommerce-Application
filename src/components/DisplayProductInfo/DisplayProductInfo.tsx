@@ -10,7 +10,17 @@ import { BreadCrumb } from 'primereact/breadcrumb';
 import { MenuItem } from 'primereact/menuitem';
 import { PAGES } from '../../constants/pages';
 import styles from './DisplayProductInfo.module.scss';
-
+//=======
+import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
+import {
+  asyncAddItemCart,
+  asynctUpdateItemCart,
+  cartUserDraft,
+  useIsItemInCart,
+  // useUpdateItemCart,
+} from '../Cart/useItemCart';
+import { count } from '../../constants/registratForm';
+//=======
 export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const location = useLocation();
   const [images, setImages] = useState<ImageSDK[]>();
@@ -35,10 +45,18 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
     },
   ];
   const returnToErrorPage = useNavigate();
-
+  //=========
+  const [checked, setChecked] = useState<boolean>(false);
+  const cartIsItem = useIsItemInCart(keyProduct);
+  useEffect(() => {
+    setChecked(cartIsItem.IsItem);
+  }, [cartIsItem.IsItem]);
+  const callback = (): void => {};
+  //==========
   useEffect(() => {
     getProductByKey(keyProduct)
       .then(data => {
+        count.productItemId = data.body.id;
         const pathToPhoto = data.body.masterVariant.images;
         const productName = data.body.name['en-US'];
         const productDescription = data.body.description?.['en-US'];
@@ -144,6 +162,28 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
           )}
           <p className={`m-10 ${styles.highlight}`}>{priceProductDiscount}</p>
           <p className="m-0">{descriptionProduct}</p>
+          <div className="card flex justify-content-center">
+            <ToggleButton
+              onLabel="In Cart"
+              offLabel="Out Cart"
+              onIcon="pi pi-check"
+              offIcon="pi pi-times"
+              checked={checked}
+              onChange={(e: ToggleButtonChangeEvent): void => {
+                setChecked(e.value);
+                if (e.value) {
+                  asynctUpdateItemCart(count.productId, 0, callback);
+                } else {
+                  if (count.cartID) {
+                    asyncAddItemCart(count.productItemId);
+                  } else {
+                    cartUserDraft(count.productItemId);
+                  }
+                }
+              }}
+              className="mt-3 mb-1 border-round-lg"
+            />
+          </div>
         </Card>
       </div>
     </>

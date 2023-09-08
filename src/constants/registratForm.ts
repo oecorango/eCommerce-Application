@@ -14,6 +14,10 @@ export const count: {
   versionCart: number;
   switchRender: boolean;
   switchRenderUserData: boolean;
+  cartID: string;
+  productId: string;
+  productItemId: string;
+  errors: string;
 } = {
   version: 1,
   ID: '',
@@ -22,6 +26,10 @@ export const count: {
   versionCart: 1,
   switchRender: true,
   switchRenderUserData: true,
+  cartID: '', //'81d4dffb-2a9d-476a-a11d-461b42277633'
+  productId: '',
+  productItemId: '',
+  errors: '',
 };
 
 export let newAddress: IAddresses[] = [

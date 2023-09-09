@@ -183,7 +183,7 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
           (async (): Promise<void> => {
             await cartAll()
               .then(({ body }) => {
-                console.log(body.results);
+                console.log(body.results[0].lineItems);
               })
               .catch(console.error);
           })();

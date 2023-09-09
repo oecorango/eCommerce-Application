@@ -5,13 +5,14 @@ import { covertPrice } from '../utils/product';
 import styles from './Product.module.scss';
 import {
   asyncAddItemCart,
-  asynctUpdateItemCart,
+  asynctUpdateCartProductId,
   cartUserDraft,
   useIsItemInCart,
 } from './Cart/useItemCart';
 import { count } from '../constants/registratForm';
 import { useEffect, useState } from 'react';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
+import { Dialog } from 'primereact/dialog';
 
 export const ProductItem = (data: ProductProjection): JSX.Element => {
   const price = data.masterVariant.prices?.[0].value.centAmount;
@@ -26,6 +27,7 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
   const navigate = useNavigate();
   //=========
   const [checked, setChecked] = useState<boolean>(false);
+  const [visibleError, setVisibleError] = useState<boolean>(false);
   let keyProduct = '';
   const id = key;
   if (id) keyProduct = id;
@@ -33,7 +35,9 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
   useEffect(() => {
     setChecked(cartIsItem.IsItem);
   }, [cartIsItem.IsItem]);
-  const callback = (): void => {};
+  const callback = (delet: boolean, sumaItem: number): void => {
+    setVisibleError(true);
+  };
   //==========
   return (
     <div>
@@ -80,20 +84,34 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
           onChange={(e: ToggleButtonChangeEvent): void => {
             setChecked(e.value);
             if (e.value) {
-              asynctUpdateItemCart(count.productId, 0, callback);
+              count.errors =
+                'The product was successfully removed from the cart';
+              asynctUpdateCartProductId(data.id, callback);
             } else {
               if (count.cartID) {
-                count.productItemId = data.id.trim();
-                // asynctUpdateItemCart(count.productId, 1, callback);
-                asyncAddItemCart(data.id.trim());
+                count.errors = 'The product was successfully add in the cart';
+                callback(true, 0);
+                asyncAddItemCart(data.id);
               } else {
-                cartUserDraft(data.id.trim());
+                count.errors = 'The product was successfully add in the cart';
+                callback(true, 0);
+                cartUserDraft(data.id);
               }
             }
           }}
           className="mt-3 mb-1 border-round-lg"
         />
       </div>
+      <Dialog
+        className={styles.module__window}
+        style={{ maxWidth: '340px' }}
+        header="Notification"
+        visible={visibleError}
+        onHide={(): void => {
+          setVisibleError(false);
+        }}>
+        <p>{count.errors}</p>
+      </Dialog>
     </div>
   );
 };

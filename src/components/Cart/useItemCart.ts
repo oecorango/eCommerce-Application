@@ -8,7 +8,7 @@ import {
 import { useState } from 'react';
 import { count } from '../../constants/registratForm';
 
-export interface IuseIsItemInCart {
+interface IuseIsItemInCart {
   isLoading: boolean;
   IsItem: boolean;
   error: string;
@@ -73,9 +73,7 @@ export const cartUserDraft = async (itemID: string): Promise<void> => {
       console.warn(error);
       count.errors = `ERROR: ${error.message}${error.code}`;
     })
-    .finally(() => {
-      // setLoading(false);
-    });
+    .finally(() => {});
 };
 
 export const asynctUpdateItemCart = async (
@@ -100,6 +98,29 @@ export const asynctUpdateItemCart = async (
     });
 };
 
+export const asynctUpdateCartProductId = async (
+  itemID: string,
+  callback: (delet: boolean, sumaItem: number) => void,
+): Promise<void> => {
+  await cartID(count.cartID)
+    .then(({ body }) => {
+      if (count.cartID) {
+        count.versionCart = body.version;
+        if (body.lineItems) {
+          body.lineItems.forEach(data => {
+            if (data.productId === itemID) {
+              asynctUpdateItemCart(data.id, 0, callback);
+            }
+          });
+        }
+      }
+    })
+    .catch(error => {
+      console.warn(error);
+      count.errors = `ERROR: ${error.message}${error.code}`;
+    });
+};
+
 export const asyncCartDeleteID = async (
   callback: (delet: boolean, sumaItem: number) => void,
 ): Promise<void> => {
@@ -117,10 +138,11 @@ function setLocalStorage(): void {
   let id = localStorage.getItem('arrSave');
   let cartid = '';
   if (id) cartid = id;
-  id = localStorage.getItem('arrSave00');
+  let vers = localStorage.getItem('arrSave00');
   let version = 1;
-  if (id) version = +id;
+  if (vers) version = +vers;
   if (id && version) {
+    // console.log(`=${id}===${version}==`);
     (async (): Promise<void> => {
       await cartDeleteID(cartid, version)
         .then()

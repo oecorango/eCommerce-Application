@@ -10,7 +10,7 @@ import { LineItem } from '@commercetools/platform-sdk';
 import { cartData } from './CartList';
 import { count } from '../../constants/registratForm';
 
-export interface IuseCartID {
+interface IuseCartID {
   asyncCartID: () => void;
   isLoading: boolean;
   response: LineItem[];
@@ -102,7 +102,7 @@ export interface IuseUpdateItem {
   response: number;
   error: string;
 }
-let version = 818;
+
 export function useUpdateItem(): IuseUpdateItem {
   const [isLoading, setLoading] = useState(true);
   const [response, setResponse] = useState(0);
@@ -118,7 +118,6 @@ export function useUpdateItem(): IuseUpdateItem {
     ])
       .then(body => {
         count.versionCart = body.body.version;
-        version = body.body.version;
         if (body.statusCode === 200) {
           setResponse(quantity);
           setError('');
@@ -176,7 +175,7 @@ export function useCartDraft(): IuseCartDraft {
   return { cartUserDraft, isLoading, idCart, error };
 }
 
-export interface IuseCartDelete {
+interface IuseCartDelete {
   cartUserDelete: () => void;
   isLoading: boolean;
   error: string;

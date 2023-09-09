@@ -28,6 +28,7 @@ export default function ListAddress(): JSX.Element {
       await getCustomerID(count.ID)
         .then(({ body }) => {
           updateUserData(body);
+          console.log(body);
         })
         .catch(console.error);
       if (switchToDo === 'Add' || switchToDo === 'Edit') {

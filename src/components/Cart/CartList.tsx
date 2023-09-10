@@ -11,8 +11,6 @@ import {
   cartDraftCustom,
   cartID,
   changeItemQuantity,
-  createAPIClient,
-  getAPIClient,
 } from '../../api/customerCart';
 import styles from './CartForm.module.scss';
 import { LineItem } from '@commercetools/platform-sdk';
@@ -166,22 +164,6 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
         onClick={(): void => {
           //=====================Запуск запросов для проверок и корректировок=========
           // itemCart.asyncCartID();
-          //=====================createAPIClient
-          // (async (): Promise<void> => {
-          //   await createAPIClient('ggg02', count.ID)
-          //     .then(({ body }) => {
-          //       console.log(body);
-          //     })
-          //     .catch(console.error);
-          // })();
-          // //=====================createAPIClient
-          // (async (): Promise<void> => {
-          //   await getAPIClient()
-          //     .then(({ body }) => {
-          //       console.log(body);
-          //     })
-          //     .catch(console.error);
-          // })();
           //=====================cartDraft
           // (async (): Promise<void> => {
           //   await cartDraft()

@@ -8,12 +8,7 @@ import {
   ApiClientPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { ByProjectKeyShoppingListsRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/shopping-lists/by-project-key-shopping-lists-request-builder';
-import {
-  apiRoot,
-  apiRootAnonymous,
-  apiRootCustom,
-  apiRootManage,
-} from './Client';
+import { apiRoot, apiRootAnonymous, apiRootCustom } from './Client';
 
 export const shopList = (): ByProjectKeyShoppingListsRequestBuilder => {
   return apiRoot.shoppingLists();
@@ -92,29 +87,6 @@ export const changeItemQuantity = (
       },
     })
     .execute();
-};
-
-export const createAPIClient = (
-  name: string,
-  id: string,
-): Promise<ClientResponse<ApiClient>> => {
-  return apiRootManage
-    .apiClients()
-    .post({
-      body: {
-        name: name,
-        scope: `manage_orders:${process.env.REACT_APP_MANAGE_CTP_PROJECT_KEY}`,
-        accessTokenValiditySeconds: 7200,
-        refreshTokenValiditySeconds: 31536000,
-      },
-    })
-    .execute();
-};
-
-export const getAPIClient = (): Promise<
-  ClientResponse<ApiClientPagedQueryResponse>
-> => {
-  return apiRootManage.apiClients().get().execute();
 };
 
 export const cartDraftCustom = (): Promise<ClientResponse<Cart>> => {

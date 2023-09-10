@@ -14,12 +14,14 @@ import styles from './DisplayProductInfo.module.scss';
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import {
   asyncAddItemCart,
+  asynctUpdateCartProductId,
   asynctUpdateItemCart,
   cartUserDraft,
   useIsItemInCart,
   // useUpdateItemCart,
 } from '../Cart/useItemCart';
 import { count } from '../../constants/registratForm';
+import { Dialog } from 'primereact/dialog';
 //=======
 export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const location = useLocation();
@@ -47,11 +49,17 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const returnToErrorPage = useNavigate();
   //=========
   const [checked, setChecked] = useState<boolean>(false);
+  const [visibleError, setVisibleError] = useState<boolean>(false);
   const cartIsItem = useIsItemInCart(keyProduct);
   useEffect(() => {
     setChecked(cartIsItem.IsItem);
   }, [cartIsItem.IsItem]);
-  const callback = (): void => {};
+  const callback = (delet: boolean, sumaItem: number): void => {
+    if (delet) {
+      setVisibleError(true);
+    }
+    setChecked(delet);
+  };
   //==========
   useEffect(() => {
     getProductByKey(keyProduct)
@@ -172,7 +180,10 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
               onChange={(e: ToggleButtonChangeEvent): void => {
                 setChecked(e.value);
                 if (e.value) {
-                  asynctUpdateItemCart(count.productId, 0, callback);
+                  count.errors =
+                    'The product was successfully removed from the cart';
+                  console.log(count.productId);
+                  asynctUpdateCartProductId(count.productItemId, callback);
                 } else {
                   if (count.cartID) {
                     asyncAddItemCart(count.productItemId);
@@ -186,6 +197,17 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
           </div>
         </Card>
       </div>
+      <Dialog
+        className={styles.module__window}
+        style={{ maxWidth: '340px' }}
+        header="Notification"
+        visible={visibleError}
+        onHide={(): void => {
+          setVisibleError(false);
+          count.errors = '';
+        }}>
+        <p>{count.errors}</p>
+      </Dialog>
     </>
   );
 }

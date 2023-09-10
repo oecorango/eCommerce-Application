@@ -94,7 +94,11 @@ export const asynctUpdateItemCart = async (
     })
     .catch(error => {
       console.warn(error);
-      count.errors = `ERROR: ${error.message}${error.code}`;
+      if (error.code === 409) {
+        count.errors = `Не гони лошадей, помедленее... ПЖЖЖалуйста, товара на всех хватит!!!`;
+      } else {
+        count.errors = `ERROR: ${error.message}${error.code}`;
+      }
     });
 };
 

@@ -4,9 +4,11 @@ import {
   CartPagedQueryResponse,
   CartAddLineItemAction,
   CartUpdateAction,
+  ApiClient,
+  ApiClientPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { ByProjectKeyShoppingListsRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/shopping-lists/by-project-key-shopping-lists-request-builder';
-import { apiRoot } from './Client';
+import { apiRoot, apiRootAnonymous, apiRootCustom } from './Client';
 
 export const shopList = (): ByProjectKeyShoppingListsRequestBuilder => {
   return apiRoot.shoppingLists();
@@ -82,13 +84,30 @@ export const changeItemQuantity = (
       body: {
         version: version,
         actions: actions,
-        // [
-        //   {
-        //     action: 'changeLineItemQuantity',
-        //     lineItemId: 'aa24f2e2-9a84-47bb-a1b0-3f1e88ce6df9',
-        //     quantity: 10,
-        //   },
-        // ],
+      },
+    })
+    .execute();
+};
+
+export const cartDraftCustom = (): Promise<ClientResponse<Cart>> => {
+  return apiRootCustom
+    .me()
+    .carts()
+    .post({
+      body: {
+        currency: 'EUR',
+      },
+    })
+    .execute();
+};
+
+export const cartDraftAnonymous = (): Promise<ClientResponse<Cart>> => {
+  return apiRootAnonymous
+    .me()
+    .carts()
+    .post({
+      body: {
+        currency: 'EUR',
       },
     })
     .execute();

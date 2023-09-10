@@ -1,12 +1,14 @@
 import { Button } from 'primereact/button';
 import { ScrollPanel } from 'primereact/scrollpanel';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { count } from '../../constants/registratForm';
 import {
   addProductCart,
   cartAll,
   cartDeleteID,
   cartDraft,
+  cartDraftAnonymous,
+  cartDraftCustom,
   cartID,
   changeItemQuantity,
 } from '../../api/customerCart';
@@ -17,6 +19,9 @@ import ItemsVision from './ItemsVision';
 import { FIRST_INDEX } from '../../constants/common';
 import CartEmpty from './CartEmpty';
 import { asyncCartDeleteID } from './useItemCart';
+import { ConfirmPopup } from 'primereact/confirmpopup';
+import { Toast } from 'primereact/toast';
+import { Dialog } from 'primereact/dialog';
 
 export const cartData: LineItem[] = [];
 let sumaCart = 0;
@@ -26,12 +31,16 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
   const [itemsCart] = useState(cartData);
   const [deletItem, setDeletItem] = useState(false);
   const [sumCart, setSumCart] = useState(0);
+  const [visibleError, setVisibleError] = useState<boolean>(false);
 
   const itemCart = useCartID(count.cartID);
   count.versionCart = itemCart.version;
   const editData = (delet: boolean, sumaItem: number): void => {
     setDeletItem(delet);
     sumaCart = sumaItem;
+    if (count.errors) {
+      setVisibleError(true);
+    }
   };
 
   useEffect(() => {
@@ -43,6 +52,36 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
     itemCart.asyncCartID();
     setDeletItem(false);
   }, [deletItem]);
+
+  const [visible, setVisible] = useState<boolean>(false);
+  const toast = useRef<Toast>(null);
+  const buttonEl = useRef(null);
+
+  const accept = (): void => {
+    setTimeout((): void => {
+      asyncCartDeleteID(editData);
+      count.cartID = '';
+      count.versionCart = 1;
+    }, 2000);
+
+    toast.current?.show({
+      severity: 'info',
+      summary: 'Confirmed',
+      detail:
+        'The cart has been deleted. What is money more important than pleasure?',
+      life: 2000,
+    });
+  };
+
+  const reject = (): void => {
+    toast.current?.show({
+      severity: 'warn',
+      summary: 'Rejected',
+      detail: 'Thanks for your great choice!!!',
+      life: 3000,
+    });
+  };
+
   return (
     <div className={styles.list_cart}>
       <div className={styles.cart_middle} style={visibleCartList}>
@@ -79,16 +118,24 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
                       {(sumCart / 100).toFixed(2)}
                     </span>
                   </p>
-                  <Button
-                    className="mt-3 mb-1 border-round-lg"
-                    label="Delete all product"
-                    type="submit"
-                    onClick={(): void => {
-                      asyncCartDeleteID(editData);
-                      count.cartID = '';
-                      count.versionCart = 1;
-                    }}
+                  <Toast ref={toast} />
+                  <ConfirmPopup
+                    // target={buttonEl.current || new HTMLElement()}
+                    visible={visible}
+                    onHide={(): void => setVisible(false)}
+                    message="Если выбор меньше чем из трёх, это шантаж!)))"
+                    icon="pi pi-exclamation-triangle"
+                    accept={accept}
+                    reject={reject}
                   />
+                  <div className="card flex justify-content-center">
+                    <Button
+                      ref={buttonEl}
+                      onClick={(): void => setVisible(true)}
+                      icon="pi pi-check"
+                      label="Delete all product"
+                    />
+                  </div>
                 </div>
               </div>
             ) : (
@@ -98,6 +145,17 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
             <CartEmpty />
           )}
         </div>
+        <Dialog
+          className={styles.module__window}
+          style={{ maxWidth: '340px' }}
+          header="Notification"
+          visible={visibleError}
+          onHide={(): void => {
+            setVisibleError(false);
+            count.errors = '';
+          }}>
+          <p>{count.errors}</p>
+        </Dialog>
       </div>
 
       <Button
@@ -109,6 +167,14 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
           //=====================cartDraft
           // (async (): Promise<void> => {
           //   await cartDraft()
+          //     .then(({ body }) => {
+          //       console.log(body);
+          //     })
+          //     .catch(console.error);
+          // })();
+          //=====================cartDraftCustom
+          // (async (): Promise<void> => {
+          //   await cartDraftAnonymous()
           //     .then(({ body }) => {
           //       console.log(body);
           //     })
@@ -132,14 +198,13 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
           // })();
           //==========cartDeleteID
           // (async (): Promise<void> => {
-          //   await cartDeleteID('6642a76c-4aa1-47fd-8be3-78abd4eaa7ec', 16) // версия в удаляемой корзине
+          //   await cartDeleteID('843a705e-0486-4aac-bbcb-95788ad8e4f9', 4) // версия в удаляемой корзине
           //     .then(({ body }) => {
           //       console.log(body);
           //       console.log('444444');
           //     })
           //     .catch(console.error);
           // })();
-
           //=========================addProductCart
           // const action: CartAddLineItemAction[] = [
           //   {
@@ -183,7 +248,9 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
           (async (): Promise<void> => {
             await cartAll()
               .then(({ body }) => {
-                console.log(body.results[0].lineItems);
+                console.log(body.results);
+                // console.log(body.results[0].lineItems);
+                console.log(count.ID);
               })
               .catch(console.error);
           })();

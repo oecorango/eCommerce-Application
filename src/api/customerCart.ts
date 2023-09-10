@@ -8,7 +8,12 @@ import {
   ApiClientPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { ByProjectKeyShoppingListsRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/shopping-lists/by-project-key-shopping-lists-request-builder';
-import { apiRoot, apiRootManage } from './Client';
+import {
+  apiRoot,
+  apiRootAnonymous,
+  apiRootCustom,
+  apiRootManage,
+} from './Client';
 
 export const shopList = (): ByProjectKeyShoppingListsRequestBuilder => {
   return apiRoot.shoppingLists();
@@ -98,8 +103,8 @@ export const createAPIClient = (
     .post({
       body: {
         name: name,
-        scope: `view_products:${process.env.REACT_APP_MANAGE_CTP_PROJECT_KEY}`,
-        accessTokenValiditySeconds: 3600,
+        scope: `manage_orders:${process.env.REACT_APP_MANAGE_CTP_PROJECT_KEY}`,
+        accessTokenValiditySeconds: 7200,
         refreshTokenValiditySeconds: 31536000,
       },
     })
@@ -110,4 +115,28 @@ export const getAPIClient = (): Promise<
   ClientResponse<ApiClientPagedQueryResponse>
 > => {
   return apiRootManage.apiClients().get().execute();
+};
+
+export const cartDraftCustom = (): Promise<ClientResponse<Cart>> => {
+  return apiRootCustom
+    .me()
+    .carts()
+    .post({
+      body: {
+        currency: 'EUR',
+      },
+    })
+    .execute();
+};
+
+export const cartDraftAnonymous = (): Promise<ClientResponse<Cart>> => {
+  return apiRootAnonymous
+    .me()
+    .carts()
+    .post({
+      body: {
+        currency: 'EUR',
+      },
+    })
+    .execute();
 };

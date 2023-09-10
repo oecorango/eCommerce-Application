@@ -109,6 +109,7 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
         visible={visibleError}
         onHide={(): void => {
           setVisibleError(false);
+          count.errors = '';
         }}>
         <p>{count.errors}</p>
       </Dialog>

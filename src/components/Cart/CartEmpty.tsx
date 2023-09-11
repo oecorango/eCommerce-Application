@@ -1,7 +1,6 @@
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
 import { PAGES } from '../../constants/pages';
-import { IpropsItems } from '../../types/interface';
 import styles from './CartForm.module.scss';
 // import { count } from '../constants/registratForm';
 

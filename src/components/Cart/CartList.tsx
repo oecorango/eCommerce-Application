@@ -2,16 +2,7 @@ import { Button } from 'primereact/button';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { useEffect, useRef, useState } from 'react';
 import { count } from '../../constants/registratForm';
-import {
-  addProductCart,
-  cartAll,
-  cartDeleteID,
-  cartDraft,
-  cartDraftAnonymous,
-  cartDraftCustom,
-  cartID,
-  changeItemQuantity,
-} from '../../api/customerCart';
+import { cartAll, cartDeleteID } from '../../api/customerCart';
 import styles from './CartForm.module.scss';
 import { LineItem } from '@commercetools/platform-sdk';
 import { useCartID } from './useCart';
@@ -25,15 +16,15 @@ import { Dialog } from 'primereact/dialog';
 
 export const cartData: LineItem[] = [];
 let sumaCart = 0;
-// let sumaCartSum = 0;
 export default function CartList(props: { onOffForm: object }): JSX.Element {
   const [visibleCartList] = useState(props.onOffForm);
   const [itemsCart] = useState(cartData);
-  const [deletItem, setDeletItem] = useState(false);
   const [sumCart, setSumCart] = useState(0);
   const [visibleError, setVisibleError] = useState<boolean>(false);
+  const [deletItem, setDeletItem] = useState(false);
 
   const itemCart = useCartID(count.cartID);
+
   count.versionCart = itemCart.version;
   const editData = (delet: boolean, sumaItem: number): void => {
     setDeletItem(delet);
@@ -120,7 +111,6 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
                   </p>
                   <Toast ref={toast} />
                   <ConfirmPopup
-                    // target={buttonEl.current || new HTMLElement()}
                     visible={visible}
                     onHide={(): void => setVisible(false)}
                     message="Если выбор меньше чем из трёх, это шантаж!)))"
@@ -163,84 +153,12 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
         className="mt-3 mb-1"
         onClick={(): void => {
           //=====================Запуск запросов для проверок и корректировок=========
-          // itemCart.asyncCartID();
-          //=====================cartDraft
-          // (async (): Promise<void> => {
-          //   await cartDraft()
-          //     .then(({ body }) => {
-          //       console.log(body);
-          //     })
-          //     .catch(console.error);
-          // })();
-          //=====================cartDraftCustom
-          // (async (): Promise<void> => {
-          //   await cartDraftAnonymous()
-          //     .then(({ body }) => {
-          //       console.log(body);
-          //     })
-          //     .catch(console.error);
-          // })();
-          //==============getProductsForId
-          // (async (): Promise<void> => {
-          //   await getProductsForId()
-          //     .then(({ body }) => {
-          //       console.log(body);
-          //     })
-          //     .catch(console.error);
-          // })();
-          //==============cartID
-          // (async (): Promise<void> => {
-          //   await cartID(count.cartID)
-          //     .then(({ body }) => {
-          //       console.log(body.lineItems.length);
-          //     })
-          //     .catch(console.error);
-          // })();
           //==========cartDeleteID
           // (async (): Promise<void> => {
-          //   await cartDeleteID('843a705e-0486-4aac-bbcb-95788ad8e4f9', 4) // версия в удаляемой корзине
+          //   await cartDeleteID('f5134eb5-fbcd-4ccf-95d1-a9090a6812dc', 12) // версия в удаляемой корзине
           //     .then(({ body }) => {
           //       console.log(body);
           //       console.log('444444');
-          //     })
-          //     .catch(console.error);
-          // })();
-          //=========================addProductCart
-          // const action: CartAddLineItemAction[] = [
-          //   {
-          //     action: 'addLineItem',
-          //     productId: 'acb55a35-f0d8-4658-a6ad-6af41772a366',
-          //     quantity: 1,
-          //   },
-          // ];
-          // (async (): Promise<void> => {
-          //   await addProductCart(
-          //     'd6d734ce-465d-4174-8236-493f7e872176',
-          //     10,
-          //     action,
-          //   )
-          //     .then(({ body }) => {
-          //       console.log(body);
-          //     })
-          //     .catch(console.error);
-          // })();
-          //=========================Change LineItem Quantity  changeItemQuantity
-          // const action: CartUpdateAction[] = [
-          //   {
-          //     action: 'changeLineItemQuantity',
-          //     lineItemId: 'aa24f2e2-9a84-47bb-a1b0-3f1e88ce6df9',
-          //     quantity: 7,
-          //   },
-          // ];
-          // (async (): Promise<void> => {
-          //   await changeItemQuantity(
-          //     'd6d734ce-465d-4174-8236-493f7e872176',
-          //     15,
-          //     action,
-          //   )
-          //     .then(({ body }) => {
-          //       console.log(body);
-          //       сartAll.asyncCartAll();
           //     })
           //     .catch(console.error);
           // })();
@@ -249,8 +167,8 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
             await cartAll()
               .then(({ body }) => {
                 console.log(body.results);
-                // console.log(body.results[0].lineItems);
                 console.log(count.ID);
+                console.log('!!======', count.versionCart, count.cartID);
               })
               .catch(console.error);
           })();

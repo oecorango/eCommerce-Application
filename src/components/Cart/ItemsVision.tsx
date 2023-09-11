@@ -5,11 +5,19 @@ import {
   InputNumber,
   InputNumberValueChangeEvent,
 } from 'primereact/inputnumber';
-import { asynctUpdateItemCart } from './useItemCart';
+import { asynctUpdateItemCart, useStartCart } from './useItemCart';
 import { Button } from 'primereact/button';
+import { count } from '../../constants/registratForm';
 
 export default function ItemsVision(props: IpropsItems): JSX.Element {
   const [value, setValue] = useState(props.value.count);
+  const startCart = useStartCart();
+  useEffect(() => {
+    if (count.switchRenderStartCart) {
+      callback(true, value);
+    }
+  }, [startCart.isLoading]);
+
   useEffect(() => {
     setValue(props.value.count);
   }, [props.value.count]);
@@ -17,6 +25,7 @@ export default function ItemsVision(props: IpropsItems): JSX.Element {
   const callback = (delet: boolean, sumaItem: number): void => {
     props.editDataCart(delet, props.value.price * (sumaItem - value));
   };
+
   return (
     <div className={styles.cart_between_row}>
       <div>

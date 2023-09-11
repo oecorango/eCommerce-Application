@@ -3,14 +3,15 @@ import { Dialog } from 'primereact/dialog';
 import { RegistrationForm } from './RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
-import { newCustomerData } from '../../constants/registratForm';
+import { count, newCustomerData } from '../../constants/registratForm';
 import { AuthContext } from '../authProvider';
 import { logIn } from '../../utils/user';
 import { customerShippingBilling } from '../../api/requestAddress';
 import styles from './EntryDataForm.module.scss';
 import { PAGES } from '../../constants/pages';
 import { setBillShipp } from './utils/takeDataForm';
-import { registerNewCustomer } from '../../api/customers';
+import { clientSignIn, registerNewCustomer } from '../../api/customers';
+import { asyncCartDeleteAnonim, cartCustomDraft } from '../Cart/useItemCart';
 
 export const EntryDataForm = (): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -45,6 +46,27 @@ export const EntryDataForm = (): JSX.Element => {
             { idShipp: id01, idBill: id02 },
             setBillShipp,
           );
+          count.email = newCustomerData.email;
+          count.password = newCustomerData.password;
+          count.switchApiRoot = false;
+          clientSignIn(
+            {
+              email: newCustomerData.email,
+              password: newCustomerData.password,
+            },
+            count.cartID,
+          )
+            .execute()
+            .then(data => {
+              if (count.cartAnonymID) {
+                asyncCartDeleteAnonim();
+                count.cartAnonymID = '';
+              }
+              cartCustomDraft(data.body.customer.id);
+              count.cartID = data.body.cart?.id || '';
+              count.versionCart = data.body.cart?.version || 1;
+            })
+            .catch(error => {});
         }
       })
       .catch(error => {

@@ -32,10 +32,12 @@ export function useCartID(ID: string): IuseCartID {
         if (body.statusCode === 200) {
           if (count.cartID) {
             cartData.splice(0, cartData.length);
+            // if (cartData.length) {
             body.body.lineItems.forEach(data => {
               cartData.push(data);
               suma += data.price.value.centAmount * data.quantity;
             });
+            // }
           }
           setResponse(body.body.lineItems);
           setVersion(body.body.version);

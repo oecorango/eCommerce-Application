@@ -9,24 +9,36 @@ import {
 export const count: {
   version: number;
   ID: string;
+  email: string;
+  password: string;
   defaultShipping: string;
   defaultBilling: string;
+  versionAnonymCart: number;
   versionCart: number;
   switchRender: boolean;
   switchRenderUserData: boolean;
+  switchRenderStartCart: boolean;
+  switchApiRoot: boolean;
   cartID: string;
+  cartAnonymID: string;
   productId: string;
   productItemId: string;
   errors: string;
 } = {
   version: 1,
   ID: '',
+  email: '',
+  password: '',
   defaultShipping: '',
   defaultBilling: '',
   versionCart: 1,
+  versionAnonymCart: 1,
   switchRender: true,
   switchRenderUserData: true,
-  cartID: '', //'81d4dffb-2a9d-476a-a11d-461b42277633'
+  switchRenderStartCart: true,
+  switchApiRoot: true,
+  cartID: '',
+  cartAnonymID: '',
   productId: '',
   productItemId: '',
   errors: '',

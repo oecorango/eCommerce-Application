@@ -15,6 +15,8 @@ import { logIn } from '../../utils/user';
 import { ErrorMessage } from './ErrorMessage';
 import styles from './SignInForm.module.scss';
 import { PAGES } from '../../constants/pages';
+import { count } from '../../constants/registratForm';
+import { asyncCartDeleteAnonim, cartCustomDraft } from '../Cart/useItemCart';
 
 export const FormSingIn = (): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);
@@ -27,10 +29,22 @@ export const FormSingIn = (): JSX.Element => {
   const isValidUser = useNavigate();
 
   const onSubmit: SubmitHandler<SignInForm> = (data): void => {
-    clientSignIn(data)
+    count.email = data.email;
+    count.password = data.password;
+    count.switchApiRoot = false;
+
+    clientSignIn(data, count.cartID)
       .execute()
       .then(data => {
         if (data.statusCode === STATUS_OK) {
+          if (count.cartAnonymID) {
+            asyncCartDeleteAnonim();
+            count.cartAnonymID = '';
+          }
+          cartCustomDraft(data.body.customer.id);
+          count.cartID = data.body.cart?.id || '';
+          count.versionCart = data.body.cart?.version || 1;
+
           setIsAuth(true);
           logIn(data);
           isValidUser(PAGES.main.route);

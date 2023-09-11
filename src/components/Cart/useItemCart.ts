@@ -1,5 +1,6 @@
 import {
   addProductCart,
+  cartAll,
   cartDeleteID,
   cartDraft,
   cartID,
@@ -66,6 +67,10 @@ export const cartUserDraft = async (itemID: string): Promise<void> => {
       if (body.statusCode === 201) {
         count.cartID = body.body.id;
         count.versionCart = body.body.version;
+        count.cartAnonymID =
+          count.switchApiRoot && body.body.anonymousId
+            ? body.body.anonymousId
+            : '';
         asyncAddItemCart(itemID);
       }
     })
@@ -74,6 +79,37 @@ export const cartUserDraft = async (itemID: string): Promise<void> => {
       count.errors = `ERROR: ${error.message}${error.code}`;
     })
     .finally(() => {});
+};
+
+export const cartCustomDraft = async (id: string): Promise<void> => {
+  (async (): Promise<void> => {
+    let swithIsCart = false;
+    await cartAll()
+      .then(({ body }) => {
+        if (body.results) {
+          body.results.forEach(data => {
+            if (data.customerId === id) {
+              swithIsCart = true;
+            }
+          });
+          if (!swithIsCart) {
+            (async (): Promise<void> => {
+              await cartDraft()
+                .then(body => {
+                  count.cartID = body.body.id;
+                  count.versionCart = body.body.version;
+                })
+                .catch(error => {
+                  console.warn(error);
+                  count.errors = `ERROR: ${error.message}${error.code}`;
+                })
+                .finally(() => {});
+            })();
+          }
+        }
+      })
+      .catch(console.error);
+  })();
 };
 
 export const asynctUpdateItemCart = async (
@@ -116,6 +152,8 @@ export const asynctUpdateCartProductId = async (
               asynctUpdateItemCart(data.id, 0, callback);
             }
           });
+        } else {
+          asyncCartDeleteID(callback);
         }
       }
     })
@@ -130,7 +168,11 @@ export const asyncCartDeleteID = async (
 ): Promise<void> => {
   if (count.cartID) {
     await cartDeleteID(count.cartID, count.versionCart)
-      .then(() => callback(true, 0))
+      .then(() => {
+        count.cartID = '';
+        count.versionCart = 1;
+        callback(true, 0);
+      })
       .catch(error => {
         console.warn(error);
         count.errors = `ERROR: ${error.message}${error.code}`;
@@ -138,55 +180,67 @@ export const asyncCartDeleteID = async (
   }
 };
 
-function setLocalStorage(): void {
-  let id = localStorage.getItem('arrSave');
-  let cartid = '';
-  if (id) cartid = id;
-  let vers = localStorage.getItem('arrSave00');
-  let version = 1;
-  if (vers) version = +vers;
-  if (id && version) {
-    // console.log(`=${id}===${version}==`);
-    (async (): Promise<void> => {
-      await cartDeleteID(cartid, version)
-        .then()
-        .catch(error => {
-          console.warn(error);
-          count.errors = `ERROR: ${error.message}${error.code}`;
-        });
-    })();
-  }
-}
-
-function setLocalStorage01(): void {
-  localStorage.setItem('arrSave', count.cartID);
-  localStorage.setItem('arrSave00', count.versionCart + '');
-}
-
-window.addEventListener('beforeunload', setLocalStorage01);
-window.addEventListener('load', setLocalStorage);
-
-//================ Все что ниже не используеться ================
-const cartCountItems = (callback: (swithCartEmpty: number) => void): void => {
-  let swithCartEmpty = 1;
+export const asyncCartDeleteAnonim = async (): Promise<void> => {
   (async (): Promise<void> => {
     await cartID(count.cartID)
       .then(({ body }) => {
-        console.log(body.lineItems.length);
-        swithCartEmpty = body.lineItems.length;
+        (async (): Promise<void> => {
+          await cartDeleteID(body.id, body.version)
+            .then(() => {})
+            .catch(console.error);
+        })();
       })
-      .catch(console.error)
-      .finally(() => {
-        callback(swithCartEmpty);
-      });
+      .catch(console.error);
   })();
 };
-//======cartDeleteID
-const cartDelete = async (): Promise<void> => {
-  await cartDeleteID(count.cartID, count.versionCart) // версия в удаляемой корзине
-    .then(({ body }) => {
-      console.log(body);
-      console.log('444444');
-    })
-    .catch(console.error);
-};
+
+interface IuseStartCart {
+  isLoading: boolean;
+}
+export function useStartCart(): IuseStartCart {
+  const [isLoading, setLoading] = useState(true);
+  if (count.switchRenderStartCart) {
+    setTimeout(() => {
+      setLoading(false);
+    }, 100);
+  }
+  return { isLoading };
+}
+
+function getLocalStorage(): void {
+  const idCusnom = localStorage.getItem('id');
+  if (idCusnom) {
+    count.switchApiRoot = false;
+    count.ID = idCusnom;
+  }
+  const id = localStorage.getItem('idSaveAnonym');
+  if (id) count.cartAnonymID = id;
+  (async (): Promise<void> => {
+    await cartAll()
+      .then(({ body }) => {
+        if (body.results) {
+          body.results.forEach(data => {
+            if (idCusnom) {
+              if (data.customerId === count.ID) {
+                count.cartID = data.id;
+                count.versionCart = data.version;
+              }
+            } else {
+              if (data.anonymousId === count.cartAnonymID) {
+                count.cartID = data.id;
+                count.versionCart = data.version;
+              }
+            }
+          });
+        }
+      })
+      .catch(console.error);
+  })();
+}
+
+function setLocalStorage(): void {
+  localStorage.setItem('idSaveAnonym', count.cartAnonymID);
+}
+
+window.addEventListener('beforeunload', setLocalStorage);
+window.addEventListener('DOMContentLoaded', getLocalStorage);

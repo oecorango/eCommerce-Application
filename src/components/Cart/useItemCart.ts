@@ -152,8 +152,6 @@ export const asyncUpdateCartProductId = async (
               asyncUpdateItemCart(data.id, 0, callback);
             }
           });
-        } else {
-          asyncCartDeleteID(callback);
         }
       }
     })
@@ -163,21 +161,39 @@ export const asyncUpdateCartProductId = async (
     });
 };
 
-export const asyncCartDeleteID = async (
+export const asyncDeleteAllProductForCartID = async (
   callback: (delet: boolean, sumaItem: number) => void,
 ): Promise<void> => {
-  if (count.cartID) {
-    await cartDeleteID(count.cartID, count.versionCart)
-      .then(() => {
-        count.cartID = '';
-        count.versionCart = 1;
-        callback(true, 0);
-      })
-      .catch(error => {
-        console.warn(error);
-        count.errors = `ERROR: ${error.message}${error.code}`;
-      });
-  }
+  await cartID(count.cartID)
+    .then(({ body }) => {
+      count.versionCart = body.version;
+      let itemID = body.lineItems[0].id;
+      const productDelete = async (): Promise<void> => {
+        await changeItemQuantity(count.cartID, count.versionCart, [
+          {
+            action: 'changeLineItemQuantity',
+            lineItemId: itemID,
+            quantity: 0,
+          },
+        ])
+          .then(({ body }) => {
+            if (body.lineItems.length) {
+              count.versionCart = body.version;
+              itemID = body.lineItems[0].id;
+              productDelete();
+            } else {
+              callback(true, 0);
+            }
+          })
+          .catch(error => {
+            console.warn(error);
+          });
+      };
+      productDelete();
+    })
+    .catch(error => {
+      console.warn(error);
+    });
 };
 
 export const asyncCartDeleteAnonim = async (): Promise<void> => {

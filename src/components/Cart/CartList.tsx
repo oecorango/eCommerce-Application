@@ -9,7 +9,7 @@ import { useCartID } from './useCart';
 import ItemsVision from './ItemsVision';
 import { FIRST_INDEX } from '../../constants/common';
 import CartEmpty from './CartEmpty';
-import { asyncCartDeleteID } from './useItemCart';
+import { asyncDeleteAllProductForCartID } from './useItemCart';
 import { ConfirmPopup } from 'primereact/confirmpopup';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
@@ -50,7 +50,7 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
 
   const accept = (): void => {
     setTimeout((): void => {
-      asyncCartDeleteID(editData);
+      asyncDeleteAllProductForCartID(editData);
       count.cartID = '';
       count.versionCart = 1;
     }, 2000);
@@ -155,7 +155,7 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
           //=====================Запуск запросов для проверок и корректировок=========
           //==========cartDeleteID
           // (async (): Promise<void> => {
-          //   await cartDeleteID('f5134eb5-fbcd-4ccf-95d1-a9090a6812dc', 12) // версия в удаляемой корзине
+          //   await cartDeleteID('b7de7a62-0b93-4745-aa68-ab6ce21ec3ee', 13) // версия в удаляемой корзине
           //     .then(({ body }) => {
           //       console.log(body);
           //       console.log('444444');

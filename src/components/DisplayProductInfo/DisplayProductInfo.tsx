@@ -46,19 +46,14 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
   //=========
   const [checked, setChecked] = useState<boolean>(false);
   //ну и эту тоже в добавок
-  const [visibleError, setVisibleError] = useState<boolean>(false);
+  // const [visibleError, setVisibleError] = useState<boolean>(false);
   const cartIsItem = useIsItemInCart(keyProduct);
   useEffect(() => {
     setChecked(cartIsItem.IsItem);
   }, [cartIsItem.IsItem]);
 
   // эту тоже функцию надо будет выпилить)
-  const callback = (delet: boolean, sumaItem: number): void => {
-    if (delet) {
-      setVisibleError(true);
-    }
-    setChecked(delet);
-  };
+  const callback = (): void => {};
 
   const messagePopUp = useRef<Toast>(null);
 
@@ -187,8 +182,6 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
               onChange={(e: ToggleButtonChangeEvent): void => {
                 setChecked(e.value);
                 if (e.value) {
-                  count.errors =
-                    'The product was successfully removed from the cart';
                   console.log(count.productId);
                   asyncUpdateCartProductId(count.productItemId, callback);
                   popUpMessage(PRODUCT_REMOVE, e.value);

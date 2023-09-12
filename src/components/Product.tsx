@@ -33,7 +33,6 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
   const navigate = useNavigate();
   //=========
   const [checked, setChecked] = useState<boolean>(false);
-  //const [visibleError, setVisibleError] = useState<boolean>(false); можно удалить??
   let keyProduct = '';
   const id = key;
   if (id) keyProduct = id;
@@ -44,9 +43,7 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
 
   // так понимаю эту функцию мы можем удалить, setVisibleError(true) вызывать напрямую
   // в на месте вызова callback
-  const callback = (delet: boolean, sumaItem: number): void => {
-    // setVisibleError(true);
-  };
+  const callback = (): void => {};
 
   const messagePopUp = useRef<Toast>(null);
 
@@ -99,20 +96,14 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
               if (!checked) {
                 setChecked(true);
                 popUpMessage(PRODUCT_REMOVE);
-                count.errors =
-                  'The product was successfully removed from the cart';
                 // функцию переделать посмотреть, нужен ли нам тут callback
                 asyncUpdateCartProductId(data.id, callback);
               } else {
                 setChecked(false);
                 popUpMessage(PRODUCT_ADD);
                 if (count.cartID) {
-                  count.errors = 'The product was successfully add in the cart';
-                  // callback(true, 0);
                   asyncAddItemCart(data.id);
                 } else {
-                  count.errors = 'The product was successfully add in the cart';
-                  // callback(true, 0);
                   cartUserDraft(data.id);
                 }
               }

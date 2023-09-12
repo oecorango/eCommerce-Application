@@ -112,7 +112,7 @@ export const cartCustomDraft = async (id: string): Promise<void> => {
   })();
 };
 
-export const asynctUpdateItemCart = async (
+export const asyncUpdateItemCart = async (
   itemID: string,
   quantity: number,
   callback: (delet: boolean, sumaItem: number) => void,
@@ -138,7 +138,7 @@ export const asynctUpdateItemCart = async (
     });
 };
 
-export const asynctUpdateCartProductId = async (
+export const asyncUpdateCartProductId = async (
   itemID: string,
   callback: (delet: boolean, sumaItem: number) => void,
 ): Promise<void> => {
@@ -149,7 +149,7 @@ export const asynctUpdateCartProductId = async (
         if (body.lineItems) {
           body.lineItems.forEach(data => {
             if (data.productId === itemID) {
-              asynctUpdateItemCart(data.id, 0, callback);
+              asyncUpdateItemCart(data.id, 0, callback);
             }
           });
         } else {

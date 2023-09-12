@@ -10,19 +10,28 @@ import { BreadCrumb } from 'primereact/breadcrumb';
 import { MenuItem } from 'primereact/menuitem';
 import { PAGES } from '../../constants/pages';
 import styles from './DisplayProductInfo.module.scss';
-//=======
 import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
 import {
   asyncAddItemCart,
-  asynctUpdateCartProductId,
-  asynctUpdateItemCart,
+  asyncUpdateCartProductId,
   cartUserDraft,
   useIsItemInCart,
   // useUpdateItemCart,
 } from '../Cart/useItemCart';
 import { count } from '../../constants/registratForm';
-import { Dialog } from 'primereact/dialog';
+import { Toast } from 'primereact/toast';
+import {
+  BREAKPOINTS_GALLERIA,
+  LABEL_ADD_BUTTON,
+  LABEL_REMOVE_BUTTON,
+  LIFE_TIME_MESSAGE,
+  PRODUCT_ADD,
+  PRODUCT_REMOVE,
+  SUCCESS_MESSAGE,
+  WARN_MESSAGE,
+} from '../../constants/product';
 //=======
+
 export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const location = useLocation();
   const [images, setImages] = useState<ImageSDK[]>();
@@ -32,34 +41,35 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
   const [priceProductDiscount, setPriceProduct] = useState<string>();
   const [priceFullProduct, setpriceFullProduct] = useState<string>();
   const galleria = useRef<Galleria>(null);
-  const responsiveOptions: GalleriaResponsiveOptions[] = [
-    {
-      breakpoint: '991px',
-      numVisible: 2,
-    },
-    {
-      breakpoint: '767px',
-      numVisible: 2,
-    },
-    {
-      breakpoint: '575px',
-      numVisible: 2,
-    },
-  ];
+  const responsiveOptions: GalleriaResponsiveOptions[] = BREAKPOINTS_GALLERIA;
   const returnToErrorPage = useNavigate();
   //=========
   const [checked, setChecked] = useState<boolean>(false);
+  //ну и эту тоже в добавок
   const [visibleError, setVisibleError] = useState<boolean>(false);
   const cartIsItem = useIsItemInCart(keyProduct);
   useEffect(() => {
     setChecked(cartIsItem.IsItem);
   }, [cartIsItem.IsItem]);
+
+  // эту тоже функцию надо будет выпилить)
   const callback = (delet: boolean, sumaItem: number): void => {
     if (delet) {
       setVisibleError(true);
     }
     setChecked(delet);
   };
+
+  const messagePopUp = useRef<Toast>(null);
+
+  const popUpMessage = (message: string, isDelete: boolean): void => {
+    messagePopUp.current?.show({
+      severity: isDelete ? WARN_MESSAGE : SUCCESS_MESSAGE,
+      detail: message,
+      life: LIFE_TIME_MESSAGE,
+    });
+  };
+
   //==========
   useEffect(() => {
     getProductByKey(keyProduct)
@@ -92,10 +102,9 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
       })
       .catch(error => {
         console.warn('Произошла ошибка при получении данных:', error);
-        //редиректим при неудачном адресе или запросе на страницу 404
         returnToErrorPage('*');
       });
-  }, [keyProduct]);
+  }, [keyProduct, returnToErrorPage]);
   const handleImageClick = (): void => {
     galleria.current?.show();
   };
@@ -136,19 +145,17 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
     <>
       <BreadCrumb model={items} home={home} className={styles.breadcrumb} />
       <div className={styles.wrapper}>
-        <div className="card">
-          <Galleria
-            value={images}
-            responsiveOptions={responsiveOptions}
-            numVisible={2}
-            circular
-            style={{ maxWidth: '500px' }}
-            showItemNavigators
-            showItemNavigatorsOnHover
-            item={itemTemplate}
-            thumbnail={thumbnailTemplate}
-          />
-        </div>
+        <Galleria
+          value={images}
+          responsiveOptions={responsiveOptions}
+          numVisible={2}
+          circular
+          style={{ maxWidth: '500px' }}
+          showItemNavigators
+          showItemNavigatorsOnHover
+          item={itemTemplate}
+          thumbnail={thumbnailTemplate}
+        />
         <Galleria
           ref={galleria}
           value={images}
@@ -170,11 +177,11 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
           )}
           <p className={`m-10 ${styles.highlight}`}>{priceProductDiscount}</p>
           <p className="m-0">{descriptionProduct}</p>
-          <div className="card flex justify-content-center">
+          <div className="card justify-content-center">
             <ToggleButton
-              onLabel="In Cart"
-              offLabel="Out Cart"
-              onIcon="pi pi-check"
+              onLabel={LABEL_ADD_BUTTON}
+              offLabel={LABEL_REMOVE_BUTTON}
+              onIcon="pi pi-cart-plus"
               offIcon="pi pi-times"
               checked={checked}
               onChange={(e: ToggleButtonChangeEvent): void => {
@@ -183,8 +190,10 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
                   count.errors =
                     'The product was successfully removed from the cart';
                   console.log(count.productId);
-                  asynctUpdateCartProductId(count.productItemId, callback);
+                  asyncUpdateCartProductId(count.productItemId, callback);
+                  popUpMessage(PRODUCT_REMOVE, e.value);
                 } else {
+                  popUpMessage(PRODUCT_ADD, e.value);
                   if (count.cartID) {
                     asyncAddItemCart(count.productItemId);
                   } else {
@@ -197,17 +206,7 @@ export function DisplayProductInfo(keyProduct: string): JSX.Element {
           </div>
         </Card>
       </div>
-      <Dialog
-        className={styles.module__window}
-        style={{ maxWidth: '340px' }}
-        header="Notification"
-        visible={visibleError}
-        onHide={(): void => {
-          setVisibleError(false);
-          count.errors = '';
-        }}>
-        <p>{count.errors}</p>
-      </Dialog>
+      <Toast ref={messagePopUp} />
     </>
   );
 }

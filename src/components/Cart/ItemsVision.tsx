@@ -5,7 +5,7 @@ import {
   InputNumber,
   InputNumberValueChangeEvent,
 } from 'primereact/inputnumber';
-import { asynctUpdateItemCart, useStartCart } from './useItemCart';
+import { asyncUpdateItemCart, useStartCart } from './useItemCart';
 import { Button } from 'primereact/button';
 import { count } from '../../constants/registratForm';
 
@@ -30,14 +30,14 @@ export default function ItemsVision(props: IpropsItems): JSX.Element {
     <div className={styles.cart_between_row}>
       <div>
         <div className={styles.cart_small_row}>
-          <img className={styles.cart_img} src={props.value.img} />
+          <img className={styles.cart_img} src={props.value.img} alt="" />
           <div className="card flex justify-content-center">
             <InputNumber
               value={value}
               onValueChange={(e: InputNumberValueChangeEvent): void => {
                 if (e.value) {
                   setValue(e.value);
-                  asynctUpdateItemCart(props.value.id, e.value, callback);
+                  asyncUpdateItemCart(props.value.id, e.value, callback);
                 }
               }}
               showButtons
@@ -74,7 +74,7 @@ export default function ItemsVision(props: IpropsItems): JSX.Element {
           label="Delete"
           type="submit"
           onClick={(): void => {
-            asynctUpdateItemCart(props.value.id, 0, callback);
+            asyncUpdateItemCart(props.value.id, 0, callback);
           }}
         />
       </div>

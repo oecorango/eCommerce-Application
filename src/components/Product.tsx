@@ -5,14 +5,20 @@ import { covertPrice } from '../utils/product';
 import styles from './Product.module.scss';
 import {
   asyncAddItemCart,
-  asynctUpdateCartProductId,
+  asyncUpdateCartProductId,
   cartUserDraft,
   useIsItemInCart,
 } from './Cart/useItemCart';
 import { count } from '../constants/registratForm';
-import { useEffect, useState } from 'react';
-import { ToggleButton, ToggleButtonChangeEvent } from 'primereact/togglebutton';
-import { Dialog } from 'primereact/dialog';
+import { useEffect, useRef, useState } from 'react';
+import {
+  LIFE_TIME_MESSAGE,
+  PRODUCT_ADD,
+  PRODUCT_REMOVE,
+  SUCCESS_MESSAGE,
+  WARN_MESSAGE,
+} from '../constants/product';
+import { Toast } from 'primereact/toast';
 
 export const ProductItem = (data: ProductProjection): JSX.Element => {
   const price = data.masterVariant.prices?.[0].value.centAmount;
@@ -27,7 +33,7 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
   const navigate = useNavigate();
   //=========
   const [checked, setChecked] = useState<boolean>(false);
-  const [visibleError, setVisibleError] = useState<boolean>(false);
+  //const [visibleError, setVisibleError] = useState<boolean>(false); можно удалить??
   let keyProduct = '';
   const id = key;
   if (id) keyProduct = id;
@@ -35,12 +41,26 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
   useEffect(() => {
     setChecked(cartIsItem.IsItem);
   }, [cartIsItem.IsItem]);
+
+  // так понимаю эту функцию мы можем удалить, setVisibleError(true) вызывать напрямую
+  // в на месте вызова callback
   const callback = (delet: boolean, sumaItem: number): void => {
-    setVisibleError(true);
+    // setVisibleError(true);
   };
-  //==========
+
+  const messagePopUp = useRef<Toast>(null);
+
+  const popUpMessage = (message: string): void => {
+    messagePopUp.current?.show({
+      severity: checked ? SUCCESS_MESSAGE : WARN_MESSAGE,
+      detail: message,
+      life: LIFE_TIME_MESSAGE,
+    });
+  };
+
   return (
-    <div>
+    <>
+      <Toast ref={messagePopUp} />
       <div
         className={styles.products}
         onClick={(): void => {
@@ -68,51 +88,41 @@ export const ProductItem = (data: ProductProjection): JSX.Element => {
             </div>
           </div>
 
-          <i className={`${styles.icon} pi pi-cart-plus`} />
+          <i
+            className={
+              checked
+                ? `${styles.icon} pi pi-cart-plus`
+                : `${styles.icon} ${styles.active} pi pi-check`
+            }
+            onClick={(e): void => {
+              e.stopPropagation();
+              if (!checked) {
+                setChecked(true);
+                popUpMessage(PRODUCT_REMOVE);
+                count.errors =
+                  'The product was successfully removed from the cart';
+                // функцию переделать посмотреть, нужен ли нам тут callback
+                asyncUpdateCartProductId(data.id, callback);
+              } else {
+                setChecked(false);
+                popUpMessage(PRODUCT_ADD);
+                if (count.cartID) {
+                  count.errors = 'The product was successfully add in the cart';
+                  // callback(true, 0);
+                  asyncAddItemCart(data.id);
+                } else {
+                  count.errors = 'The product was successfully add in the cart';
+                  // callback(true, 0);
+                  cartUserDraft(data.id);
+                }
+              }
+            }}
+          />
         </div>
 
         <div className={styles.name}>{data.name?.['en-US']}</div>
         <p>{description}...</p>
       </div>
-      <div className="card flex justify-content-center">
-        <ToggleButton
-          onLabel="In Cart"
-          offLabel="Out Cart"
-          onIcon="pi pi-check"
-          offIcon="pi pi-times"
-          checked={checked}
-          onChange={(e: ToggleButtonChangeEvent): void => {
-            setChecked(e.value);
-            if (e.value) {
-              count.errors =
-                'The product was successfully removed from the cart';
-              asynctUpdateCartProductId(data.id, callback);
-            } else {
-              if (count.cartID) {
-                count.errors = 'The product was successfully add in the cart';
-                callback(true, 0);
-                asyncAddItemCart(data.id);
-              } else {
-                count.errors = 'The product was successfully add in the cart';
-                callback(true, 0);
-                cartUserDraft(data.id);
-              }
-            }
-          }}
-          className="mt-3 mb-1 border-round-lg"
-        />
-      </div>
-      <Dialog
-        className={styles.module__window}
-        style={{ maxWidth: '340px' }}
-        header="Notification"
-        visible={visibleError}
-        onHide={(): void => {
-          setVisibleError(false);
-          count.errors = '';
-        }}>
-        <p>{count.errors}</p>
-      </Dialog>
-    </div>
+    </>
   );
 };

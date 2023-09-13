@@ -11,5 +11,5 @@ export const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
 export const apiRootAnonymous = createApiBuilderFromCtpClient(
   anonymousClient,
 ).withProjectKey({
-  projectKey: process.env.REACT_APP_MANAGE_CTP_PROJECT_KEY || '',
+  projectKey: process.env.REACT_APP_CTP_PROJECT_KEY || '',
 });

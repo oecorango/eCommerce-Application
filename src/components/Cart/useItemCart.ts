@@ -57,7 +57,6 @@ export const asyncAddItemCart = async (itemID: string): Promise<void> => {
     })
     .catch(error => {
       console.warn(error);
-      count.errors = `ERROR: ${error.message}${error.code}`;
     });
 };
 
@@ -76,7 +75,6 @@ export const cartUserDraft = async (itemID: string): Promise<void> => {
     })
     .catch(error => {
       console.warn(error);
-      count.errors = `ERROR: ${error.message}${error.code}`;
     })
     .finally(() => {});
 };
@@ -101,7 +99,6 @@ export const cartCustomDraft = async (id: string): Promise<void> => {
                 })
                 .catch(error => {
                   console.warn(error);
-                  count.errors = `ERROR: ${error.message}${error.code}`;
                 })
                 .finally(() => {});
             })();
@@ -132,8 +129,6 @@ export const asyncUpdateItemCart = async (
       console.warn(error);
       if (error.code === 409) {
         count.errors = `Не гони лошадей, помедленее... ПЖЖЖалуйста, товара на всех хватит!!!`;
-      } else {
-        count.errors = `ERROR: ${error.message}${error.code}`;
       }
     });
 };
@@ -157,7 +152,6 @@ export const asyncUpdateCartProductId = async (
     })
     .catch(error => {
       console.warn(error);
-      count.errors = `ERROR: ${error.message}${error.code}`;
     });
 };
 
@@ -183,6 +177,8 @@ export const asyncDeleteAllProductForCartID = async (
               productDelete();
             } else {
               callback(true, 0);
+              count.cartID = '';
+              count.versionCart = 1;
             }
           })
           .catch(error => {

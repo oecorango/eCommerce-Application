@@ -5,10 +5,10 @@ import {
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 
-const projectKey = process.env.REACT_APP_MANAGE_CTP_PROJECT_KEY || '';
+const projectKey = process.env.REACT_APP_CTP_PROJECT_KEY || '';
 
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
-  host: process.env.REACT_APP_MANAGE_CTP_API_URL || '',
+  host: process.env.REACT_APP_CTP_API_URL || '',
   fetch,
 };
 

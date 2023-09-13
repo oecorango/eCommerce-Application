@@ -51,8 +51,6 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
   const accept = (): void => {
     setTimeout((): void => {
       asyncDeleteAllProductForCartID(editData);
-      count.cartID = '';
-      count.versionCart = 1;
     }, 2000);
 
     toast.current?.show({
@@ -72,15 +70,14 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
       life: 3000,
     });
   };
-
   return (
     <div className={styles.list_cart}>
       <div className={styles.cart_middle} style={visibleCartList}>
         <div className="card">
           {itemCart.response ? (
             itemCart.response.length ? (
-              <div className={styles.cart_small_row}>
-                <ScrollPanel style={{ width: '70%', height: '270px' }}>
+              <div className={styles.cart_middle_row}>
+                <ScrollPanel className={styles.cart_ScrollPanel}>
                   <div className="mb-5">
                     {itemsCart.map(items => (
                       <div className={styles.list_cart_white} key={items.id}>
@@ -155,7 +152,7 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
           //=====================Запуск запросов для проверок и корректировок=========
           //==========cartDeleteID
           // (async (): Promise<void> => {
-          //   await cartDeleteID('b7de7a62-0b93-4745-aa68-ab6ce21ec3ee', 13) // версия в удаляемой корзине
+          //   await cartDeleteID('bb279157-6fc7-4350-afe5-58be2394d310', 4) // версия в удаляемой корзине
           //     .then(({ body }) => {
           //       console.log(body);
           //       console.log('444444');

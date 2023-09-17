@@ -2,7 +2,7 @@ import { Button } from 'primereact/button';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { useEffect, useRef, useState } from 'react';
 import { count } from '../../constants/registratForm';
-import { cartAll, cartDeleteID } from '../../api/customerCart';
+// import { cartAll, cartDeleteID } from '../../api/customerCart';
 import styles from './CartForm.module.scss';
 import { LineItem } from '@commercetools/platform-sdk';
 import { useCartID } from './useCart';
@@ -145,7 +145,7 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
         </Dialog>
       </div>
 
-      <Button
+      {/* <Button
         label="Testing Cart"
         className="mt-3 mb-1"
         onClick={(): void => {
@@ -166,11 +166,29 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
                 console.log(body.results);
                 console.log(count.ID);
                 console.log('!!======', count.versionCart, count.cartID);
+                // console.log(
+                //   '!!======',
+                //   body.results[0].id,
+                //   body.results[0].version,
+                // );
+                // for (let i = 4; i < 19; i++) {
+                // (async (): Promise<void> => {
+                //   await cartDeleteID(
+                //     body.results[0].id,
+                //     body.results[0].version,
+                //   ) // версия в удаляемой корзине
+                //     .then(({ body }) => {
+                //       console.log(body);
+                //       console.log('444444');
+                //     })
+                //     .catch(console.error);
+                // })();
+                // }
               })
               .catch(console.error);
           })();
         }}
-      />
+      /> */}
     </div>
   );
 }

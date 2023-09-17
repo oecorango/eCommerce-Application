@@ -1,5 +1,6 @@
 import egor from '../assets/photo/egor.jpg';
 import victor from '../assets/photo/victor.jpg';
+import oleg from '../assets/photo/oleg.jpg';
 export const CENTS_PER_EURO = 100;
 export const FIRST_INDEX = 0;
 export const PRODUCTS_IN_PAGE = 9;
@@ -22,7 +23,7 @@ export const teamMembers = [
     bio: `Олег - опытный Senior Developer в нашей команде. Он сделал значительный вклад в проект, ответственный за множество ключевых задач, включая настройку окружения разработки, основную страницу и маршрутизацию, а также валидацию ввода на странице входа и многое другое. 
     \n Кроме того, Олег разработал дизайн сайта, придавая проекту визуальную привлекательность и удобство использования. Он также активно участвовал в разрешении конфликтов в Пулл-реквестах и следил за высоким качеством кода, гарантируя, что разработка проходит согласно стандартам и требованиям команды.`,
     githubProfile: '../../assets/404.png',
-    photo: egor,
+    photo: oleg,
   },
   {
     id: 2,

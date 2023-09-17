@@ -54,7 +54,7 @@ export const EntryDataForm = (): JSX.Element => {
               email: newCustomerData.email,
               password: newCustomerData.password,
             },
-            count.cartID,
+            '',
           )
             .execute()
             .then(data => {

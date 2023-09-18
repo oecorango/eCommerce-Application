@@ -12,11 +12,14 @@ import { asyncDeleteAllProductForCartID } from './useItemCart';
 import { ConfirmPopup } from 'primereact/confirmpopup';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
+import { useNavigate } from 'react-router';
 
 export const cartData: LineItem[] = [];
 let sumaCart = 0;
 
 export default function CartList(props: { onOffForm: object }): JSX.Element {
+  const navigate = useNavigate();
+
   const [visibleCartList] = useState(props.onOffForm);
   const [itemsCart] = useState(cartData);
   const [sumCart, setSumCart] = useState(0);
@@ -116,7 +119,7 @@ export default function CartList(props: { onOffForm: object }): JSX.Element {
                 <div className={styles.button}>
                   <Button
                     ref={buttonEl}
-                    onClick={(): void => console.log('12')}
+                    onClick={(): void => navigate('*')}
                     icon="pi pi-check"
                     label="Proceed to Checkout"
                   />

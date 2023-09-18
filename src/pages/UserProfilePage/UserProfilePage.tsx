@@ -19,7 +19,6 @@ export const UserProfilePage = (): JSX.Element => {
     <div>
       {count.ID ? (
         <div className={styles.page}>
-          <h1>Profile</h1>
           <div className="registration__page content">
             <UserDataForm />
           </div>
